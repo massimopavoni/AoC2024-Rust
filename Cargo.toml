@@ -1,0 +1,11 @@
+[package]
+name = "AoC2024-Rust"
+version = "1.0.0"
+authors = ["Massimo Pavoni"]
+repository = "https://github.com/massimopavoni/AoC2024-Rust"
+license-file = "LICENSE"
+edition = "2021"
+
+[dependencies]
+include_dir = "0.7.4"
+itertools = "0.13.0"
