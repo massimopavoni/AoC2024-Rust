@@ -22,8 +22,8 @@ pub fn lists_similarity_score(input: &str) -> u64 {
     let mut list2_counts = list2.into_iter().counts();
 
     list1
-        .iter()
-        .map(|a| a * list2_counts.remove(a).unwrap_or_default() as u64)
+        .into_iter()
+        .map(|a| a * list2_counts.remove(&a).unwrap_or_default() as u64)
         .sum()
 }
 
