@@ -3,8 +3,10 @@ use std::{collections::HashMap, sync::LazyLock};
 use historian_hysteria::{lists_similarity_score, lists_total_distance};
 
 mod historian_hysteria;
+mod red_nosed_reports;
 
 use include_dir::{include_dir, Dir};
+use red_nosed_reports::{problem_dampener_safe_reports_count, safe_reports_count};
 
 // ------------------------------------------------------------------------------------------------
 // Resources
@@ -50,14 +52,12 @@ fn pretty_solution(puzzle: &str, part: u8, solution: fn(&str) -> u64, input: &st
 
     let answer = PUZZLE_ANSWERS.get(puzzle).expect("Resource not found")[part as usize - 1];
 
-    if solution != answer {
-        panic!(
-            "Wrong solution for {} part {}: expected {}, but got {}",
-            puzzle, part, answer, solution,
-        );
-    }
+    assert!(
+        solution == answer,
+        "Wrong solution for {puzzle} part {part}: expected {answer}, but got {solution}"
+    );
 
-    println!("{}. {} -> {}", part, puzzle, answer);
+    println!("{part}. {puzzle} -> {answer}");
 }
 
 macro_rules! pretty_solution_2 {
@@ -85,5 +85,12 @@ pub fn main() {
         "HistorianHysteria",
         lists_total_distance,
         lists_similarity_score
+    );
+
+    pretty_solution_2!(
+        2,
+        "RedNosedReports",
+        safe_reports_count,
+        problem_dampener_safe_reports_count
     );
 }

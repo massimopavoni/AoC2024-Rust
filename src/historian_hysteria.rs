@@ -4,19 +4,19 @@ use itertools::Itertools;
 // Exports
 
 pub fn lists_total_distance(input: &str) -> u64 {
-    let (list1, list2) = lists(input);
+    let (list1, list2) = location_lists(input);
 
     // Sort both lists, zip them and sum the differences
     list1
         .into_iter()
         .sorted()
-        .zip(list2.into_iter().sorted())
+        .zip(list2.into_iter().sorted_unstable())
         .map(|(a, b)| a.abs_diff(b))
         .sum()
 }
 
 pub fn lists_similarity_score(input: &str) -> u64 {
-    let (list1, list2) = lists(input);
+    let (list1, list2) = location_lists(input);
 
     // Multiply each element of list1 by the number of times it appears in list2
     let mut list2_counts = list2.into_iter().counts();
@@ -30,7 +30,7 @@ pub fn lists_similarity_score(input: &str) -> u64 {
 // ------------------------------------------------------------------------------------------------
 // Parsers
 
-fn lists(input: &str) -> (Vec<u64>, Vec<u64>) {
+fn location_lists(input: &str) -> (Vec<u64>, Vec<u64>) {
     // Split lines and unzip into 2 vectors
     input
         .lines()
