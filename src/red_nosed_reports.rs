@@ -6,7 +6,7 @@ use itertools::Itertools;
 pub fn safe_reports_count(input: &str) -> u64 {
     let reports = report_list(input);
 
-    // Filter and count reports that are sorted and have differences of 1, 2 or 3
+    // Filter and count safe reports
     reports
         .into_iter()
         .filter(|report| is_safe_report(report.iter().collect::<Vec<_>>()))
@@ -33,6 +33,8 @@ pub fn problem_dampener_safe_reports_count(input: &str) -> u64 {
 
 fn is_safe_report(report: Vec<&u64>) -> bool {
     let (mut asc, mut desc) = (true, true);
+
+    // A safe report is sorted and has differences of 1, 2 or 3
     report.into_iter().tuple_windows().all(|(&a, &b)| {
         let diff = a.abs_diff(b);
 
