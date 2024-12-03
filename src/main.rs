@@ -3,9 +3,11 @@ use std::{collections::HashMap, sync::LazyLock};
 use historian_hysteria::{lists_similarity_score, lists_total_distance};
 
 mod historian_hysteria;
+mod mull_it_over;
 mod red_nosed_reports;
 
 use include_dir::{include_dir, Dir};
+use mull_it_over::{do_dont_multiplications, multiplications_sum};
 use red_nosed_reports::{problem_dampener_safe_reports_count, safe_reports_count};
 
 // ------------------------------------------------------------------------------------------------
@@ -13,7 +15,7 @@ use red_nosed_reports::{problem_dampener_safe_reports_count, safe_reports_count}
 
 static RESOURCES_DIR: Dir = include_dir!("src/resources");
 
-macro_rules! get_resource_unsafe {
+macro_rules! get_resource {
     ($file:expr) => {
         RESOURCES_DIR
             .get_file($file)
@@ -24,7 +26,7 @@ macro_rules! get_resource_unsafe {
 }
 
 static PUZZLE_ANSWERS: LazyLock<HashMap<String, [u64; 2]>> = LazyLock::new(|| {
-    get_resource_unsafe!("PuzzleAnswers.out")
+    get_resource!("PuzzleAnswers.out")
         .lines()
         .map(|line| {
             let parts: Vec<_> = line.split_whitespace().collect();
@@ -64,7 +66,7 @@ macro_rules! pretty_solution_2 {
     ($day:literal, $puzzle: literal, $solution1:ident $(, $solution2:ident)?) => {
         println!("Day {}", $day);
 
-        let input = get_resource_unsafe!($puzzle.to_string() + ".in");
+        let input = get_resource!($puzzle.to_string() + ".in");
 
         pretty_solution($puzzle, 1, $solution1, input);
 
@@ -92,5 +94,12 @@ pub fn main() {
         "RedNosedReports",
         safe_reports_count,
         problem_dampener_safe_reports_count
+    );
+
+    pretty_solution_2!(
+        3,
+        "MullItOver",
+        multiplications_sum,
+        do_dont_multiplications
     );
 }
