@@ -62,14 +62,11 @@ fn pattern_occurrences<const M: usize, const N: usize>(
             slices
                 .into_iter()
                 .map(|slice| {
-                    slice
-                        .into_iter()
-                        .map(|(x_, y_)| {
-                            *letters_grid
-                                .get(x as isize + x_, y as isize + y_)
-                                .unwrap_or(&0)
-                        })
-                        .collect_vec()
+                    slice.map(|(x_, y_)| {
+                        *letters_grid
+                            .get(x as isize + x_, y as isize + y_)
+                            .unwrap_or(&0)
+                    })
                 })
                 .filter(|slice| patterns.iter().any(|pattern| slice == pattern))
                 .count() as u64
