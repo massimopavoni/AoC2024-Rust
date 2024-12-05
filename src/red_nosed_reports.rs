@@ -4,32 +4,30 @@ use itertools::Itertools;
 // Exports
 
 pub fn safe_reports_count(input: &str) -> u64 {
-    let reports = report_list(input);
-
-    // Filter and count safe reports
-    reports
-        .into_iter()
-        .filter(|report| is_safe_report(report.iter().collect::<Vec<_>>()))
-        .count() as u64
+    // Simply count safe reports
+    filter_count_reports(input, |report| is_safe_report(report.iter().collect_vec()))
 }
 
 pub fn problem_dampener_safe_reports_count(input: &str) -> u64 {
-    let reports = report_list(input);
-
-    // Filter and count reports that can be considered safe after removing a single level
-    reports
-        .into_iter()
-        .filter(|report| {
-            report
-                .iter()
-                .combinations(report.len() - 1)
-                .any(is_safe_report)
-        })
-        .count() as u64
+    // Count reports which have a safe subset
+    filter_count_reports(input, |report| {
+        report
+            .iter()
+            .combinations(report.len() - 1)
+            .any(is_safe_report)
+    })
 }
 
 // ------------------------------------------------------------------------------------------------
 // Functions
+
+fn filter_count_reports<Filter>(input: &str, filter: Filter) -> u64
+where
+    Filter: Fn(&Vec<u64>) -> bool,
+{
+    // Parse, filter, count
+    report_list(input).into_iter().filter(filter).count() as u64
+}
 
 fn is_safe_report(report: Vec<&u64>) -> bool {
     let (mut asc, mut desc) = (true, true);
@@ -58,7 +56,7 @@ fn report_list(input: &str) -> Vec<Vec<u64>> {
         .map(|line| {
             line.split_ascii_whitespace()
                 .map(str::parse)
-                .collect::<Result<_, _>>()
+                .try_collect()
                 .expect("Expected some unsigned integers")
         })
         .collect()

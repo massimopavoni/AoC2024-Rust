@@ -1,3 +1,5 @@
+use std::{convert::identity, vec::IntoIter};
+
 use itertools::Itertools;
 
 // ------------------------------------------------------------------------------------------------
@@ -7,12 +9,11 @@ pub fn lists_total_distance(input: &str) -> u64 {
     let (list1, list2) = location_lists(input);
 
     // Sort both lists, zip them and sum the differences
-    list1
-        .into_iter()
-        .sorted()
-        .zip(list2.into_iter().sorted_unstable())
-        .map(|(a, b)| a.abs_diff(b))
-        .sum()
+    iter_map(
+        list1,
+        |i| i.sorted_unstable().zip(list2.into_iter().sorted_unstable()),
+        |(a, b)| a.abs_diff(b),
+    )
 }
 
 pub fn lists_similarity_score(input: &str) -> u64 {
@@ -21,10 +22,22 @@ pub fn lists_similarity_score(input: &str) -> u64 {
     // Multiply each element of list1 by the number of times it appears in list2
     let mut list2_counts = list2.into_iter().counts();
 
-    list1
-        .into_iter()
-        .map(|a| a * list2_counts.remove(&a).unwrap_or_default() as u64)
-        .sum()
+    iter_map(list1, identity, |a| {
+        a * list2_counts.remove(&a).unwrap_or_default() as u64
+    })
+}
+
+// ------------------------------------------------------------------------------------------------
+// Functions
+
+fn iter_map<T, Trans, Iter, Map>(list1: Vec<u64>, transform: Trans, map: Map) -> u64
+where
+    Trans: FnOnce(IntoIter<u64>) -> Iter,
+    Iter: Iterator<Item = T>,
+    Map: FnMut(T) -> u64,
+{
+    // Transform the list1 iterator, map over it and sum results
+    transform(list1.into_iter()).map(map).sum()
 }
 
 // ------------------------------------------------------------------------------------------------

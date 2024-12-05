@@ -1,13 +1,15 @@
+use include_dir::{include_dir, Dir};
+use itertools::Itertools;
 use std::{collections::HashMap, sync::LazyLock};
 
-use historian_hysteria::{lists_similarity_score, lists_total_distance};
-
+mod ceres_search;
 mod historian_hysteria;
 mod mull_it_over;
 mod red_nosed_reports;
 
-use include_dir::{include_dir, Dir};
-use mull_it_over::{do_dont_multiplications, multiplications_sum};
+use ceres_search::{x_mas_occurrences_count, xmas_occurrences_count};
+use historian_hysteria::{lists_similarity_score, lists_total_distance};
+use mull_it_over::{do_dont_multiplications_sum, multiplications_sum};
 use red_nosed_reports::{problem_dampener_safe_reports_count, safe_reports_count};
 
 // ------------------------------------------------------------------------------------------------
@@ -29,7 +31,7 @@ static PUZZLE_ANSWERS: LazyLock<HashMap<String, [u64; 2]>> = LazyLock::new(|| {
     get_resource!("PuzzleAnswers.out")
         .lines()
         .map(|line| {
-            let parts: Vec<_> = line.split_whitespace().collect();
+            let parts = line.split_whitespace().collect_vec();
 
             (
                 parts[0].to_string(),
@@ -100,6 +102,13 @@ pub fn main() {
         3,
         "MullItOver",
         multiplications_sum,
-        do_dont_multiplications
+        do_dont_multiplications_sum
+    );
+
+    pretty_solution_2!(
+        4,
+        "CeresSearch",
+        xmas_occurrences_count,
+        x_mas_occurrences_count
     );
 }

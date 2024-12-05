@@ -11,7 +11,7 @@ pub fn multiplications_sum(input: &str) -> u64 {
     })
 }
 
-pub fn do_dont_multiplications(input: &str) -> u64 {
+pub fn do_dont_multiplications_sum(input: &str) -> u64 {
     // Find all mul(x,y), do() and don't() and sum multiplications if doing is active
     regex_captures_fold(
         input,
@@ -44,12 +44,10 @@ fn match_to_u64(match_: Option<Match<'_>>) -> u64 {
 // ------------------------------------------------------------------------------------------------
 // Parsers
 
-fn regex_captures_fold<B>(
-    input: &str,
-    regex: &str,
-    init: B,
-    function: fn(B, Captures<'_>) -> B,
-) -> B {
+fn regex_captures_fold<I, Func>(input: &str, regex: &str, init: I, function: Func) -> I
+where
+    Func: FnMut(I, Captures<'_>) -> I,
+{
     // Fold over captures applying the function starting with init
     Regex::new(regex)
         .expect("Invalid regex")
