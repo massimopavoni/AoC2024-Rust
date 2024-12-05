@@ -44,13 +44,13 @@ fn match_to_u64(match_: Option<Match<'_>>) -> u64 {
 // ------------------------------------------------------------------------------------------------
 // Parsers
 
-fn regex_captures_fold<I, Func>(input: &str, regex: &str, init: I, function: Func) -> I
+fn regex_captures_fold<I, Fold>(input: &str, regex: &str, init: I, fold: Fold) -> I
 where
-    Func: FnMut(I, Captures<'_>) -> I,
+    Fold: FnMut(I, Captures<'_>) -> I,
 {
     // Fold over captures applying the function starting with init
     Regex::new(regex)
         .expect("Invalid regex")
         .captures_iter(input.as_bytes())
-        .fold(init, function)
+        .fold(init, fold)
 }

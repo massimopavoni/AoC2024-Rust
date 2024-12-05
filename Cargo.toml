@@ -8,10 +8,9 @@ edition = "2021"
 
 [dependencies]
 atoi = "2.0.0"
-diagonal = "0.1.0"
+grid = "0.15.0"
 include_dir = "0.7.4"
 itertools = "0.13.0"
-ndarray = "0.16.1"
 regex = "1.11.1"
 
 [lints.clippy]
