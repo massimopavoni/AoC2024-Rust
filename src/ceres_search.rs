@@ -64,9 +64,9 @@ fn pattern_occurrences<const M: usize, const N: usize>(
                 .map(|slice| {
                     slice
                         .into_iter()
-                        .map(|pos| {
+                        .map(|(x_, y_)| {
                             *letters_grid
-                                .get(x as isize + pos.0, y as isize + pos.1)
+                                .get(x as isize + x_, y as isize + y_)
                                 .unwrap_or(&0)
                         })
                         .collect_vec()
