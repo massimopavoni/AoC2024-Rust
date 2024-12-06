@@ -2,14 +2,20 @@ use include_dir::{include_dir, Dir};
 use itertools::Itertools;
 use std::{collections::HashMap, sync::LazyLock};
 
+mod random_utils;
+
+use random_utils::parse_expect;
+
 mod ceres_search;
 mod historian_hysteria;
 mod mull_it_over;
+mod print_queue;
 mod red_nosed_reports;
 
 use ceres_search::{x_mas_occurrences_count, xmas_occurrences_count};
 use historian_hysteria::{lists_similarity_score, lists_total_distance};
 use mull_it_over::{do_dont_multiplications_sum, multiplications_sum};
+use print_queue::{fixed_invalid_updates_middle_sum, valid_updates_middle_sum};
 use red_nosed_reports::{problem_dampener_safe_reports_count, safe_reports_count};
 
 // ------------------------------------------------------------------------------------------------
@@ -35,14 +41,7 @@ static PUZZLE_ANSWERS: LazyLock<HashMap<String, [u64; 2]>> = LazyLock::new(|| {
 
             (
                 parts[0].to_string(),
-                [
-                    parts[1]
-                        .parse()
-                        .expect("Puzzle solution should be an integer"),
-                    parts[2]
-                        .parse()
-                        .expect("Puzzle solution should be an integer"),
-                ],
+                [parse_expect(parts[1]), parse_expect(parts[2])],
             )
         })
         .collect()
@@ -110,5 +109,12 @@ pub fn main() {
         "CeresSearch",
         xmas_occurrences_count,
         x_mas_occurrences_count
+    );
+
+    pretty_solution_2!(
+        5,
+        "PrintQueue",
+        valid_updates_middle_sum,
+        fixed_invalid_updates_middle_sum
     );
 }

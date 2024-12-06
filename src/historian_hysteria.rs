@@ -1,6 +1,7 @@
+use itertools::Itertools;
 use std::{convert::identity, vec::IntoIter};
 
-use itertools::Itertools;
+use crate::random_utils::parse_expect;
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -51,10 +52,8 @@ fn location_lists(input: &str) -> (Vec<u64>, Vec<u64>) {
             let line = line
                 .split_once("   ")
                 .expect("Expected 2 numbers separated by 3 spaces");
-            (
-                line.0.parse::<u64>().expect("Expected an unsigned integer"),
-                line.1.parse::<u64>().expect("Expected an unsigned integer"),
-            )
+
+            (parse_expect::<u64>(line.0), parse_expect::<u64>(line.1))
         })
         .unzip()
 }

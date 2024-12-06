@@ -52,14 +52,9 @@ fn pattern_occurrences<const M: usize, const N: usize>(
     );
 
     // Find origin, filter surrounding slices and count occurrences
-    letters_grid
-        .indexed_iter()
-        .map(|((x, y), &c)| {
-            if c != origin {
-                return 0;
-            }
-
-            slices
+    letters_grid.indexed_iter().fold(0, |acc, ((x, y), &c)| {
+        if c == origin {
+            acc + slices
                 .into_iter()
                 .map(|slice| {
                     slice.map(|(x_, y_)| {
@@ -70,6 +65,8 @@ fn pattern_occurrences<const M: usize, const N: usize>(
                 })
                 .filter(|slice| patterns.iter().any(|pattern| slice == pattern))
                 .count() as u64
-        })
-        .sum()
+        } else {
+            acc
+        }
+    })
 }

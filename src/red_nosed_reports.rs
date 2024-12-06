@@ -1,5 +1,7 @@
 use itertools::Itertools;
 
+use crate::random_utils::parse_expect;
+
 // ------------------------------------------------------------------------------------------------
 // Exports
 
@@ -53,11 +55,6 @@ fn report_list(input: &str) -> Vec<Vec<u64>> {
     // Split lines and get number vectors
     input
         .lines()
-        .map(|line| {
-            line.split_ascii_whitespace()
-                .map(str::parse)
-                .try_collect()
-                .expect("Expected some unsigned integers")
-        })
+        .map(|line| line.split_ascii_whitespace().map(parse_expect).collect())
         .collect()
 }
