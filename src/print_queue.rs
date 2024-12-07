@@ -12,19 +12,13 @@ pub fn valid_updates_middle_sum(input: &str) -> u64 {
     // Process n choose 2 combinations of elements to find valid updates
     updates
         .into_iter()
-        .map(|update| {
-            let middle = update[update.len() / 2];
-
-            if update
-                .into_iter()
+        .filter(|update| {
+            update
+                .iter()
                 .tuple_combinations()
-                .all(|pair| rules.contains(&pair))
-            {
-                middle
-            } else {
-                0
-            }
+                .all(|(&a, &b)| rules.contains(&(a, b)))
         })
+        .map(|update| update[update.len() / 2])
         .sum()
 }
 
@@ -50,6 +44,7 @@ pub fn fixed_invalid_updates_middle_sum(input: &str) -> u64 {
                     Ordering::Equal
                 }
             });
+
             update[update.len() / 2]
         })
         .sum()

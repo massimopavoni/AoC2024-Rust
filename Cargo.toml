@@ -16,3 +16,6 @@ regex = "1.11.1"
 [lints.clippy]
 nursery = "warn"
 pedantic = "warn"
+
+[profile.dev]
+overflow-checks = false

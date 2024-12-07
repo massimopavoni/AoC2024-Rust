@@ -7,12 +7,14 @@ mod random_utils;
 use random_utils::parse_expect;
 
 mod ceres_search;
+mod guard_gallivant;
 mod historian_hysteria;
 mod mull_it_over;
 mod print_queue;
 mod red_nosed_reports;
 
 use ceres_search::{x_mas_occurrences_count, xmas_occurrences_count};
+use guard_gallivant::{possible_obstruction_loops_count, unique_guard_positions_count};
 use historian_hysteria::{lists_similarity_score, lists_total_distance};
 use mull_it_over::{do_dont_multiplications_sum, multiplications_sum};
 use print_queue::{fixed_invalid_updates_middle_sum, valid_updates_middle_sum};
@@ -64,7 +66,7 @@ fn pretty_solution(puzzle: &str, part: u8, solution: fn(&str) -> u64, input: &st
 }
 
 macro_rules! pretty_solution_2 {
-    ($day:literal, $puzzle: literal, $solution1:ident $(, $solution2:ident)?) => {
+    ($day:literal, $puzzle: literal, $solution1:ident $(,$solution2:ident)?) => {
         println!("Day {}", $day);
 
         let input = get_resource!($puzzle.to_string() + ".in");
@@ -116,5 +118,12 @@ pub fn main() {
         "PrintQueue",
         valid_updates_middle_sum,
         fixed_invalid_updates_middle_sum
+    );
+
+    pretty_solution_2!(
+        6,
+        "GuardGallivant",
+        unique_guard_positions_count,
+        possible_obstruction_loops_count
     );
 }

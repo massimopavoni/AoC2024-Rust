@@ -1,5 +1,4 @@
-use grid::Grid;
-use itertools::Itertools;
+use crate::random_utils::bytes_grid;
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -43,13 +42,7 @@ fn pattern_occurrences<const M: usize, const N: usize>(
     origin: u8,
     patterns: &[[u8; M]],
 ) -> u64 {
-    // Create bytes grid from input
-    let letters_grid = Grid::from(
-        input
-            .lines()
-            .map(|line| line.bytes().collect())
-            .collect_vec(),
-    );
+    let letters_grid = bytes_grid(input);
 
     // Find origin, filter surrounding slices and count occurrences
     letters_grid.indexed_iter().fold(0, |acc, ((x, y), &c)| {
