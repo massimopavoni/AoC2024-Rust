@@ -3,7 +3,7 @@ use crate::random_utils::bytes_grid;
 // ------------------------------------------------------------------------------------------------
 // Exports
 
-pub fn xmas_occurrences_count(input: &str) -> u64 {
+pub fn xmas_occurrences_count(input: &str) -> usize {
     // Find Xs and look for XMAS patterns
     pattern_occurrences(
         input,
@@ -22,7 +22,7 @@ pub fn xmas_occurrences_count(input: &str) -> u64 {
     )
 }
 
-pub fn x_mas_occurrences_count(input: &str) -> u64 {
+pub fn x_mas_occurrences_count(input: &str) -> usize {
     // Find As and look for the X-MAS pattern
     pattern_occurrences(
         input,
@@ -41,7 +41,7 @@ fn pattern_occurrences<const M: usize, const N: usize>(
     slices: [[(isize, isize); M]; N],
     origin: u8,
     patterns: &[[u8; M]],
-) -> u64 {
+) -> usize {
     let letters_grid = bytes_grid(input);
 
     // Find origin, filter surrounding slices and count occurrences
@@ -57,7 +57,7 @@ fn pattern_occurrences<const M: usize, const N: usize>(
                     })
                 })
                 .filter(|slice| patterns.iter().any(|pattern| slice == pattern))
-                .count() as u64
+                .count()
         } else {
             acc
         }

@@ -6,8 +6,8 @@ use regex::bytes::{Captures, Match, Regex};
 
 pub fn multiplications_sum(input: &str) -> u64 {
     // Just find all mul(x,y) and sum multiplications
-    regex_captures_fold(input, r"mul\((\d{1,3}),(\d{1,3})\)", 0, |acc, capture| {
-        acc + match_to_u64(capture.get(1)) * match_to_u64(capture.get(2))
+    regex_captures_fold(input, r"mul\((\d{1,3}),(\d{1,3})\)", 0, |acc, captures| {
+        acc + match_to_u64(captures.get(1)) * match_to_u64(captures.get(2))
     })
 }
 
@@ -17,10 +17,10 @@ pub fn do_dont_multiplications_sum(input: &str) -> u64 {
         input,
         r"mul\((\d{1,3}),(\d{1,3})\)|(do(?:n't)?)\(\)",
         (0, true),
-        |(acc, doing), capture| match capture.get(3).map(|m| m.as_bytes()) {
+        |(acc, doing), captures| match captures.get(3).map(|m| m.as_bytes()) {
             None => (
                 if doing {
-                    acc + match_to_u64(capture.get(1)) * match_to_u64(capture.get(2))
+                    acc + match_to_u64(captures.get(1)) * match_to_u64(captures.get(2))
                 } else {
                     acc
                 },
@@ -28,7 +28,7 @@ pub fn do_dont_multiplications_sum(input: &str) -> u64 {
             ),
             Some(b"do") => (acc, true),
             Some(b"don't") => (acc, false),
-            _ => unreachable!(),
+            _ => unreachable!("Invalid capture"),
         },
     )
     .0

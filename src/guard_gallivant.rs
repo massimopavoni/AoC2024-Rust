@@ -7,14 +7,14 @@ use crate::random_utils::{bytes_grid, Direction, Pos, PosGet};
 // ------------------------------------------------------------------------------------------------
 // Exports
 
-pub fn unique_guard_positions_count(input: &str) -> u64 {
+pub fn unique_guard_positions_count(input: &str) -> usize {
     let mut lab_map = bytes_grid(input);
 
     // Count unique guard positions
-    guard_lab_pos_dirs(&mut lab_map).len() as u64 + 1
+    guard_lab_pos_dirs(&mut lab_map).len() + 1
 }
 
-pub fn possible_obstruction_loops_count(input: &str) -> u64 {
+pub fn possible_obstruction_loops_count(input: &str) -> usize {
     let mut lab_map = bytes_grid(input);
 
     // Count possible obstruction loops
@@ -55,7 +55,7 @@ pub fn possible_obstruction_loops_count(input: &str) -> u64 {
                 direction.rotate_cw_mut();
             }
         })
-        .count() as u64
+        .count()
 }
 
 // ------------------------------------------------------------------------------------------------

@@ -1,11 +1,11 @@
+use bridge_repair::{total_calibration_plus_times, total_calibration_plus_times_concat};
 use include_dir::{include_dir, Dir};
 use itertools::Itertools;
-use std::{collections::HashMap, sync::LazyLock};
+use std::{collections::HashMap, fmt::Display, sync::LazyLock};
 
 mod random_utils;
 
-use random_utils::parse_expect;
-
+mod bridge_repair;
 mod ceres_search;
 mod guard_gallivant;
 mod historian_hysteria;
@@ -35,16 +35,13 @@ macro_rules! get_resource {
     };
 }
 
-static PUZZLE_ANSWERS: LazyLock<HashMap<String, [u64; 2]>> = LazyLock::new(|| {
+static PUZZLE_ANSWERS: LazyLock<HashMap<&str, [&str; 2]>> = LazyLock::new(|| {
     get_resource!("PuzzleAnswers.out")
         .lines()
         .map(|line| {
-            let parts = line.split_whitespace().collect_vec();
+            let parts = line.split_ascii_whitespace().collect_vec();
 
-            (
-                parts[0].to_string(),
-                [parse_expect(parts[1]), parse_expect(parts[2])],
-            )
+            (parts[0], [parts[1], parts[2]])
         })
         .collect()
 });
@@ -52,13 +49,16 @@ static PUZZLE_ANSWERS: LazyLock<HashMap<String, [u64; 2]>> = LazyLock::new(|| {
 // ------------------------------------------------------------------------------------------------
 // Functions
 
-fn pretty_solution(puzzle: &str, part: u8, solution: fn(&str) -> u64, input: &str) {
+fn pretty_solution<R>(puzzle: &str, part: usize, solution: fn(&str) -> R, input: &str)
+where
+    R: Display + PartialEq,
+{
     let solution = solution(input);
 
-    let answer = PUZZLE_ANSWERS.get(puzzle).expect("Resource not found")[part as usize - 1];
+    let answer = PUZZLE_ANSWERS.get(puzzle).expect("Resource not found")[part - 1];
 
     assert!(
-        solution == answer,
+        solution.to_string() == answer,
         "Wrong solution for {puzzle} part {part}: expected {answer}, but got {solution}"
     );
 
@@ -125,5 +125,12 @@ pub fn main() {
         "GuardGallivant",
         unique_guard_positions_count,
         possible_obstruction_loops_count
+    );
+
+    pretty_solution_2!(
+        7,
+        "BridgeRepair",
+        total_calibration_plus_times,
+        total_calibration_plus_times_concat
     );
 }
