@@ -1,6 +1,7 @@
 use bridge_repair::{total_calibration_plus_times, total_calibration_plus_times_concat};
 use include_dir::{include_dir, Dir};
 use itertools::Itertools;
+use resonant_collinearity::{unique_antinodes_count, unique_resonant_harmonics_antinode_count};
 use std::{collections::HashMap, fmt::Display, sync::LazyLock};
 
 mod random_utils;
@@ -12,6 +13,7 @@ mod historian_hysteria;
 mod mull_it_over;
 mod print_queue;
 mod red_nosed_reports;
+mod resonant_collinearity;
 
 use ceres_search::{x_mas_occurrences_count, xmas_occurrences_count};
 use guard_gallivant::{possible_obstruction_loops_count, unique_guard_positions_count};
@@ -55,7 +57,7 @@ where
 {
     let solution = solution(input);
 
-    let answer = PUZZLE_ANSWERS.get(puzzle).expect("Resource not found")[part - 1];
+    let answer = PUZZLE_ANSWERS.get(puzzle).expect("Puzzle answer not found")[part - 1];
 
     assert!(
         solution.to_string() == answer,
@@ -132,5 +134,12 @@ pub fn main() {
         "BridgeRepair",
         total_calibration_plus_times,
         total_calibration_plus_times_concat
+    );
+
+    pretty_solution_2!(
+        8,
+        "ResonantCollinearity",
+        unique_antinodes_count,
+        unique_resonant_harmonics_antinode_count
     );
 }

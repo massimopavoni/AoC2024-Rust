@@ -1,6 +1,5 @@
-use std::collections::HashSet;
-
 use grid::Grid;
+use std::collections::HashSet;
 
 use crate::random_utils::{bytes_grid, Direction, Pos, PosGet};
 
@@ -25,7 +24,7 @@ pub fn possible_obstruction_loops_count(input: &str) -> u64 {
 
         position.move_dir_mut(direction.opposite());
         let mut visited_obstacles = HashSet::new();
-        
+
         loop {
             // Return if loop found
             if !visited_obstacles.insert((position, direction)) {

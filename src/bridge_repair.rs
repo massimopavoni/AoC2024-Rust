@@ -22,7 +22,7 @@ const DIVIDE: fn(u64, u64) -> Option<u64> = |a, b| if a % b == 0 { Some(a / b) }
 #[allow(clippy::cast_precision_loss)]
 #[allow(clippy::cast_sign_loss)]
 const UNJOIN: fn(u64, u64) -> Option<u64> = |a, b| {
-    let pow_10 = 10u64.pow((b as f64).log10().floor() as u32 + 1);
+    let pow_10 = 10_u64.pow((b as f64).log10().floor() as u32 + 1);
 
     if a % pow_10 == b {
         Some(a / pow_10)
