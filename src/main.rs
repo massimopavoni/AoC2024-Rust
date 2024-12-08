@@ -62,12 +62,12 @@ where
         "Wrong solution for {puzzle} part {part}: expected {answer}, but got {solution}"
     );
 
-    println!("{part}. {puzzle} -> {answer}");
+    println!("{part} -> {answer}");
 }
 
 macro_rules! pretty_solution_2 {
     ($day:literal, $puzzle: literal, $solution1:ident $(,$solution2:ident)?) => {
-        println!("Day {}", $day);
+        println!("Day {}: {}", $day, $puzzle);
 
         let input = get_resource!($puzzle.to_string() + ".in");
 
