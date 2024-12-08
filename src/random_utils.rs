@@ -88,6 +88,12 @@ impl Pos {
             Direction::W => self.y -= 1,
         }
     }
+
+    #[allow(clippy::cast_possible_wrap)]
+    #[allow(clippy::cast_sign_loss)]
+    pub const fn manhattan_distance(&self, other: Self) -> u64 {
+        ((self.x as i64 - other.x as i64).abs() + (self.y as i64 - other.y as i64).abs()) as u64
+    }
 }
 
 impl From<(usize, usize)> for Pos {
