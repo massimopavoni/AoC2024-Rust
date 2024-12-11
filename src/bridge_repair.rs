@@ -1,3 +1,5 @@
+use itertools::Itertools;
+
 use crate::random_utils::parse_expect;
 
 // ------------------------------------------------------------------------------------------------
@@ -19,10 +21,8 @@ const SUBTRACT: fn(u64, u64) -> Option<u64> = |a, b| if a > b { Some(a - b) } el
 const DIVIDE: fn(u64, u64) -> Option<u64> = |a, b| if a % b == 0 { Some(a / b) } else { None };
 
 #[allow(clippy::cast_possible_truncation)]
-#[allow(clippy::cast_precision_loss)]
-#[allow(clippy::cast_sign_loss)]
 const UNJOIN: fn(u64, u64) -> Option<u64> = |a, b| {
-    let pow_10 = 10_u64.pow((b as f64).log10().floor() as u32 + 1);
+    let pow_10 = 10_u64.pow(b.ilog10() + 1);
 
     if a % pow_10 == b {
         Some(a / pow_10)
@@ -64,11 +64,11 @@ where
                 line.split_once(':').expect("Expected calibration equation");
 
             (
-                parse_expect::<u64>(test_value),
+                parse_expect(test_value),
                 numbers
                     .split_ascii_whitespace()
                     .map(parse_expect)
-                    .collect::<Vec<_>>(),
+                    .collect_vec(),
             )
         })
         // Sum test values that can be calculated with the given operators

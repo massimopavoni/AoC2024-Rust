@@ -37,6 +37,7 @@ pub fn do_dont_multiplications_sum(input: &str) -> u64 {
 // ------------------------------------------------------------------------------------------------
 // Functions
 
+#[inline]
 fn match_to_u64(match_: Option<Match<'_>>) -> u64 {
     atoi::<u64>(match_.expect("Expected capture").as_bytes()).expect("Invalid integer")
 }

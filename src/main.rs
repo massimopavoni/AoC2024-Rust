@@ -11,6 +11,7 @@ mod guard_gallivant;
 mod historian_hysteria;
 mod hoof_it;
 mod mull_it_over;
+mod plutonian_pebbles;
 mod print_queue;
 mod red_nosed_reports;
 mod resonant_collinearity;
@@ -22,6 +23,7 @@ use guard_gallivant::{possible_obstruction_loops_count, unique_guard_positions_c
 use historian_hysteria::{lists_similarity_score, lists_total_distance};
 use hoof_it::{trailheads_total_rating, trailheads_total_score};
 use mull_it_over::{do_dont_multiplications_sum, multiplications_sum};
+use plutonian_pebbles::{stones_expansion_25_blinks, stones_expansion_75_blinks};
 use print_queue::{fixed_invalid_updates_middle_sum, valid_updates_middle_sum};
 use red_nosed_reports::{problem_dampener_safe_reports_count, safe_reports_count};
 use resonant_collinearity::{unique_antinodes_count, unique_resonant_harmonics_antinode_count};
@@ -55,6 +57,7 @@ static PUZZLE_ANSWERS: LazyLock<HashMap<&str, [&str; 2]>> = LazyLock::new(|| {
 // ------------------------------------------------------------------------------------------------
 // Functions
 
+#[inline]
 fn pretty_solution<R>(puzzle: &str, part: usize, solution: fn(&str) -> R, input: &str)
 where
     R: Display + PartialEq,
@@ -159,5 +162,12 @@ pub fn main() {
         "HoofIt",
         trailheads_total_score,
         trailheads_total_rating
+    );
+
+    pretty_solution_2!(
+        11,
+        "PlutonianPebbles",
+        stones_expansion_25_blinks,
+        stones_expansion_75_blinks
     );
 }

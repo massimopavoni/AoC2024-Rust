@@ -31,6 +31,7 @@ pub fn lists_similarity_score(input: &str) -> u64 {
 // ------------------------------------------------------------------------------------------------
 // Functions
 
+#[inline]
 fn iter_map<T, Trans, Iter, Map>(list1: Vec<u64>, transform: Trans, map: Map) -> u64
 where
     Trans: FnOnce(IntoIter<u64>) -> Iter,

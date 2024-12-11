@@ -63,7 +63,7 @@ fn page_rules_and_updates(input: &str) -> (HashSet<(u64, u64)>, Vec<Vec<u64>>) {
             .map(|line| {
                 let line = line.split_once('|').expect("Expected two numbers");
 
-                (parse_expect::<u64>(line.0), parse_expect::<u64>(line.1))
+                (parse_expect(line.0), parse_expect(line.1))
             })
             .collect(),
         updates
