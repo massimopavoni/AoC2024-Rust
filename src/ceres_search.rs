@@ -45,9 +45,9 @@ fn pattern_occurrences<const M: usize, const N: usize>(
     let letters_grid = bytes_grid(input);
 
     // Find origin, filter surrounding slices and count occurrences
-    letters_grid.indexed_iter().fold(0, |acc, ((x, y), &c)| {
+    letters_grid.indexed_iter().fold(0, |xmas, ((x, y), &c)| {
         if c == origin {
-            acc + slices
+            xmas + slices
                 .into_iter()
                 .map(|slice| {
                     slice.map(|(x_, y_)| {
@@ -59,7 +59,7 @@ fn pattern_occurrences<const M: usize, const N: usize>(
                 .filter(|slice| patterns.iter().any(|pattern| slice == pattern))
                 .count()
         } else {
-            acc
+            xmas
         }
     })
 }

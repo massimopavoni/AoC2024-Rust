@@ -1,13 +1,13 @@
-use bridge_repair::{total_calibration_plus_times, total_calibration_plus_times_concat};
+use disk_fragmenter::{compact_disk_checksum, whole_files_compact_disk_checksum};
 use include_dir::{include_dir, Dir};
 use itertools::Itertools;
-use resonant_collinearity::{unique_antinodes_count, unique_resonant_harmonics_antinode_count};
 use std::{collections::HashMap, fmt::Display, sync::LazyLock};
 
 mod random_utils;
 
 mod bridge_repair;
 mod ceres_search;
+mod disk_fragmenter;
 mod guard_gallivant;
 mod historian_hysteria;
 mod mull_it_over;
@@ -15,12 +15,14 @@ mod print_queue;
 mod red_nosed_reports;
 mod resonant_collinearity;
 
+use bridge_repair::{total_calibration_plus_times, total_calibration_plus_times_concat};
 use ceres_search::{x_mas_occurrences_count, xmas_occurrences_count};
 use guard_gallivant::{possible_obstruction_loops_count, unique_guard_positions_count};
 use historian_hysteria::{lists_similarity_score, lists_total_distance};
 use mull_it_over::{do_dont_multiplications_sum, multiplications_sum};
 use print_queue::{fixed_invalid_updates_middle_sum, valid_updates_middle_sum};
 use red_nosed_reports::{problem_dampener_safe_reports_count, safe_reports_count};
+use resonant_collinearity::{unique_antinodes_count, unique_resonant_harmonics_antinode_count};
 
 // ------------------------------------------------------------------------------------------------
 // Resources
@@ -141,5 +143,12 @@ pub fn main() {
         "ResonantCollinearity",
         unique_antinodes_count,
         unique_resonant_harmonics_antinode_count
+    );
+
+    pretty_solution_2!(
+        9,
+        "DiskFragmenter",
+        compact_disk_checksum,
+        whole_files_compact_disk_checksum
     );
 }
