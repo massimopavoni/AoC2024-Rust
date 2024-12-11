@@ -85,6 +85,16 @@ impl Pos {
     pub const fn in_bounds(&self, bounds: (Self, Self)) -> bool {
         self.x >= bounds.0.x && self.x < bounds.1.x && self.y >= bounds.0.y && self.y < bounds.1.y
     }
+
+    pub fn neighbors(&self) -> impl Iterator<Item = Self> {
+        [
+            Self::new(self.x + 1, self.y),
+            Self::new(self.x, self.y + 1),
+            Self::new(self.x - 1, self.y),
+            Self::new(self.x, self.y - 1),
+        ]
+        .into_iter()
+    }
 }
 
 impl Add for Pos {

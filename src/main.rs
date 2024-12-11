@@ -1,4 +1,3 @@
-use disk_fragmenter::{compact_disk_checksum, whole_files_compact_disk_checksum};
 use include_dir::{include_dir, Dir};
 use itertools::Itertools;
 use std::{collections::HashMap, fmt::Display, sync::LazyLock};
@@ -10,6 +9,7 @@ mod ceres_search;
 mod disk_fragmenter;
 mod guard_gallivant;
 mod historian_hysteria;
+mod hoof_it;
 mod mull_it_over;
 mod print_queue;
 mod red_nosed_reports;
@@ -17,8 +17,10 @@ mod resonant_collinearity;
 
 use bridge_repair::{total_calibration_plus_times, total_calibration_plus_times_concat};
 use ceres_search::{x_mas_occurrences_count, xmas_occurrences_count};
+use disk_fragmenter::{compact_disk_checksum, whole_files_compact_disk_checksum};
 use guard_gallivant::{possible_obstruction_loops_count, unique_guard_positions_count};
 use historian_hysteria::{lists_similarity_score, lists_total_distance};
+use hoof_it::{trailheads_total_rating, trailheads_total_score};
 use mull_it_over::{do_dont_multiplications_sum, multiplications_sum};
 use print_queue::{fixed_invalid_updates_middle_sum, valid_updates_middle_sum};
 use red_nosed_reports::{problem_dampener_safe_reports_count, safe_reports_count};
@@ -150,5 +152,12 @@ pub fn main() {
         "DiskFragmenter",
         compact_disk_checksum,
         whole_files_compact_disk_checksum
+    );
+
+    pretty_solution_2!(
+        10,
+        "HoofIt",
+        trailheads_total_score,
+        trailheads_total_rating
     );
 }

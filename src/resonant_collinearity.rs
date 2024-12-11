@@ -51,12 +51,12 @@ where
     Antenna: Fn(Pos, Pos, Pos, (Pos, Pos)) -> Vec<Pos>,
 {
     let mut antennas_map = HashMap::new();
-    let grid_bounds;
+    let map_bounds;
 
     {
         // Read grid, get bounds and antennas positions
         let antennas_grid = bytes_grid(input);
-        grid_bounds = (
+        map_bounds = (
             Pos::from((0_isize, 0_isize)),
             Pos::from((antennas_grid.size().0, antennas_grid.size().1)),
         );
@@ -84,7 +84,7 @@ where
                         p1.into(),
                         p2.into(),
                         (p2.0 - p1.0, p2.1 - p1.1).into(),
-                        grid_bounds,
+                        map_bounds,
                     )
                 })
                 .collect_vec()
