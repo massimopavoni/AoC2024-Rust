@@ -7,6 +7,7 @@ mod random_utils;
 mod bridge_repair;
 mod ceres_search;
 mod disk_fragmenter;
+mod garden_groups;
 mod guard_gallivant;
 mod historian_hysteria;
 mod hoof_it;
@@ -19,6 +20,7 @@ mod resonant_collinearity;
 use bridge_repair::{total_calibration_plus_times, total_calibration_plus_times_concat};
 use ceres_search::{x_mas_occurrences_count, xmas_occurrences_count};
 use disk_fragmenter::{compact_disk_checksum, whole_files_compact_disk_checksum};
+use garden_groups::{fences_total_cost_perimeter, fences_total_cost_sides};
 use guard_gallivant::{possible_obstruction_loops_count, unique_guard_positions_count};
 use historian_hysteria::{lists_similarity_score, lists_total_distance};
 use hoof_it::{trailheads_total_rating, trailheads_total_score};
@@ -169,5 +171,12 @@ pub fn main() {
         "PlutonianPebbles",
         stones_expansion_25_blinks,
         stones_expansion_75_blinks
+    );
+
+    pretty_solution_2!(
+        12,
+        "GardenGroups",
+        fences_total_cost_perimeter,
+        fences_total_cost_sides
     );
 }

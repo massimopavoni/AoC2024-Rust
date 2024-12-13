@@ -1,15 +1,5 @@
-use std::{
-    any::type_name,
-    fmt::Debug,
-    ops::{Add, AddAssign, Sub, SubAssign},
-    str::FromStr,
-};
-
 use grid::Grid;
-use itertools::Itertools;
-
-// ------------------------------------------------------------------------------------------------
-// Data types
+use std::ops::{Add, AddAssign, Sub, SubAssign};
 
 #[derive(PartialEq, Eq, Hash, Clone, Copy)]
 pub enum Direction {
@@ -53,7 +43,7 @@ impl Direction {
     }
 }
 
-#[derive(PartialEq, Eq, Hash, Clone, Copy)]
+#[derive(PartialEq, Eq, PartialOrd, Ord, Hash, Clone, Copy)]
 pub struct Pos {
     pub x: isize,
     pub y: isize,
@@ -147,13 +137,13 @@ impl From<Pos> for (usize, usize) {
     }
 }
 
-pub trait PosGet {
+pub trait GridGet {
     fn pos_get(&self, pos: Pos) -> Option<&u8>;
 
     fn pos_get_mut(&mut self, pos: Pos) -> Option<&mut u8>;
 }
 
-impl PosGet for Grid<u8> {
+impl GridGet for Grid<u8> {
     fn pos_get(&self, pos: Pos) -> Option<&u8> {
         self.get(pos.x, pos.y)
     }
@@ -161,29 +151,4 @@ impl PosGet for Grid<u8> {
     fn pos_get_mut(&mut self, pos: Pos) -> Option<&mut u8> {
         self.get_mut(pos.x, pos.y)
     }
-}
-
-// ------------------------------------------------------------------------------------------------
-// Functions
-
-pub fn parse_expect<F>(string: &str) -> F
-where
-    F: FromStr,
-    <F as FromStr>::Err: Debug,
-{
-    string
-        .parse::<F>()
-        .unwrap_or_else(|_| panic!("Expected {}", type_name::<F>()))
-}
-
-// ------------------------------------------------------------------------------------------------
-// Parsers
-
-pub fn bytes_grid(input: &str) -> Grid<u8> {
-    Grid::from(
-        input
-            .lines()
-            .map(|line| line.bytes().collect())
-            .collect_vec(),
-    )
 }

@@ -2,7 +2,7 @@ use std::collections::{HashMap, HashSet};
 
 use itertools::Itertools;
 
-use crate::random_utils::{bytes_grid, Pos};
+use crate::random_utils::{bytes_grid, pos::Pos};
 
 // ------------------------------------------------------------------------------------------------
 // Exports

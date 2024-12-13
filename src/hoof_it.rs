@@ -1,7 +1,7 @@
 use itertools::Itertools;
 use std::collections::HashSet;
 
-use crate::random_utils::{bytes_grid, Pos};
+use crate::random_utils::{bytes_grid, pos::Pos};
 
 // ------------------------------------------------------------------------------------------------
 // Exports
