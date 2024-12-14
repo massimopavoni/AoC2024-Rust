@@ -21,16 +21,16 @@ pub fn robots_safety_factor(input: &str) -> u64 {
                 re_match_atoi::<i64>(captures.get(4)),
             );
 
-            let robot_position_after_100_seconds = (
+            let (x, y) = (
                 (x + 100 * vx).rem_euclid(101),
                 (y + 100 * vy).rem_euclid(103),
             );
 
-            match robot_position_after_100_seconds {
-                (x, y) if x < 50 && y < 51 => qc1 += 1,
-                (x, y) if x < 50 && y > 51 => qc2 += 1,
-                (x, y) if x > 50 && y < 51 => qc3 += 1,
-                (x, y) if x > 50 && y > 51 => qc4 += 1,
+            match (x, y) {
+                (0..=49, 0..=50) => qc1 += 1,
+                (0..=49, 52..=103) => qc2 += 1,
+                (51..=101, 0..=50) => qc3 += 1,
+                (51..=101, 52..=103) => qc4 += 1,
                 _ => {}
             }
         });
@@ -38,8 +38,8 @@ pub fn robots_safety_factor(input: &str) -> u64 {
     qc1 * qc2 * qc3 * qc4
 }
 
-pub fn robots_christmas_tree(input: &str) -> u64 {
-    let mut robots_info = Regex::new(r"p=(-?\d+),(-?\d+) v=(-?\d+),(-?\d+)")
+pub fn robots_christmas_tree(input: &str) -> i64 {
+    let robots_info = Regex::new(r"p=(-?\d+),(-?\d+) v=(-?\d+),(-?\d+)")
         .expect("Invalid regex")
         .captures_iter(input.as_bytes())
         .map(|captures| {
@@ -53,24 +53,22 @@ pub fn robots_christmas_tree(input: &str) -> u64 {
         .collect_vec();
 
     // Find robot positions that minimize manhattan distance from the center
-    (1..101 * 103)
+    (101..101 * 103)
         .map(|second| {
             let mut total_manhattan_distance = 0;
 
-            robots_info = robots_info
-                .iter()
-                .map(|&(x, y, vx, vy)| {
-                    let (x, y) = ((x + vx).rem_euclid(101), (y + vy).rem_euclid(103));
+            for (x, y, vx, vy) in &robots_info {
+                let (x, y) = (
+                    (x + second * vx).rem_euclid(101),
+                    (y + second * vy).rem_euclid(103),
+                );
 
-                    total_manhattan_distance += (x - 50).abs() + (y - 51).abs();
+                total_manhattan_distance += (x - 50).abs() + (y - 51).abs();
+            }
 
-                    (x, y, vx, vy)
-                })
-                .collect_vec();
-
-            (second, total_manhattan_distance)
+            (total_manhattan_distance, second)
         })
-        .min_by_key(|&(_, total_manhattan_distance)| total_manhattan_distance)
+        .min()
         .expect("Expected christmas tree")
-        .0
+        .1
 }
