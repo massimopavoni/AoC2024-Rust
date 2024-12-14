@@ -1,10 +1,11 @@
-use std::{any::type_name, fmt::Debug, str::FromStr};
-
+use atoi::{atoi, FromRadix10SignedChecked};
 use grid::Grid;
 use itertools::Itertools;
+use regex::bytes::Match;
+use std::{any::type_name, fmt::Debug, str::FromStr};
 
-pub mod pos;
 pub mod grid_mask;
+pub mod pos;
 
 // ------------------------------------------------------------------------------------------------
 // Functions
@@ -21,6 +22,14 @@ where
 
 // ------------------------------------------------------------------------------------------------
 // Parsers
+
+#[inline]
+pub fn re_match_atoi<N>(match_: Option<Match<'_>>) -> N
+where
+    N: FromRadix10SignedChecked,
+{
+    atoi::<N>(match_.expect("Expected capture").as_bytes()).expect("Invalid integer")
+}
 
 pub fn bytes_grid(input: &str) -> Grid<u8> {
     Grid::from(

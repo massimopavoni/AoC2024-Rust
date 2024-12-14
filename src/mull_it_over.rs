@@ -1,5 +1,6 @@
-use atoi::atoi;
-use regex::bytes::{Captures, Match, Regex};
+use regex::bytes::{Captures, Regex};
+
+use crate::random_utils::re_match_atoi;
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -7,7 +8,7 @@ use regex::bytes::{Captures, Match, Regex};
 pub fn multiplications_sum(input: &str) -> u64 {
     // Just find all mul(x,y) and sum multiplications
     regex_captures_fold(input, r"mul\((\d{1,3}),(\d{1,3})\)", 0, |sum, captures| {
-        sum + match_to_u64(captures.get(1)) * match_to_u64(captures.get(2))
+        sum + re_match_atoi::<u64>(captures.get(1)) * re_match_atoi::<u64>(captures.get(2))
     })
 }
 
@@ -20,7 +21,8 @@ pub fn do_dont_multiplications_sum(input: &str) -> u64 {
         |(sum, doing), captures| match captures.get(3).map(|m| m.as_bytes()) {
             None => (
                 if doing {
-                    sum + match_to_u64(captures.get(1)) * match_to_u64(captures.get(2))
+                    sum + re_match_atoi::<u64>(captures.get(1))
+                        * re_match_atoi::<u64>(captures.get(2))
                 } else {
                     sum
                 },
@@ -36,11 +38,6 @@ pub fn do_dont_multiplications_sum(input: &str) -> u64 {
 
 // ------------------------------------------------------------------------------------------------
 // Functions
-
-#[inline]
-fn match_to_u64(match_: Option<Match<'_>>) -> u64 {
-    atoi::<u64>(match_.expect("Expected capture").as_bytes()).expect("Invalid integer")
-}
 
 // ------------------------------------------------------------------------------------------------
 // Parsers

@@ -6,6 +6,7 @@ mod random_utils;
 
 mod bridge_repair;
 mod ceres_search;
+mod claw_contraption;
 mod disk_fragmenter;
 mod garden_groups;
 mod guard_gallivant;
@@ -19,6 +20,7 @@ mod resonant_collinearity;
 
 use bridge_repair::{total_calibration_plus_times, total_calibration_plus_times_concat};
 use ceres_search::{x_mas_occurrences_count, xmas_occurrences_count};
+use claw_contraption::{fewest_tokens_all_prizes_huge, fewest_tokens_all_prizes_small};
 use disk_fragmenter::{compact_disk_checksum, whole_files_compact_disk_checksum};
 use garden_groups::{fences_total_cost_perimeter, fences_total_cost_sides};
 use guard_gallivant::{possible_obstruction_loops_count, unique_guard_positions_count};
@@ -178,5 +180,12 @@ pub fn main() {
         "GardenGroups",
         fences_total_cost_perimeter,
         fences_total_cost_sides
+    );
+
+    pretty_solution_2!(
+        13,
+        "ClawContraption",
+        fewest_tokens_all_prizes_small,
+        fewest_tokens_all_prizes_huge
     );
 }
