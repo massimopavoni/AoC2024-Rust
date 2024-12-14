@@ -17,6 +17,7 @@ mod plutonian_pebbles;
 mod print_queue;
 mod red_nosed_reports;
 mod resonant_collinearity;
+mod restroom_redoubt;
 
 use bridge_repair::{total_calibration_plus_times, total_calibration_plus_times_concat};
 use ceres_search::{x_mas_occurrences_count, xmas_occurrences_count};
@@ -31,6 +32,7 @@ use plutonian_pebbles::{stones_expansion_25_blinks, stones_expansion_75_blinks};
 use print_queue::{fixed_invalid_updates_middle_sum, valid_updates_middle_sum};
 use red_nosed_reports::{problem_dampener_safe_reports_count, safe_reports_count};
 use resonant_collinearity::{unique_antinodes_count, unique_resonant_harmonics_antinode_count};
+use restroom_redoubt::{robots_christmas_tree, robots_safety_factor};
 
 // ------------------------------------------------------------------------------------------------
 // Resources
@@ -187,5 +189,12 @@ pub fn main() {
         "ClawContraption",
         fewest_tokens_all_prizes_small,
         fewest_tokens_all_prizes_huge
+    );
+
+    pretty_solution_2!(
+        14,
+        "RestroomRedoubt",
+        robots_safety_factor,
+        robots_christmas_tree
     );
 }
