@@ -50,7 +50,7 @@ fn calculate_antinodes<Antenna>(input: &str, antenna_pair_function: Antenna) -> 
 where
     Antenna: Fn(Pos, Pos, Pos, (Pos, Pos)) -> Vec<Pos>,
 {
-    let mut antennas_map = HashMap::new();
+    let mut antennas = HashMap::new();
     let map_bounds;
 
     {
@@ -65,7 +65,7 @@ where
             .indexed_iter()
             .filter(|(_, &c)| c != b'.')
             .for_each(|((x, y), &c)| {
-                antennas_map
+                antennas
                     .entry(c)
                     .or_insert(vec![])
                     .push((x as isize, y as isize));
@@ -73,7 +73,7 @@ where
     }
 
     // For each pair of antennas, calculate the antinodes
-    antennas_map
+    antennas
         .into_values()
         .flat_map(|positions| {
             positions

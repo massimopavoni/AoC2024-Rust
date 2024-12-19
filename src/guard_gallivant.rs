@@ -3,7 +3,7 @@ use std::collections::HashSet;
 
 use crate::random_utils::{
     bytes_grid,
-    pos::{Direction, GridPosGet, Pos},
+    pos::{Dir, GridPosGet, Pos},
 };
 
 // ------------------------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ pub fn possible_obstruction_loops_count(input: &str) -> u64 {
 
 fn guard_lab_pos_dirs<Count>(input: &str, counting_function: Count) -> u64
 where
-    Count: Fn(&mut u64, &mut Grid<u8>, &mut Pos, &mut Direction),
+    Count: Fn(&mut u64, &mut Grid<u8>, &mut Pos, &mut Dir),
 {
     let mut lab_map = bytes_grid(input);
 
@@ -68,7 +68,7 @@ where
         .0
         .into();
 
-    let mut direction = Direction::N;
+    let mut direction = Dir::N;
     let mut count = 0;
 
     // Follow path and store unique (position, direction) first unique tuple

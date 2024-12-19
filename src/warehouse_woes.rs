@@ -4,7 +4,7 @@ use std::collections::HashSet;
 
 use crate::random_utils::{
     bytes_grid,
-    pos::{Direction, GridPosGet, Pos},
+    pos::{Dir, GridPosGet, Pos},
 };
 
 // ------------------------------------------------------------------------------------------------
@@ -42,14 +42,14 @@ pub fn final_wide_boxes_coordinates_sum(input: &str) -> usize {
     // Move wide boxes around
     final_boxes_coordinates_sum(input, true, b'[', |warehouse, position, next, direction| {
         match direction {
-            Direction::S | Direction::N => {
+            Dir::S | Dir::N => {
                 // Keep moving boxes HashSet Vec
                 let mut box_positions = vec![HashSet::from([next])];
 
                 let next_side = next.move_dir(if warehouse.pos_get_expect(next) == &b'[' {
-                    Direction::E
+                    Dir::E
                 } else {
-                    Direction::W
+                    Dir::W
                 });
 
                 box_positions[0].insert(next_side);
@@ -66,11 +66,11 @@ pub fn final_wide_boxes_coordinates_sum(input: &str) -> usize {
                             b'.' => {}
                             b'[' => {
                                 more_boxes.insert(another_box_position);
-                                more_boxes.insert(another_box_position.move_dir(Direction::E));
+                                more_boxes.insert(another_box_position.move_dir(Dir::E));
                             }
                             b']' => {
                                 more_boxes.insert(another_box_position);
-                                more_boxes.insert(another_box_position.move_dir(Direction::W));
+                                more_boxes.insert(another_box_position.move_dir(Dir::W));
                             }
                             _ => unreachable!("Invalid warehouse tile"),
                         }
@@ -92,7 +92,7 @@ pub fn final_wide_boxes_coordinates_sum(input: &str) -> usize {
 
                 *position = next;
             }
-            Direction::E | Direction::W => {
+            Dir::E | Dir::W => {
                 // East or West is similar to thin boxes, just keep moving boxes Vec
                 let mut box_positions = vec![next];
                 let mut next_next = next.move_dir(direction);
@@ -133,7 +133,7 @@ fn final_boxes_coordinates_sum<BoxMove>(
     box_move: BoxMove,
 ) -> usize
 where
-    BoxMove: Fn(&mut Grid<u8>, &mut Pos, Pos, Direction),
+    BoxMove: Fn(&mut Grid<u8>, &mut Pos, Pos, Dir),
 {
     let (warehouse_str, movements) = input.split_once("\n\n").expect("Expected two sections");
 
@@ -165,10 +165,10 @@ where
             .flat_map(|line| {
                 line.bytes()
                     .map(|c| match c {
-                        b'v' => Direction::S,
-                        b'>' => Direction::E,
-                        b'^' => Direction::N,
-                        b'<' => Direction::W,
+                        b'v' => Dir::S,
+                        b'>' => Dir::E,
+                        b'^' => Dir::N,
+                        b'<' => Dir::W,
                         _ => panic!("Invalid direction byte"),
                     })
                     .collect_vec()

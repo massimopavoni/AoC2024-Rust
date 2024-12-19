@@ -16,6 +16,7 @@ mod mull_it_over;
 mod plutonian_pebbles;
 mod print_queue;
 mod red_nosed_reports;
+mod reindeer_maze;
 mod resonant_collinearity;
 mod restroom_redoubt;
 mod warehouse_woes;
@@ -32,6 +33,7 @@ use mull_it_over::{do_dont_multiplications_sum, multiplications_sum};
 use plutonian_pebbles::{stones_expansion_25_blinks, stones_expansion_75_blinks};
 use print_queue::{fixed_invalid_updates_middle_sum, valid_updates_middle_sum};
 use red_nosed_reports::{problem_dampener_safe_reports_count, safe_reports_count};
+use reindeer_maze::{lowest_score, best_seats_count};
 use resonant_collinearity::{unique_antinodes_count, unique_resonant_harmonics_antinode_count};
 use restroom_redoubt::{robots_christmas_tree, robots_safety_factor};
 use warehouse_woes::{final_thin_boxes_coordinates_sum, final_wide_boxes_coordinates_sum};
@@ -206,4 +208,6 @@ pub fn main() {
         final_thin_boxes_coordinates_sum,
         final_wide_boxes_coordinates_sum
     );
+
+    pretty_solution_2!(16, "ReindeerMaze", lowest_score, best_seats_count);
 }

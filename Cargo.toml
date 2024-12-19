@@ -12,6 +12,7 @@ grid = "0.15.0"
 include_dir = "0.7.4"
 itertools = "0.13.0"
 num-modular = "0.6.1"
+pathfinding = "4.12.0"
 regex = "1.11.1"
 
 [lints.clippy]

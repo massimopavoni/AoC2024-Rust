@@ -2,7 +2,7 @@ use grid::Grid;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
 #[derive(PartialEq, Eq, Hash, Clone, Copy)]
-pub enum Direction {
+pub enum Dir {
     S,
     E,
     N,
@@ -17,9 +17,9 @@ macro_rules! match_enum_transform {
     };
 }
 
-impl Direction {
+impl Dir {
     pub const fn opposite(self) -> Self {
-        match_enum_transform!(self, Direction, [S:N, E:W, N:S, W:E])
+        match_enum_transform!(self, Dir, [S:N, E:W, N:S, W:E])
     }
 
     pub const fn opposite_mut(&mut self) {
@@ -27,7 +27,7 @@ impl Direction {
     }
 
     pub const fn rotate_ccw(self) -> Self {
-        match_enum_transform!(self, Direction, [S:E, E:N, N:W, W:S])
+        match_enum_transform!(self, Dir, [S:E, E:N, N:W, W:S])
     }
 
     pub const fn rotate_ccw_mut(&mut self) {
@@ -35,7 +35,7 @@ impl Direction {
     }
 
     pub const fn rotate_cw(self) -> Self {
-        match_enum_transform!(self, Direction, [S:W, E:S, N:E, W:N])
+        match_enum_transform!(self, Dir, [S:W, E:S, N:E, W:N])
     }
 
     pub const fn rotate_cw_mut(&mut self) {
@@ -54,26 +54,30 @@ impl Pos {
         Self { x, y }
     }
 
-    pub const fn move_dir(&self, dir: Direction) -> Self {
+    pub const fn move_dir(&self, dir: Dir) -> Self {
         match dir {
-            Direction::S => Self::new(self.x + 1, self.y),
-            Direction::E => Self::new(self.x, self.y + 1),
-            Direction::N => Self::new(self.x - 1, self.y),
-            Direction::W => Self::new(self.x, self.y - 1),
+            Dir::S => Self::new(self.x + 1, self.y),
+            Dir::E => Self::new(self.x, self.y + 1),
+            Dir::N => Self::new(self.x - 1, self.y),
+            Dir::W => Self::new(self.x, self.y - 1),
         }
     }
 
-    pub const fn move_dir_mut(&mut self, dir: Direction) {
+    pub const fn move_dir_mut(&mut self, dir: Dir) {
         match dir {
-            Direction::S => self.x += 1,
-            Direction::E => self.y += 1,
-            Direction::N => self.x -= 1,
-            Direction::W => self.y -= 1,
+            Dir::S => self.x += 1,
+            Dir::E => self.y += 1,
+            Dir::N => self.x -= 1,
+            Dir::W => self.y -= 1,
         }
     }
 
     pub const fn in_bounds(&self, bounds: (Self, Self)) -> bool {
         self.x >= bounds.0.x && self.x < bounds.1.x && self.y >= bounds.0.y && self.y < bounds.1.y
+    }
+
+    pub const fn manhattan_distance(&self, other: Self) -> isize {
+        (self.x - other.x).abs() + (self.y - other.y).abs()
     }
 
     pub fn neighbors(&self) -> impl Iterator<Item = Self> {

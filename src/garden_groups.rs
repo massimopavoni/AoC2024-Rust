@@ -15,10 +15,10 @@ pub fn fences_total_cost_perimeter(input: &str) -> usize {
     // Calculate total fences cost using perimeter
     fences_total_cost(
         input,
-        |farm_grid, (position, plot), visited_plots, plots_queue, perimeter| {
+        |farm, (position, plot), visited_plots, plots_queue, perimeter| {
             position
                 .neighbors()
-                .filter_map(|neighbor| match farm_grid.pos_get(neighbor) {
+                .filter_map(|neighbor| match farm.pos_get(neighbor) {
                     None => {
                         *perimeter += 1;
                         None
@@ -40,12 +40,12 @@ pub fn fences_total_cost_sides(input: &str) -> usize {
     // Calculate total fences cost using sides count
     fences_total_cost(
         input,
-        |farm_grid, (position, plot), visited_plots, plots_queue, sides| {
+        |farm, (position, plot), visited_plots, plots_queue, sides| {
             // Get all neighbors
             let neighbors = position
                 .neighbors()
                 .filter(|&neighbor| {
-                    farm_grid.pos_get(neighbor).is_some_and(|&next| {
+                    farm.pos_get(neighbor).is_some_and(|&next| {
                         if next == plot {
                             true
                         } else {
@@ -68,7 +68,7 @@ pub fn fences_total_cost_sides(input: &str) -> usize {
             .filter(
                 |([n1, n2], c)| match (neighbors.contains(n1), neighbors.contains(n2)) {
                     (false, false) => true,
-                    (true, true) => farm_grid.pos_get(*c).is_some_and(|&next| next != plot),
+                    (true, true) => farm.pos_get(*c).is_some_and(|&next| next != plot),
                     _ => false,
                 },
             )
@@ -78,7 +78,7 @@ pub fn fences_total_cost_sides(input: &str) -> usize {
             neighbors
                 .into_iter()
                 .filter(|&neighbor| visited_plots.set_true(neighbor))
-                .map(|neighbor| (neighbor, *farm_grid.pos_get_expect(neighbor)))
+                .map(|neighbor| (neighbor, *farm.pos_get_expect(neighbor)))
                 .collect_vec()
         },
     )
@@ -97,14 +97,12 @@ where
         &mut usize,
     ) -> Vec<(Pos, u8)>,
 {
-    let farm_grid = bytes_grid(input);
+    let farm = bytes_grid(input);
 
     // Visited plots grid mask, plots queue and fences cost
-    let mut visited_plots = GridMask::new(farm_grid.size());
-    let mut plots_queue = VecDeque::from([(
-        Pos::new(0, 0),
-        *farm_grid.get(0, 0).expect("Expected farm plot"),
-    )]);
+    let mut visited_plots = GridMask::new(farm.size());
+    let mut plots_queue =
+        VecDeque::from([(Pos::new(0, 0), *farm.get(0, 0).expect("Expected farm plot"))]);
     let mut fences_cost = 0;
 
     // Process plots queue, skipping visited plots and updating fences cost
@@ -125,7 +123,7 @@ where
                     area += 1;
 
                     second_cost_parameter_update(
-                        &farm_grid,
+                        &farm,
                         (position, plot),
                         &mut visited_plots,
                         &mut plots_queue,

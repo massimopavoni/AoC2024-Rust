@@ -42,18 +42,16 @@ fn pattern_occurrences<const M: usize, const N: usize>(
     origin: u8,
     patterns: &[[u8; M]],
 ) -> usize {
-    let letters_grid = bytes_grid(input);
+    let letters = bytes_grid(input);
 
     // Find origin, filter surrounding slices and count occurrences
-    letters_grid.indexed_iter().fold(0, |xmas, ((x, y), &c)| {
+    letters.indexed_iter().fold(0, |xmas, ((x, y), &c)| {
         if c == origin {
             xmas + slices
                 .into_iter()
                 .map(|slice| {
                     slice.map(|(x_, y_)| {
-                        *letters_grid
-                            .get(x as isize + x_, y as isize + y_)
-                            .unwrap_or(&0)
+                        *letters.get(x as isize + x_, y as isize + y_).unwrap_or(&0)
                     })
                 })
                 .filter(|slice| patterns.iter().any(|pattern| slice == pattern))
