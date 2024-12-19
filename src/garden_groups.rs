@@ -5,7 +5,7 @@ use std::collections::VecDeque;
 use crate::random_utils::{
     bytes_grid,
     grid_mask::GridMask,
-    pos::{GridGet, Pos},
+    pos::{GridPosGet, Pos},
 };
 
 // ------------------------------------------------------------------------------------------------

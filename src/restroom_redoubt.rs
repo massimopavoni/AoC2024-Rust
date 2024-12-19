@@ -62,7 +62,7 @@ pub fn robots_christmas_tree(input: &str) -> usize {
         })
         .collect_vec();
 
-    // Find christmas tree by minimizing x and y variance and using the chinese remainder theorem
+    // Find christmas tree by minimizing x and y variance and using chinese remainder theorem
     let (mut min_variance_x, mut min_variance_y) = (f64::MAX, f64::MAX);
     let (mut min_second_x, mut min_second_y) = (0, 0);
 

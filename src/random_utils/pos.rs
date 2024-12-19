@@ -137,13 +137,13 @@ impl From<Pos> for (usize, usize) {
     }
 }
 
-pub trait GridGet {
+pub trait GridPosGet {
     fn pos_get(&self, pos: Pos) -> Option<&u8>;
 
     fn pos_get_mut(&mut self, pos: Pos) -> Option<&mut u8>;
 }
 
-impl GridGet for Grid<u8> {
+impl GridPosGet for Grid<u8> {
     fn pos_get(&self, pos: Pos) -> Option<&u8> {
         self.get(pos.x, pos.y)
     }

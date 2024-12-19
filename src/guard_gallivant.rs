@@ -3,7 +3,7 @@ use std::collections::HashSet;
 
 use crate::random_utils::{
     bytes_grid,
-    pos::{Direction, GridGet, Pos},
+    pos::{Direction, GridPosGet, Pos},
 };
 
 // ------------------------------------------------------------------------------------------------
