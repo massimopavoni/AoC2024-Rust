@@ -1,12 +1,17 @@
+use grid::Grid;
 use itertools::Itertools;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 
-use crate::random_utils::pos::{Direction, Pos};
+use crate::random_utils::{
+    bytes_grid,
+    pos::{Direction, GridPosGet, Pos},
+};
 
 // ------------------------------------------------------------------------------------------------
 // Exports
 
-pub fn final_thin_boxes_coordinates_sum(input: &str) -> isize {
+pub fn final_thin_boxes_coordinates_sum(input: &str) -> usize {
+    // Move thin boxes around
     final_boxes_coordinates_sum(
         input,
         false,
@@ -14,15 +19,17 @@ pub fn final_thin_boxes_coordinates_sum(input: &str) -> isize {
         |warehouse, position, next, direction| {
             let mut next_next = next.move_dir(direction);
 
-            while warehouse.get(&next_next) == Some(&b'O') {
+            // Group boxes
+            while warehouse.pos_get_expect(next_next) == &b'O' {
                 next_next.move_dir_mut(direction);
             }
 
-            match warehouse.get(&next_next) {
-                Some(b'#') => {}
-                None => {
-                    warehouse.remove(&next);
-                    warehouse.insert(next_next, b'O');
+            // Move if possible
+            match warehouse.pos_get_expect(next_next) {
+                b'#' => {}
+                b'.' => {
+                    *warehouse.pos_get_mut_expect(next) = b'.';
+                    *warehouse.pos_get_mut_expect(next_next) = b'O';
                     *position = next;
                 }
                 _ => unreachable!("Invalid warehouse tile"),
@@ -31,13 +38,15 @@ pub fn final_thin_boxes_coordinates_sum(input: &str) -> isize {
     )
 }
 
-pub fn final_wide_boxes_coordinates_sum(input: &str) -> isize {
+pub fn final_wide_boxes_coordinates_sum(input: &str) -> usize {
+    // Move wide boxes around
     final_boxes_coordinates_sum(input, true, b'[', |warehouse, position, next, direction| {
         match direction {
             Direction::S | Direction::N => {
+                // Keep moving boxes HashSet Vec
                 let mut box_positions = vec![HashSet::from([next])];
 
-                let next_side = next.move_dir(if warehouse.get(&next) == Some(&b'[') {
+                let next_side = next.move_dir(if warehouse.pos_get_expect(next) == &b'[' {
                     Direction::E
                 } else {
                     Direction::W
@@ -45,23 +54,24 @@ pub fn final_wide_boxes_coordinates_sum(input: &str) -> isize {
 
                 box_positions[0].insert(next_side);
 
+                // Gather moving boxes
                 loop {
                     let mut more_boxes = HashSet::new();
 
                     for &box_position in box_positions.last().expect("Expected warehouse tiles") {
                         let another_box_position = box_position.move_dir(direction);
 
-                        match warehouse.get(&another_box_position) {
-                            None => {}
-                            Some(b'[') => {
+                        match warehouse.pos_get_expect(another_box_position) {
+                            b'#' => return,
+                            b'.' => {}
+                            b'[' => {
                                 more_boxes.insert(another_box_position);
                                 more_boxes.insert(another_box_position.move_dir(Direction::E));
                             }
-                            Some(b']') => {
+                            b']' => {
                                 more_boxes.insert(another_box_position);
                                 more_boxes.insert(another_box_position.move_dir(Direction::W));
                             }
-                            Some(b'#') => return,
                             _ => unreachable!("Invalid warehouse tile"),
                         }
                     }
@@ -73,34 +83,35 @@ pub fn final_wide_boxes_coordinates_sum(input: &str) -> isize {
                     box_positions.push(more_boxes);
                 }
 
+                // Move them
                 for position in box_positions.into_iter().rev().flatten() {
-                    let box_tile = warehouse
-                        .remove(&position)
-                        .expect("Expected warehouse tile");
-                    warehouse.insert(position.move_dir(direction), box_tile);
+                    *warehouse.pos_get_mut_expect(position.move_dir(direction)) =
+                        *warehouse.pos_get_expect(position);
+                    *warehouse.pos_get_mut_expect(position) = b'.';
                 }
 
                 *position = next;
             }
             Direction::E | Direction::W => {
+                // East or West is similar to thin boxes, just keep moving boxes Vec
                 let mut box_positions = vec![next];
                 let mut next_next = next.move_dir(direction);
-                let mut next_next_tile = warehouse.get(&next_next);
+                let mut next_next_tile = warehouse.pos_get_expect(next_next);
 
-                while next_next_tile == Some(&b'[') || next_next_tile == Some(&b']') {
+                while next_next_tile == &b'[' || next_next_tile == &b']' {
                     box_positions.push(next_next);
                     next_next.move_dir_mut(direction);
-                    next_next_tile = warehouse.get(&next_next);
+                    next_next_tile = warehouse.pos_get_expect(next_next);
                 }
 
+                // Move if possible, keeping brackets order
                 match next_next_tile {
-                    Some(b'#') => {}
-                    None => {
+                    b'#' => {}
+                    b'.' => {
                         for position in box_positions.into_iter().rev() {
-                            let box_tile = warehouse
-                                .remove(&position)
-                                .expect("Expected warehouse tile");
-                            warehouse.insert(position.move_dir(direction), box_tile);
+                            *warehouse.pos_get_mut_expect(position.move_dir(direction)) =
+                                *warehouse.pos_get_expect(position);
+                            *warehouse.pos_get_mut_expect(position) = b'.';
                         }
 
                         *position = next;
@@ -120,12 +131,13 @@ fn final_boxes_coordinates_sum<BoxMove>(
     wide_boxes: bool,
     box_edge: u8,
     box_move: BoxMove,
-) -> isize
+) -> usize
 where
-    BoxMove: Fn(&mut HashMap<Pos, u8>, &mut Pos, Pos, Direction),
+    BoxMove: Fn(&mut Grid<u8>, &mut Pos, Pos, Direction),
 {
     let (warehouse_str, movements) = input.split_once("\n\n").expect("Expected two sections");
 
+    // Widen warehouse if needed
     let warehouse_str = if wide_boxes {
         &warehouse_str
             .lines()
@@ -145,50 +157,50 @@ where
         warehouse_str
     };
 
-    let (mut warehouse, mut position) = (HashMap::new(), Pos::new(0, 0));
+    // Parse grid and movements
+    let (mut warehouse, movements) = (
+        bytes_grid(warehouse_str),
+        movements
+            .lines()
+            .flat_map(|line| {
+                line.bytes()
+                    .map(|c| match c {
+                        b'v' => Direction::S,
+                        b'>' => Direction::E,
+                        b'^' => Direction::N,
+                        b'<' => Direction::W,
+                        _ => panic!("Invalid direction byte"),
+                    })
+                    .collect_vec()
+            })
+            .collect_vec(),
+    );
 
-    for (x, line) in warehouse_str.lines().enumerate() {
-        for (y, c) in line.bytes().enumerate() {
-            match c {
-                b'#' | b'O' | b'[' | b']' => {
-                    warehouse.insert(Pos::from((x, y)), c);
-                }
-                b'.' => {}
-                b'@' => {
-                    position = Pos::from((x, y));
-                }
-                _ => unreachable!("Invalid warehouse tile"),
-            }
-        }
-    }
+    // Get starting position and clear it
+    let mut position = Pos::from(
+        warehouse
+            .indexed_iter()
+            .find(|(_, &c)| c == b'@')
+            .expect("Expected starting tile")
+            .0,
+    );
 
-    let movements = movements
-        .lines()
-        .flat_map(|line| {
-            line.bytes()
-                .map(|c| match c {
-                    b'v' => Direction::S,
-                    b'>' => Direction::E,
-                    b'^' => Direction::N,
-                    b'<' => Direction::W,
-                    _ => panic!("Invalid direction byte"),
-                })
-                .collect_vec()
-        })
-        .collect_vec();
+    *warehouse.pos_get_mut_expect(position) = b'.';
 
+    // Follow movements
     for direction in movements {
         let next = position.move_dir(direction);
 
-        match warehouse.get(&next) {
-            None => position = next,
-            Some(b'#') => {}
+        match warehouse.pos_get_expect(next) {
+            b'.' => position = next,
+            b'#' => {}
             _ => box_move(&mut warehouse, &mut position, next, direction),
         }
     }
 
+    // Calculate GPS coordinates sum
     warehouse
-        .into_iter()
-        .filter(|&(_, c)| c == box_edge)
-        .fold(0, |acc, (position, _)| acc + 100 * position.x + position.y)
+        .indexed_iter()
+        .filter(|(_, &c)| c == box_edge)
+        .fold(0, |acc, ((x, y), _)| acc + 100 * x + y)
 }

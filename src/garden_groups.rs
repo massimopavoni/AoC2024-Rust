@@ -78,12 +78,7 @@ pub fn fences_total_cost_sides(input: &str) -> usize {
             neighbors
                 .into_iter()
                 .filter(|&neighbor| visited_plots.set_true(neighbor))
-                .map(|neighbor| {
-                    (
-                        neighbor,
-                        *farm_grid.pos_get(neighbor).expect("Expected farm plot"),
-                    )
-                })
+                .map(|neighbor| (neighbor, *farm_grid.pos_get_expect(neighbor)))
                 .collect_vec()
         },
     )

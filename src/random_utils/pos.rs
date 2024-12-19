@@ -140,7 +140,9 @@ impl From<Pos> for (usize, usize) {
 pub trait GridPosGet {
     fn pos_get(&self, pos: Pos) -> Option<&u8>;
 
-    fn pos_get_mut(&mut self, pos: Pos) -> Option<&mut u8>;
+    fn pos_get_expect(&self, pos: Pos) -> &u8;
+
+    fn pos_get_mut_expect(&mut self, pos: Pos) -> &mut u8;
 }
 
 impl GridPosGet for Grid<u8> {
@@ -148,7 +150,11 @@ impl GridPosGet for Grid<u8> {
         self.get(pos.x, pos.y)
     }
 
-    fn pos_get_mut(&mut self, pos: Pos) -> Option<&mut u8> {
-        self.get_mut(pos.x, pos.y)
+    fn pos_get_expect(&self, pos: Pos) -> &u8 {
+        self.get(pos.x, pos.y).expect("Expected byte")
+    }
+
+    fn pos_get_mut_expect(&mut self, pos: Pos) -> &mut u8 {
+        self.get_mut(pos.x, pos.y).expect("Expected byte")
     }
 }

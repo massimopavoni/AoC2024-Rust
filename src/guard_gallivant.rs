@@ -21,9 +21,7 @@ pub fn possible_obstruction_loops_count(input: &str) -> u64 {
         let (mut position, mut direction) = (*position, *direction);
         let obstruction_position = position;
 
-        *lab_map
-            .pos_get_mut(obstruction_position)
-            .expect("Expected obstruction position") = b'#';
+        *lab_map.pos_get_mut_expect(obstruction_position) = b'#';
 
         position.move_dir_mut(direction.opposite());
         let mut visited_obstacles = HashSet::new();
@@ -31,9 +29,7 @@ pub fn possible_obstruction_loops_count(input: &str) -> u64 {
         loop {
             // Return if loop found
             if !visited_obstacles.insert((position, direction)) {
-                *lab_map
-                    .pos_get_mut(obstruction_position)
-                    .expect("Expected obstruction position") = b'.';
+                *lab_map.pos_get_mut_expect(obstruction_position) = b'.';
                 *count += 1;
                 return;
             }
@@ -44,9 +40,7 @@ pub fn possible_obstruction_loops_count(input: &str) -> u64 {
                     Some(&b'#') => break,
                     Some(_) => position.move_dir_mut(direction),
                     None => {
-                        *lab_map
-                            .pos_get_mut(obstruction_position)
-                            .expect("Expected obstruction position") = b'.';
+                        *lab_map.pos_get_mut_expect(obstruction_position) = b'.';
                         return;
                     }
                 }
@@ -88,9 +82,7 @@ where
         if lab_map.pos_get(position) == Some(&b'.') {
             counting_function(&mut count, &mut lab_map, &mut position, &mut direction);
 
-            *lab_map
-                .pos_get_mut(position)
-                .expect("Expected position within grid") = b'X';
+            *lab_map.pos_get_mut_expect(position) = b'X';
         }
     }
 
