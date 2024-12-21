@@ -135,11 +135,11 @@ fn final_boxes_coordinates_sum<BoxMove>(
 where
     BoxMove: Fn(&mut Grid<u8>, &mut Pos, Pos, Dir),
 {
-    let (warehouse_str, movements) = input.split_once("\n\n").expect("Expected two sections");
+    let (warehouse, movements) = input.split_once("\n\n").expect("Expected two sections");
 
     // Widen warehouse if needed
-    let warehouse_str = if wide_boxes {
-        &warehouse_str
+    let warehouse = if wide_boxes {
+        &warehouse
             .lines()
             .map(|line| {
                 line.bytes()
@@ -154,12 +154,12 @@ where
             })
             .join("\n")
     } else {
-        warehouse_str
+        warehouse
     };
 
     // Parse grid and movements
     let (mut warehouse, movements) = (
-        bytes_grid(warehouse_str),
+        bytes_grid(warehouse),
         movements
             .lines()
             .flat_map(|line| {

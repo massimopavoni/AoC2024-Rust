@@ -28,7 +28,7 @@ pub fn re_match_atoi<N>(match_: Option<Match<'_>>) -> N
 where
     N: FromRadix10SignedChecked,
 {
-    atoi::<N>(match_.expect("Expected capture").as_bytes()).expect("Invalid integer")
+    atoi::<N>(match_.expect("Expected capture").as_bytes()).expect("Expected valid integer")
 }
 
 pub fn bytes_grid(input: &str) -> Grid<u8> {

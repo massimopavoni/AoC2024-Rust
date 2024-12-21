@@ -30,7 +30,7 @@ pub fn do_dont_multiplications_sum(input: &str) -> u64 {
             ),
             Some(b"do") => (sum, true),
             Some(b"don't") => (sum, false),
-            _ => unreachable!("Invalid capture"),
+            _ => unreachable!("Invalid regex capture"),
         },
     )
     .0
@@ -38,9 +38,6 @@ pub fn do_dont_multiplications_sum(input: &str) -> u64 {
 
 // ------------------------------------------------------------------------------------------------
 // Functions
-
-// ------------------------------------------------------------------------------------------------
-// Parsers
 
 fn regex_captures_fold<I, Fold>(input: &str, regex: &str, init: I, fold: Fold) -> I
 where

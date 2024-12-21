@@ -6,6 +6,7 @@ mod random_utils;
 
 mod bridge_repair;
 mod ceres_search;
+mod chronospatial_computer;
 mod claw_contraption;
 mod disk_fragmenter;
 mod garden_groups;
@@ -23,6 +24,7 @@ mod warehouse_woes;
 
 use bridge_repair::{total_calibration_plus_times, total_calibration_plus_times_concat};
 use ceres_search::{x_mas_occurrences_count, xmas_occurrences_count};
+use chronospatial_computer::{program_output, program_quine_register_value};
 use claw_contraption::{fewest_tokens_all_prizes_huge, fewest_tokens_all_prizes_small};
 use disk_fragmenter::{compact_disk_checksum, whole_files_compact_disk_checksum};
 use garden_groups::{fences_total_cost_perimeter, fences_total_cost_sides};
@@ -33,7 +35,7 @@ use mull_it_over::{do_dont_multiplications_sum, multiplications_sum};
 use plutonian_pebbles::{stones_expansion_25_blinks, stones_expansion_75_blinks};
 use print_queue::{fixed_invalid_updates_middle_sum, valid_updates_middle_sum};
 use red_nosed_reports::{problem_dampener_safe_reports_count, safe_reports_count};
-use reindeer_maze::{lowest_score, best_seats_count};
+use reindeer_maze::{maze_best_path_score, maze_best_seats_count};
 use resonant_collinearity::{unique_antinodes_count, unique_resonant_harmonics_antinode_count};
 use restroom_redoubt::{robots_christmas_tree, robots_safety_factor};
 use warehouse_woes::{final_thin_boxes_coordinates_sum, final_wide_boxes_coordinates_sum};
@@ -101,6 +103,7 @@ macro_rules! pretty_solution_2 {
 // ------------------------------------------------------------------------------------------------
 // Exports
 
+#[allow(clippy::too_many_lines)]
 pub fn main() {
     println!("AoC 2024 - Rust\n");
 
@@ -209,5 +212,17 @@ pub fn main() {
         final_wide_boxes_coordinates_sum
     );
 
-    pretty_solution_2!(16, "ReindeerMaze", lowest_score, best_seats_count);
+    pretty_solution_2!(
+        16,
+        "ReindeerMaze",
+        maze_best_path_score,
+        maze_best_seats_count
+    );
+
+    pretty_solution_2!(
+        17,
+        "ChronospatialComputer",
+        program_output,
+        program_quine_register_value
+    );
 }

@@ -9,12 +9,12 @@ use crate::random_utils::{
 // ------------------------------------------------------------------------------------------------
 // Exports
 
-pub fn lowest_score(input: &str) -> isize {
+pub fn maze_best_path_score(input: &str) -> isize {
     // Use A* to find shortest path (lowest score)
     maze_astar(input, astar).expect("Expected shortest path").1
 }
 
-pub fn best_seats_count(input: &str) -> usize {
+pub fn maze_best_seats_count(input: &str) -> usize {
     // Use A* to find all shortest paths and then count unique positions
     maze_astar(input, astar_bag)
         .expect("Expected shortest paths")
