@@ -61,7 +61,7 @@ where
         // Start position and direction
         &(start_position, start_direction),
         // Successors function
-        Box::new(move |&(position, direction): &(Pos, Dir)| {
+        Box::new(move |&(position, direction)| {
             let (left, forward, right) = (
                 position.move_dir(direction.rotate_ccw()),
                 position.move_dir(direction),
@@ -85,8 +85,8 @@ where
             successors
         }),
         // Heuristic function uses Manhattan distance to end position
-        Box::new(move |&(position, _): &(Pos, Dir)| position.manhattan_distance(end_position)),
+        Box::new(move |&(position, _)| position.manhattan_distance(end_position)),
         // Goal function
-        Box::new(move |&(position, _): &(Pos, Dir)| position == end_position),
+        Box::new(move |&(position, _)| position == end_position),
     )
 }

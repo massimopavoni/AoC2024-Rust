@@ -58,7 +58,7 @@ where
         let antennas_grid = bytes_grid(input);
         map_bounds = (
             Pos::from((0_isize, 0_isize)),
-            Pos::from((antennas_grid.size().0, antennas_grid.size().1)),
+            Pos::from((antennas_grid.size().0 - 1, antennas_grid.size().1 - 1)),
         );
 
         antennas_grid

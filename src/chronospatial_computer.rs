@@ -22,25 +22,22 @@ pub fn program_quine_register_value(input: &str) -> usize {
     // only when output partially matches original program
     dfs(
         (0, program.len() - 1),
-        |(a, program_skip)| {
+        |&(a, program_skip)| {
             let mut successors = vec![];
             let mut registers = registers.clone();
-            registers[0] = *a;
+            registers[0] = a;
 
-            if interpret_program(&mut registers, &program)[0] == program[*program_skip] {
-                successors.push((
-                    if *program_skip == 0 { *a } else { a << 3 },
-                    program_skip - 1,
-                ));
+            if interpret_program(&mut registers, &program)[0] == program[program_skip] {
+                successors.push((if program_skip == 0 { a } else { a << 3 }, program_skip - 1));
             }
 
             if a & 7 < 7 {
-                successors.push((a & !7 | ((a & 7) + 1) & 7, *program_skip));
+                successors.push((a & !7 | ((a & 7) + 1) & 7, program_skip));
             }
 
             successors
         },
-        |(_, program_skip)| *program_skip == usize::MAX,
+        |&(_, program_skip)| program_skip == usize::MAX,
     )
     .expect("Expected quine solution")
     .last()

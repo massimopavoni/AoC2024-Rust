@@ -1,5 +1,8 @@
 use grid::Grid;
-use std::ops::{Add, AddAssign, Sub, SubAssign};
+use std::{
+    fmt::Display,
+    ops::{Add, AddAssign, Sub, SubAssign},
+};
 
 #[derive(PartialEq, Eq, Hash, Clone, Copy)]
 pub enum Dir {
@@ -73,7 +76,7 @@ impl Pos {
     }
 
     pub const fn in_bounds(&self, bounds: (Self, Self)) -> bool {
-        self.x >= bounds.0.x && self.x < bounds.1.x && self.y >= bounds.0.y && self.y < bounds.1.y
+        self.x >= bounds.0.x && self.x <= bounds.1.x && self.y >= bounds.0.y && self.y <= bounds.1.y
     }
 
     pub const fn manhattan_distance(&self, other: Self) -> isize {
@@ -138,6 +141,12 @@ impl From<(usize, usize)> for Pos {
 impl From<Pos> for (usize, usize) {
     fn from(val: Pos) -> Self {
         (val.x as usize, val.y as usize)
+    }
+}
+
+impl Display for Pos {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{},{}", self.x, self.y)
     }
 }
 
