@@ -1,6 +1,6 @@
 use grid::Grid;
 use itertools::Itertools;
-use std::collections::HashSet;
+use rustc_hash::FxHashSet;
 
 use crate::random_utils::{
     bytes_grid,
@@ -44,7 +44,8 @@ pub fn final_wide_boxes_coordinates_sum(input: &str) -> usize {
         match direction {
             Dir::S | Dir::N => {
                 // Keep moving boxes HashSet Vec
-                let mut box_positions = vec![HashSet::from([next])];
+                let mut box_positions = vec![FxHashSet::default()];
+                box_positions[0].insert(next);
 
                 let next_side = next.move_dir(if warehouse.pos_get_expect(next) == &b'[' {
                     Dir::E
@@ -56,7 +57,7 @@ pub fn final_wide_boxes_coordinates_sum(input: &str) -> usize {
 
                 // Gather moving boxes
                 loop {
-                    let mut more_boxes = HashSet::new();
+                    let mut more_boxes = FxHashSet::default();
 
                     for &box_position in box_positions.last().expect("Expected warehouse tiles") {
                         let another_box_position = box_position.move_dir(direction);

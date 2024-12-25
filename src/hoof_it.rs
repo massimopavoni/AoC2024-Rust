@@ -1,5 +1,5 @@
 use itertools::Itertools;
-use std::collections::HashSet;
+use rustc_hash::FxHashSet;
 
 use crate::random_utils::{bytes_grid, pos::Pos};
 
@@ -10,7 +10,7 @@ pub fn trailheads_total_score(input: &str) -> usize {
     // Find trailheads total score based on unique peaks reachable
     trailheads_total(
         input,
-        HashSet::new,
+        FxHashSet::default,
         |visited_peaks, position| {
             visited_peaks.insert(position);
         },

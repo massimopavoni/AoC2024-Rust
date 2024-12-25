@@ -12,7 +12,7 @@ pub fn robots_safety_factor(input: &str) -> usize {
 
     // Find robot positions after 100 seconds and calculate safety factor
     Regex::new(r"p=(-?\d+),(-?\d+) v=(-?\d+),(-?\d+)")
-        .expect("Invalid regex")
+        .expect("Expected valid regex")
         .captures_iter(input.as_bytes())
         .for_each(|captures| {
             let (position, velocity) = (
@@ -46,7 +46,7 @@ pub fn robots_safety_factor(input: &str) -> usize {
 #[allow(clippy::cast_precision_loss)]
 pub fn robots_christmas_tree(input: &str) -> usize {
     let mut robots_info = Regex::new(r"p=(-?\d+),(-?\d+) v=(-?\d+),(-?\d+)")
-        .expect("Invalid regex")
+        .expect("Expected valid regex")
         .captures_iter(input.as_bytes())
         .map(|captures| {
             (

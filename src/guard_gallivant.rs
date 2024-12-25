@@ -1,5 +1,5 @@
 use grid::Grid;
-use std::collections::HashSet;
+use rustc_hash::FxHashSet;
 
 use crate::random_utils::{
     bytes_grid,
@@ -24,7 +24,7 @@ pub fn possible_obstruction_loops_count(input: &str) -> u64 {
         *lab_map.pos_get_mut_expect(obstruction_position) = b'#';
 
         position.move_dir_mut(direction.opposite());
-        let mut visited_obstacles = HashSet::new();
+        let mut visited_obstacles = FxHashSet::default();
 
         loop {
             // Return if loop found

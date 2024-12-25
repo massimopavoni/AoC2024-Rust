@@ -1,6 +1,5 @@
-use std::collections::{HashMap, HashSet};
-
 use itertools::Itertools;
+use rustc_hash::{FxHashMap, FxHashSet};
 
 use crate::random_utils::{bytes_grid, pos::Pos};
 
@@ -50,7 +49,7 @@ fn calculate_antinodes<Antenna>(input: &str, antenna_pair_function: Antenna) -> 
 where
     Antenna: Fn(Pos, Pos, Pos, (Pos, Pos)) -> Vec<Pos>,
 {
-    let mut antennas = HashMap::new();
+    let mut antennas = FxHashMap::default();
     let map_bounds;
 
     {
@@ -89,6 +88,6 @@ where
                 })
                 .collect_vec()
         })
-        .collect::<HashSet<_>>()
+        .collect::<FxHashSet<_>>()
         .len()
 }

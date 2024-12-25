@@ -1,6 +1,7 @@
 use include_dir::{include_dir, Dir};
 use itertools::Itertools;
-use std::{collections::HashMap, fmt::Display, sync::LazyLock};
+use rustc_hash::FxHashMap;
+use std::{fmt::Display, sync::LazyLock};
 
 mod random_utils;
 
@@ -13,6 +14,7 @@ mod garden_groups;
 mod guard_gallivant;
 mod historian_hysteria;
 mod hoof_it;
+mod linen_layout;
 mod mull_it_over;
 mod plutonian_pebbles;
 mod print_queue;
@@ -32,6 +34,7 @@ use garden_groups::{fences_total_cost_perimeter, fences_total_cost_sides};
 use guard_gallivant::{possible_obstruction_loops_count, unique_guard_positions_count};
 use historian_hysteria::{lists_similarity_score, lists_total_distance};
 use hoof_it::{trailheads_total_rating, trailheads_total_score};
+use linen_layout::{possible_designs_count, possible_designs_possible_ways_count};
 use mull_it_over::{do_dont_multiplications_sum, multiplications_sum};
 use plutonian_pebbles::{stones_expansion_25_blinks, stones_expansion_75_blinks};
 use print_queue::{fixed_invalid_updates_middle_sum, valid_updates_middle_sum};
@@ -57,7 +60,7 @@ macro_rules! get_resource {
     };
 }
 
-static PUZZLE_ANSWERS: LazyLock<HashMap<&str, [&str; 2]>> = LazyLock::new(|| {
+static PUZZLE_ANSWERS: LazyLock<FxHashMap<&str, [&str; 2]>> = LazyLock::new(|| {
     get_resource!("PuzzleAnswers.out")
         .lines()
         .map(|line| {
@@ -233,5 +236,12 @@ pub fn main() {
         "RAMRun",
         minimum_steps_exit_kilobyte,
         first_path_cutoff_byte
+    );
+
+    pretty_solution_2!(
+        19,
+        "LinenLayout",
+        possible_designs_count,
+        possible_designs_possible_ways_count
     );
 }

@@ -13,6 +13,7 @@ dependencies = [
  "num-modular",
  "pathfinding",
  "regex",
+ "rustc-hash",
 ]
 
 [[package]]

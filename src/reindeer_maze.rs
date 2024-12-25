@@ -1,5 +1,5 @@
 use pathfinding::directed::astar::{astar, astar_bag};
-use std::collections::HashSet;
+use rustc_hash::FxHashSet;
 
 use crate::random_utils::{
     bytes_grid,
@@ -21,7 +21,7 @@ pub fn maze_best_seats_count(input: &str) -> usize {
         .0
         .flatten()
         .map(|(pos, _)| pos)
-        .collect::<HashSet<_>>()
+        .collect::<FxHashSet<_>>()
         .len()
 }
 

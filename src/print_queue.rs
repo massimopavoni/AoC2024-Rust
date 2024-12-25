@@ -1,5 +1,6 @@
 use itertools::Itertools;
-use std::{cmp::Ordering, collections::HashSet};
+use rustc_hash::FxHashSet;
+use std::cmp::Ordering;
 
 use crate::random_utils::parse_expect;
 
@@ -53,7 +54,7 @@ pub fn fixed_invalid_updates_middle_sum(input: &str) -> u64 {
 // ------------------------------------------------------------------------------------------------
 // Parsers
 
-fn page_rules_and_updates(input: &str) -> (HashSet<(u64, u64)>, Vec<Vec<u64>>) {
+fn page_rules_and_updates(input: &str) -> (FxHashSet<(u64, u64)>, Vec<Vec<u64>>) {
     // Split input into rules and updates
     let (rules, updates) = input.split_once("\n\n").expect("Expected two sections");
 

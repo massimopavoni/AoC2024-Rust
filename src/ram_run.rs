@@ -1,6 +1,6 @@
 use itertools::Itertools;
 use pathfinding::directed::astar::astar;
-use std::collections::HashSet;
+use rustc_hash::FxHashSet;
 
 use crate::random_utils::{parse_expect, pos::Pos};
 
@@ -11,7 +11,7 @@ pub fn minimum_steps_exit_kilobyte(input: &str) -> isize {
     // Simply find shortest path with first fallen KiB
     let corrupted_memory_bytes = corrupted_memory_bytes(input)
         .take(1024)
-        .collect::<HashSet<_>>();
+        .collect::<FxHashSet<_>>();
 
     memory_region_astar(&corrupted_memory_bytes).expect("Expected shortest path cost")
 }
@@ -30,7 +30,7 @@ pub fn first_path_cutoff_byte(input: &str) -> String {
             &corrupted_memory_bytes[..=middle]
                 .iter()
                 .copied()
-                .collect::<HashSet<_>>(),
+                .collect::<FxHashSet<_>>(),
         )
         .is_some()
         {
@@ -53,7 +53,7 @@ pub fn first_path_cutoff_byte(input: &str) -> String {
 // ------------------------------------------------------------------------------------------------
 // Functions
 
-fn memory_region_astar(corrupted_memory_bytes: &HashSet<Pos>) -> Option<isize> {
+fn memory_region_astar(corrupted_memory_bytes: &FxHashSet<Pos>) -> Option<isize> {
     let (start_position, end_position) = (Pos::new(0, 0), Pos::new(70, 70));
 
     // Find shortest path through memory region avoiding corrupted bytes

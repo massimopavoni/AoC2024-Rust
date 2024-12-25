@@ -1,5 +1,5 @@
 use itertools::Itertools;
-use std::collections::HashMap;
+use rustc_hash::FxHashMap;
 
 use crate::random_utils::parse_expect;
 
@@ -20,14 +20,15 @@ pub fn stones_expansion_75_blinks(input: &str) -> usize {
 #[allow(clippy::cast_possible_truncation)]
 fn stones_expansion(input: &str, blinks: u8) -> usize {
     #[inline]
-    fn add_count(map: &mut HashMap<u64, usize>, stone: u64, count: usize) {
+    fn add_count(map: &mut FxHashMap<u64, usize>, stone: u64, count: usize) {
         *map.entry(stone).or_default() += count;
     }
 
-    let mut stones = input
+    let mut stones = FxHashMap::default();
+    input
         .split_ascii_whitespace()
         .map(parse_expect::<u64>)
-        .counts();
+        .for_each(|stone| *stones.entry(stone).or_default() += 1);
 
     // Map stones to counts and blink many times
     (0..blinks).for_each(|_| {
