@@ -7,7 +7,7 @@ use crate::random_utils::{parse_expect, pos::Pos};
 // ------------------------------------------------------------------------------------------------
 // Exports
 
-pub fn minimum_steps_exit_kilobyte(input: &str) -> isize {
+pub fn minimum_steps_exit_kilobyte(input: &str) -> usize {
     // Simply find shortest path with first fallen KiB
     let corrupted_memory_bytes = corrupted_memory_bytes(input)
         .take(1024)
@@ -53,7 +53,7 @@ pub fn first_path_cutoff_byte(input: &str) -> String {
 // ------------------------------------------------------------------------------------------------
 // Functions
 
-fn memory_region_astar(corrupted_memory_bytes: &FxHashSet<Pos>) -> Option<isize> {
+fn memory_region_astar(corrupted_memory_bytes: &FxHashSet<Pos>) -> Option<usize> {
     let (start_position, end_position) = (Pos::new(0, 0), Pos::new(70, 70));
 
     // Find shortest path through memory region avoiding corrupted bytes

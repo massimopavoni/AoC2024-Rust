@@ -18,6 +18,7 @@ mod linen_layout;
 mod mull_it_over;
 mod plutonian_pebbles;
 mod print_queue;
+mod race_condition;
 mod ram_run;
 mod red_nosed_reports;
 mod reindeer_maze;
@@ -38,6 +39,7 @@ use linen_layout::{possible_designs_count, possible_designs_possible_ways_count}
 use mull_it_over::{do_dont_multiplications_sum, multiplications_sum};
 use plutonian_pebbles::{stones_expansion_25_blinks, stones_expansion_75_blinks};
 use print_queue::{fixed_invalid_updates_middle_sum, valid_updates_middle_sum};
+use race_condition::{best_20_picos_cheat_paths_count, best_2_picos_cheat_paths_count};
 use ram_run::{first_path_cutoff_byte, minimum_steps_exit_kilobyte};
 use red_nosed_reports::{problem_dampener_safe_reports_count, safe_reports_count};
 use reindeer_maze::{maze_best_path_score, maze_best_seats_count};
@@ -243,5 +245,12 @@ pub fn main() {
         "LinenLayout",
         possible_designs_count,
         possible_designs_possible_ways_count
+    );
+
+    pretty_solution_2!(
+        20,
+        "RaceCondition",
+        best_2_picos_cheat_paths_count,
+        best_20_picos_cheat_paths_count
     );
 }

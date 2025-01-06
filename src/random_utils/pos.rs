@@ -4,7 +4,7 @@ use std::{
     ops::{Add, AddAssign, Sub, SubAssign},
 };
 
-#[derive(PartialEq, Eq, Hash, Clone, Copy)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum Dir {
     S,
     E,
@@ -46,7 +46,7 @@ impl Dir {
     }
 }
 
-#[derive(PartialEq, Eq, PartialOrd, Ord, Hash, Clone, Copy)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Clone, Copy)]
 pub struct Pos {
     pub x: isize,
     pub y: isize,
@@ -79,8 +79,8 @@ impl Pos {
         self.x >= bounds.0.x && self.x <= bounds.1.x && self.y >= bounds.0.y && self.y <= bounds.1.y
     }
 
-    pub const fn manhattan_distance(&self, other: Self) -> isize {
-        (self.x - other.x).abs() + (self.y - other.y).abs()
+    pub const fn manhattan_distance(&self, other: Self) -> usize {
+        self.x.abs_diff(other.x) + self.y.abs_diff(other.y)
     }
 
     pub fn neighbors(&self) -> impl Iterator<Item = Self> {
@@ -150,24 +150,24 @@ impl Display for Pos {
     }
 }
 
-pub trait GridPosGet {
-    fn pos_get(&self, pos: Pos) -> Option<&u8>;
+pub trait GridPosGet<V> {
+    fn pos_get(&self, pos: Pos) -> Option<&V>;
 
-    fn pos_get_expect(&self, pos: Pos) -> &u8;
+    fn pos_get_expect(&self, pos: Pos) -> &V;
 
-    fn pos_get_mut_expect(&mut self, pos: Pos) -> &mut u8;
+    fn pos_get_mut_expect(&mut self, pos: Pos) -> &mut V;
 }
 
-impl GridPosGet for Grid<u8> {
-    fn pos_get(&self, pos: Pos) -> Option<&u8> {
+impl<V> GridPosGet<V> for Grid<V> {
+    fn pos_get(&self, pos: Pos) -> Option<&V> {
         self.get(pos.x, pos.y)
     }
 
-    fn pos_get_expect(&self, pos: Pos) -> &u8 {
-        self.get(pos.x, pos.y).expect("Expected byte")
+    fn pos_get_expect(&self, pos: Pos) -> &V {
+        self.get(pos.x, pos.y).expect("Expected grid value")
     }
 
-    fn pos_get_mut_expect(&mut self, pos: Pos) -> &mut u8 {
-        self.get_mut(pos.x, pos.y).expect("Expected byte")
+    fn pos_get_mut_expect(&mut self, pos: Pos) -> &mut V {
+        self.get_mut(pos.x, pos.y).expect("Expected grid value")
     }
 }

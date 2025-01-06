@@ -9,7 +9,7 @@ use crate::random_utils::{
 // ------------------------------------------------------------------------------------------------
 // Exports
 
-pub fn maze_best_path_score(input: &str) -> isize {
+pub fn maze_best_path_score(input: &str) -> usize {
     // Use A* to find shortest path (lowest score)
     maze_astar(input, astar).expect("Expected shortest path").1
 }
@@ -32,8 +32,8 @@ fn maze_astar<Astar, Solution>(input: &str, astar_function: Astar) -> Option<Sol
 where
     Astar: Fn(
         &(Pos, Dir),
-        Box<dyn FnMut(&(Pos, Dir)) -> Vec<((Pos, Dir), isize)>>,
-        Box<dyn FnMut(&(Pos, Dir)) -> isize>,
+        Box<dyn FnMut(&(Pos, Dir)) -> Vec<((Pos, Dir), usize)>>,
+        Box<dyn FnMut(&(Pos, Dir)) -> usize>,
         Box<dyn FnMut(&(Pos, Dir)) -> bool>,
     ) -> Option<Solution>,
 {

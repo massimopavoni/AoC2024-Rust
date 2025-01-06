@@ -2,6 +2,7 @@ use std::ops::{Index, IndexMut};
 
 use super::pos::Pos;
 
+#[derive(Debug)]
 pub struct GridMask {
     pub mask: Vec<bool>,
     pub cols: usize,
