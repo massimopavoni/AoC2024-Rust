@@ -7,18 +7,18 @@ use crate::random_utils::re_match_atoi;
 
 pub fn fewest_tokens_all_prizes_small(input: &str) -> i64 {
     // Solve claw machines equations with no offset
-    fewest_tokens_all_prizes(input, 0)
+    fewest_tokens_all_prizes::<0>(input)
 }
 
 pub fn fewest_tokens_all_prizes_huge(input: &str) -> i64 {
     // Solve claw machines equations with huge offset
-    fewest_tokens_all_prizes(input, 10_000_000_000_000)
+    fewest_tokens_all_prizes::<10_000_000_000_000>(input)
 }
 
 // ------------------------------------------------------------------------------------------------
 // Functions
 
-fn fewest_tokens_all_prizes(input: &str, prize_offset: i64) -> i64 {
+fn fewest_tokens_all_prizes<const PRIZE_OFFSET: i64>(input: &str) -> i64 {
     // Parse input and solve integer linear system by inverting the matrix
     Regex::new(
         r"Button A: X\+(\d+), Y\+(\d+)\nButton B: X\+(\d+), Y\+(\d+)\nPrize: X=(\d+), Y=(\d+)",
@@ -31,8 +31,8 @@ fn fewest_tokens_all_prizes(input: &str, prize_offset: i64) -> i64 {
             re_match_atoi::<i64>(captures.get(2)),
             re_match_atoi::<i64>(captures.get(3)),
             re_match_atoi::<i64>(captures.get(4)),
-            re_match_atoi::<i64>(captures.get(5)) + prize_offset,
-            re_match_atoi::<i64>(captures.get(6)) + prize_offset,
+            re_match_atoi::<i64>(captures.get(5)) + PRIZE_OFFSET,
+            re_match_atoi::<i64>(captures.get(6)) + PRIZE_OFFSET,
         );
 
         let (x1, x2, y1, y2) = (y2, -x2, -y1, x1);

@@ -81,7 +81,9 @@ fn pretty_solution<R>(puzzle: &str, part: usize, solution: fn(&str) -> R, input:
 where
     R: Display + PartialEq,
 {
+    let time = std::time::Instant::now();
     let solution = solution(input);
+    println!("Time: {}micros", time.elapsed().as_micros());
 
     let answer = PUZZLE_ANSWERS.get(puzzle).expect("Puzzle answer not found")[part - 1];
 

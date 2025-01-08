@@ -67,7 +67,6 @@ fn memory_region_astar(corrupted_memory_bytes: &FxHashSet<Pos>) -> Option<usize>
                         && neighbor.in_bounds((start_position, end_position))
                 })
                 .map(|neighbor| (neighbor, 1))
-                .collect_vec()
         },
         |&position| position.manhattan_distance(end_position),
         |&position| position == end_position,

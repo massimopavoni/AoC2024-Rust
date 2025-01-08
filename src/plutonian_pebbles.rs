@@ -7,18 +7,18 @@ use crate::random_utils::parse_expect;
 // Exports
 
 pub fn stones_expansion_25_blinks(input: &str) -> usize {
-    stones_expansion(input, 25)
+    stones_expansion::<25>(input)
 }
 
 pub fn stones_expansion_75_blinks(input: &str) -> usize {
-    stones_expansion(input, 75)
+    stones_expansion::<75>(input)
 }
 
 // ------------------------------------------------------------------------------------------------
 // Functions
 
 #[allow(clippy::cast_possible_truncation)]
-fn stones_expansion(input: &str, blinks: u8) -> usize {
+fn stones_expansion<const BLINKS: u8>(input: &str) -> usize {
     #[inline]
     fn add_count(map: &mut FxHashMap<u64, usize>, stone: u64, count: usize) {
         *map.entry(stone).or_default() += count;
@@ -31,7 +31,7 @@ fn stones_expansion(input: &str, blinks: u8) -> usize {
         .for_each(|stone| *stones.entry(stone).or_default() += 1);
 
     // Map stones to counts and blink many times
-    (0..blinks).for_each(|_| {
+    (0..BLINKS).for_each(|_| {
         let previous_blink = stones.drain().collect_vec();
 
         for (stone, count) in previous_blink {

@@ -1,29 +1,31 @@
+use grid::Grid;
+use itertools::{iproduct, Itertools};
+use pathfinding::directed::dfs::dfs;
+use rayon::iter::{IndexedParallelIterator, IntoParallelRefIterator, ParallelIterator};
+
 use crate::random_utils::{
     bytes_grid,
     pos::{GridPosGet, Pos},
 };
-use grid::Grid;
-use itertools::{iproduct, Itertools};
-use pathfinding::directed::dfs::dfs;
-use rayon::prelude::*;
 
 // ------------------------------------------------------------------------------------------------
 // Exports
 
 pub fn best_2_picos_cheat_paths_count(input: &str) -> usize {
     // Find best cheated paths with cheat limit of 2 picoseconds
-    best_cheated_paths(input, 2)
+    best_cheated_paths::<2>(input)
 }
 
 pub fn best_20_picos_cheat_paths_count(input: &str) -> usize {
     // Find best cheated paths with cheat limit of 20 picoseconds
-    best_cheated_paths(input, 20)
+    best_cheated_paths::<20>(input)
 }
 
 // ------------------------------------------------------------------------------------------------
 // Functions
 
-fn best_cheated_paths(input: &str, cheat_radius: isize) -> usize {
+fn best_cheated_paths<const CHEAT_RADIUS: isize>(input: &str) -> usize {
+    let time = std::time::Instant::now();
     // Get racetrack grid and find single path
     let mut racetrack = bytes_grid(input);
 
@@ -65,15 +67,16 @@ fn best_cheated_paths(input: &str, cheat_radius: isize) -> usize {
 
     // Prepare possible cheat jumps
     let possible_cheat_jumps =
-        iproduct!(-cheat_radius..=cheat_radius, -cheat_radius..=cheat_radius)
+        iproduct!(-CHEAT_RADIUS..=CHEAT_RADIUS, -CHEAT_RADIUS..=CHEAT_RADIUS)
             .filter(|&(dx, dy)| {
                 let (dx, dy) = (dx.abs(), dy.abs());
 
-                (dx > 1 || dy > 1) && dx + dy <= cheat_radius
+                (dx > 1 || dy > 1) && dx + dy <= CHEAT_RADIUS
             })
             .map(Pos::from)
             .collect_vec();
     let minimum_time_save = 100;
+    println!("Setup time: {}micros", time.elapsed().as_micros());
 
     // Count cheated paths with minimum time save
     single_path

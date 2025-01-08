@@ -1,6 +1,5 @@
-use std::{cmp::Reverse, collections::BinaryHeap};
-
 use itertools::Itertools;
+use std::{cmp::Reverse, collections::BinaryHeap};
 
 // ------------------------------------------------------------------------------------------------
 // Exports

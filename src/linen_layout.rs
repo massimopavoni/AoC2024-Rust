@@ -1,31 +1,35 @@
 use pathfinding::directed::count_paths::count_paths;
-use regex::bytes::RegexBuilder;
+use rayon::{iter::ParallelIterator, str::ParallelString};
 use rustc_hash::FxHashSet;
-use std::array::from_fn;
+use std::{array::from_fn, convert::identity, sync::Arc};
 
 // ------------------------------------------------------------------------------------------------
 // Exports
 
 pub fn possible_designs_count(input: &str) -> usize {
-    let (patterns, designs) = input.split_once("\n\n").expect("Expected two sections");
-
-    // Very simply build regex and check how many designs match
-    RegexBuilder::new(&format!("^({})+$", patterns.replace(", ", "|")))
-        .multi_line(true)
-        .build()
-        .expect("Expected valid regex")
-        .captures_iter(designs.as_bytes())
-        .count()
+    // Find possible designs by checking if at least one path generates the design
+    possible_designs_function(input, |count| count.clamp(0, 1))
 }
 
 pub fn possible_designs_possible_ways_count(input: &str) -> usize {
+    // Count all possible designs possible paths
+    possible_designs_function(input, identity)
+}
+
+// ------------------------------------------------------------------------------------------------
+// Functions
+
+fn possible_designs_function<Trans>(input: &str, solution_transform: Trans) -> usize
+where
+    Trans: Fn(usize) -> usize + Sync,
+{
     // Convert color byte to color
-    let byte_to_color = |b| {
+    fn byte_to_color(b: u8) -> usize {
         b"wbgru"
             .iter()
             .position(|&c| c == b)
             .expect("Expected valid color")
-    };
+    }
 
     let (patterns_str, designs_str) = input.split_once("\n\n").expect("Expected two sections");
 
@@ -43,13 +47,17 @@ pub fn possible_designs_possible_ways_count(input: &str) -> usize {
         patterns[first_color].insert(pattern);
     }
 
+    let patterns = Arc::new(patterns);
+
     // Count paths for each design
     designs_str
-        .lines()
+        .par_lines()
         .map(|design| {
-            count_paths(
+            let patterns = patterns.clone();
+
+            solution_transform(count_paths(
                 0,
-                |&index| {
+                move |&index| {
                     let mut successors = vec![];
                     let first_color = byte_to_color(design.as_bytes()[index]);
 
@@ -68,7 +76,7 @@ pub fn possible_designs_possible_ways_count(input: &str) -> usize {
                     successors
                 },
                 |&index| index == design.len(),
-            )
+            ))
         })
         .sum()
 }

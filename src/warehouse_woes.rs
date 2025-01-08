@@ -12,35 +12,30 @@ use crate::random_utils::{
 
 pub fn final_thin_boxes_coordinates_sum(input: &str) -> usize {
     // Move thin boxes around
-    final_boxes_coordinates_sum(
-        input,
-        false,
-        b'O',
-        |warehouse, position, next, direction| {
-            let mut next_next = next.move_dir(direction);
+    final_boxes_coordinates_sum::<false, b'O', _>(input, |warehouse, position, next, direction| {
+        let mut next_next = next.move_dir(direction);
 
-            // Group boxes
-            while warehouse.pos_get_expect(next_next) == &b'O' {
-                next_next.move_dir_mut(direction);
-            }
+        // Group boxes
+        while warehouse.pos_get_expect(next_next) == &b'O' {
+            next_next.move_dir_mut(direction);
+        }
 
-            // Move if possible
-            match warehouse.pos_get_expect(next_next) {
-                b'#' => {}
-                b'.' => {
-                    *warehouse.pos_get_mut_expect(next) = b'.';
-                    *warehouse.pos_get_mut_expect(next_next) = b'O';
-                    *position = next;
-                }
-                _ => unreachable!("Invalid warehouse tile"),
+        // Move if possible
+        match warehouse.pos_get_expect(next_next) {
+            b'#' => {}
+            b'.' => {
+                *warehouse.pos_get_mut_expect(next) = b'.';
+                *warehouse.pos_get_mut_expect(next_next) = b'O';
+                *position = next;
             }
-        },
-    )
+            _ => unreachable!("Invalid warehouse tile"),
+        }
+    })
 }
 
 pub fn final_wide_boxes_coordinates_sum(input: &str) -> usize {
     // Move wide boxes around
-    final_boxes_coordinates_sum(input, true, b'[', |warehouse, position, next, direction| {
+    final_boxes_coordinates_sum::<true, b'[', _>(input, |warehouse, position, next, direction| {
         match direction {
             Dir::S | Dir::N => {
                 // Keep moving boxes HashSet Vec
@@ -127,10 +122,8 @@ pub fn final_wide_boxes_coordinates_sum(input: &str) -> usize {
 // ------------------------------------------------------------------------------------------------
 // Functions
 
-fn final_boxes_coordinates_sum<BoxMove>(
+fn final_boxes_coordinates_sum<const WIDE_BOXES: bool, const BOX_EDGE: u8, BoxMove>(
     input: &str,
-    wide_boxes: bool,
-    box_edge: u8,
     box_move: BoxMove,
 ) -> usize
 where
@@ -139,7 +132,7 @@ where
     let (warehouse, movements) = input.split_once("\n\n").expect("Expected two sections");
 
     // Widen warehouse if needed
-    let warehouse = if wide_boxes {
+    let warehouse = if WIDE_BOXES {
         &warehouse
             .lines()
             .map(|line| {
@@ -161,20 +154,15 @@ where
     // Parse grid and movements
     let (mut warehouse, movements) = (
         bytes_grid(warehouse),
-        movements
-            .lines()
-            .flat_map(|line| {
-                line.bytes()
-                    .map(|c| match c {
-                        b'v' => Dir::S,
-                        b'>' => Dir::E,
-                        b'^' => Dir::N,
-                        b'<' => Dir::W,
-                        _ => panic!("Invalid direction byte"),
-                    })
-                    .collect_vec()
+        movements.lines().flat_map(|line| {
+            line.bytes().map(|c| match c {
+                b'v' => Dir::S,
+                b'>' => Dir::E,
+                b'^' => Dir::N,
+                b'<' => Dir::W,
+                _ => unreachable!("Invalid direction byte"),
             })
-            .collect_vec(),
+        }),
     );
 
     // Get starting position and clear it
@@ -202,6 +190,6 @@ where
     // Calculate GPS coordinates sum
     warehouse
         .indexed_iter()
-        .filter(|(_, &c)| c == box_edge)
+        .filter(|(_, &c)| c == BOX_EDGE)
         .fold(0, |acc, ((x, y), _)| acc + 100 * x + y)
 }

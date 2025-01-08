@@ -1,5 +1,5 @@
 use itertools::Itertools;
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::FxHashMap;
 
 use crate::random_utils::{bytes_grid, pos::Pos};
 
@@ -9,7 +9,7 @@ use crate::random_utils::{bytes_grid, pos::Pos};
 pub fn unique_antinodes_count(input: &str) -> usize {
     // Antinodes are two points dividing the antennas line in 3 equal length segments,
     // ecluding the antennas themselves
-    calculate_antinodes(input, |p1, p2, dp, bounds| {
+    find_antinodes(input, |p1, p2, dp, bounds| {
         let (p0, p3) = (p1 - dp, p2 + dp);
 
         match (p0.in_bounds(bounds), p3.in_bounds(bounds)) {
@@ -23,7 +23,7 @@ pub fn unique_antinodes_count(input: &str) -> usize {
 
 pub fn unique_resonant_harmonics_antinode_count(input: &str) -> usize {
     // Antinodes are all the points diving the antennas line in many equal length segments
-    calculate_antinodes(input, |p1, p2, dp, bounds| {
+    find_antinodes(input, |p1, p2, dp, bounds| {
         let mut vec = vec![p1, p2];
         let (mut p0, mut p3) = (p1 - dp, p2 + dp);
 
@@ -45,7 +45,7 @@ pub fn unique_resonant_harmonics_antinode_count(input: &str) -> usize {
 // Functions
 
 #[allow(clippy::cast_possible_wrap)]
-fn calculate_antinodes<Antenna>(input: &str, antenna_pair_function: Antenna) -> usize
+fn find_antinodes<Antenna>(input: &str, antenna_pair_function: Antenna) -> usize
 where
     Antenna: Fn(Pos, Pos, Pos, (Pos, Pos)) -> Vec<Pos>,
 {
@@ -71,7 +71,7 @@ where
             });
     }
 
-    // For each pair of antennas, calculate the antinodes
+    // For each pair of antennas, find the antinodes
     antennas
         .into_values()
         .flat_map(|positions| {
@@ -86,8 +86,7 @@ where
                         map_bounds,
                     )
                 })
-                .collect_vec()
         })
-        .collect::<FxHashSet<_>>()
-        .len()
+        .unique()
+        .count()
 }
