@@ -1,6 +1,8 @@
 // ------------------------------------------------------------------------------------------------
 // Exports
 
+use crate::random_utils::parse_numbers;
+
 pub fn fewest_tokens_all_prizes_small(input: &str) -> i64 {
     // Solve claw machines equations with no offset
     fewest_tokens_all_prizes::<0>(input)
@@ -19,23 +21,8 @@ fn fewest_tokens_all_prizes<const PRIZE_OFFSET: i64>(input: &str) -> i64 {
     input
         .split("\n\n")
         .filter_map(|machine| {
-            let machine = machine.as_bytes();
-            let (mut coordinates, mut coord, mut byte) = ([0; 6], 0, 0);
+            let coordinates = parse_numbers::<6, i64>(machine);
 
-            while byte < machine.len() {
-                if machine[byte].is_ascii_digit() {
-                    while byte < machine.len() && machine[byte].is_ascii_digit() {
-                        coordinates[coord] =
-                            coordinates[coord] * 10 + i64::from(machine[byte] - 48);
-                        byte += 1;
-                    }
-
-                    coord += 1;
-                } else {
-                    byte += 1;
-                }
-            }
-            
             let (x1, x2, y1, y2, px, py) = (
                 coordinates[3],
                 -coordinates[2],

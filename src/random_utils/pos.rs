@@ -46,7 +46,7 @@ impl Dir {
     }
 }
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Clone, Copy)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct Pos {
     pub x: isize,
     pub y: isize,

@@ -12,7 +12,6 @@ pub fn valid_updates_middle_sum(input: &str) -> u64 {
 
     // Process n choose 2 combinations of elements to find valid updates
     updates
-        .into_iter()
         .filter(|update| {
             update
                 .iter()
@@ -28,7 +27,6 @@ pub fn fixed_invalid_updates_middle_sum(input: &str) -> u64 {
 
     // Find invalid items and sort them thanks to precedence rules
     updates
-        .into_iter()
         .filter(|update| {
             update
                 .iter()
@@ -54,7 +52,9 @@ pub fn fixed_invalid_updates_middle_sum(input: &str) -> u64 {
 // ------------------------------------------------------------------------------------------------
 // Parsers
 
-fn page_rules_and_updates(input: &str) -> (FxHashSet<(u64, u64)>, Vec<Vec<u64>>) {
+fn page_rules_and_updates(
+    input: &str,
+) -> (FxHashSet<(u64, u64)>, impl Iterator<Item = Vec<u64>> + '_) {
     // Split input into rules and updates
     let (rules, updates) = input.split_once("\n\n").expect("Expected two sections");
 
@@ -69,7 +69,6 @@ fn page_rules_and_updates(input: &str) -> (FxHashSet<(u64, u64)>, Vec<Vec<u64>>)
             .collect(),
         updates
             .lines()
-            .map(|line| line.split(',').map(parse_expect).collect())
-            .collect(),
+            .map(|line| line.split(',').map(parse_expect).collect_vec()),
     )
 }

@@ -1,8 +1,7 @@
 use itertools::Itertools;
 use num_modular::ModularUnaryOps;
-use regex::bytes::Regex;
 
-use crate::random_utils::{pos::Pos, re_match_atoi};
+use crate::random_utils::{parse_numbers, pos::Pos};
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -11,53 +10,41 @@ pub fn robots_safety_factor(input: &str) -> usize {
     let (mut qc1, mut qc2, mut qc3, mut qc4) = (0, 0, 0, 0);
 
     // Find robot positions after 100 seconds and calculate safety factor
-    Regex::new(r"p=(-?\d+),(-?\d+) v=(-?\d+),(-?\d+)")
-        .expect("Expected valid regex")
-        .captures_iter(input.as_bytes())
-        .for_each(|captures| {
-            let (position, velocity) = (
-                Pos::new(
-                    re_match_atoi::<isize>(captures.get(1)),
-                    re_match_atoi::<isize>(captures.get(2)),
-                ),
-                Pos::new(
-                    re_match_atoi::<isize>(captures.get(3)),
-                    re_match_atoi::<isize>(captures.get(4)),
-                ),
-            );
+    input.lines().for_each(|robot| {
+        let robot_info = parse_numbers::<4, isize>(robot);
 
-            let (x, y) = (
-                (position.x + 100 * velocity.x).rem_euclid(101),
-                (position.y + 100 * velocity.y).rem_euclid(103),
-            );
+        let (position, velocity) = (
+            Pos::new(robot_info[0], robot_info[1]),
+            Pos::new(robot_info[2], robot_info[3]),
+        );
 
-            match (x, y) {
-                (0..=49, 0..=50) => qc1 += 1,
-                (0..=49, 52..=103) => qc2 += 1,
-                (51..=101, 0..=50) => qc3 += 1,
-                (51..=101, 52..=103) => qc4 += 1,
-                _ => {}
-            }
-        });
+        let (x, y) = (
+            (position.x + 100 * velocity.x).rem_euclid(101),
+            (position.y + 100 * velocity.y).rem_euclid(103),
+        );
+
+        match (x, y) {
+            (0..=49, 0..=50) => qc1 += 1,
+            (0..=49, 52..=103) => qc2 += 1,
+            (51..=101, 0..=50) => qc3 += 1,
+            (51..=101, 52..=103) => qc4 += 1,
+            _ => {}
+        }
+    });
 
     qc1 * qc2 * qc3 * qc4
 }
 
 #[allow(clippy::cast_precision_loss)]
 pub fn robots_christmas_tree(input: &str) -> usize {
-    let mut robots_info = Regex::new(r"p=(-?\d+),(-?\d+) v=(-?\d+),(-?\d+)")
-        .expect("Expected valid regex")
-        .captures_iter(input.as_bytes())
-        .map(|captures| {
+    let mut robots_info = input
+        .lines()
+        .map(|robot| {
+            let robot_info = parse_numbers::<4, isize>(robot);
+
             (
-                Pos::new(
-                    re_match_atoi::<isize>(captures.get(1)),
-                    re_match_atoi::<isize>(captures.get(2)),
-                ),
-                Pos::new(
-                    re_match_atoi::<isize>(captures.get(3)),
-                    re_match_atoi::<isize>(captures.get(4)),
-                ),
+                Pos::new(robot_info[0], robot_info[1]),
+                Pos::new(robot_info[2], robot_info[3]),
             )
         })
         .collect_vec();

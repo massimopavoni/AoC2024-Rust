@@ -1,6 +1,5 @@
 use grid::Grid;
 use itertools::{iproduct, Itertools};
-use pathfinding::directed::dfs::dfs;
 use rayon::iter::{IndexedParallelIterator, IntoParallelRefIterator, ParallelIterator};
 
 use crate::random_utils::{
@@ -45,17 +44,19 @@ fn best_cheated_paths<const CHEAT_RADIUS: isize>(input: &str) -> usize {
     racetrack[start] = b'.';
     racetrack[end] = b'.';
 
-    let (start, end) = (Pos::from(start), Pos::from(end));
-    let single_path = dfs(
-        start,
-        |&position| {
-            position
-                .neighbors()
-                .filter(|&pos| racetrack.pos_get(pos) == Some(&b'.'))
-        },
-        |&position| position == end,
-    )
-    .expect("Expected single path");
+    let (mut start, end) = (Pos::from(start), Pos::from(end));
+    let mut single_path = vec![start];
+
+    while start != end {
+        *racetrack.pos_get_mut_expect(start) = b'#';
+
+        start = start
+            .neighbors()
+            .find(|&position| racetrack.pos_get_expect(position) == &b'.')
+            .expect("Expected path");
+
+        single_path.push(start);
+    }
 
     // Create second grid of path costs for fast lookup
     let mut path_costs = Grid::new(racetrack.rows(), racetrack.cols());
