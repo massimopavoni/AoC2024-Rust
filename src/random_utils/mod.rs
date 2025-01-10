@@ -17,7 +17,7 @@ where
 {
     string
         .parse::<F>()
-        .unwrap_or_else(|_| panic!("Expected {}", type_name::<F>()))
+        .unwrap_or_else(|_| panic!("Expected {}, got {string}", type_name::<F>()))
 }
 
 // ------------------------------------------------------------------------------------------------
