@@ -113,7 +113,8 @@ where
 
         visited_plots.set_true(position);
 
-        let mut next_plots = vec![(position, plot)];
+        let mut next_plots = Vec::with_capacity(24);
+        next_plots.push((position, plot));
         let (mut area, mut second_cost_parameter) = (0, 0);
 
         while !next_plots.is_empty() {

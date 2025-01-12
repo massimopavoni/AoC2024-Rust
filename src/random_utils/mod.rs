@@ -2,6 +2,7 @@ use atoi::{atoi, FromRadix10SignedChecked};
 use grid::Grid;
 use itertools::Itertools;
 use regex::bytes::Match;
+use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use std::{
     any::type_name,
     fmt::Debug,
@@ -11,6 +12,22 @@ use std::{
 
 pub mod grid_mask;
 pub mod pos;
+
+pub trait FxHashWithCapacity {
+    fn with_capacity(capacity: usize) -> Self;
+}
+
+impl<K, V> FxHashWithCapacity for FxHashMap<K, V> {
+    fn with_capacity(capacity: usize) -> Self {
+        Self::with_capacity_and_hasher(capacity, FxBuildHasher)
+    }
+}
+
+impl<V> FxHashWithCapacity for FxHashSet<V> {
+    fn with_capacity(capacity: usize) -> Self {
+        Self::with_capacity_and_hasher(capacity, FxBuildHasher)
+    }
+}
 
 // ------------------------------------------------------------------------------------------------
 // Functions

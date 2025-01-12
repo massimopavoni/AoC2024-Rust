@@ -49,7 +49,8 @@ where
         .indexed_iter()
         .filter(|(_, &v)| v == b'0')
         .map(|(p, _)| {
-            let mut positions: Vec<Pos> = vec![p.into()];
+            let mut positions: Vec<Pos> = Vec::with_capacity(24);
+            positions.push(p.into());
             let mut visited_peaks = init();
 
             while !positions.is_empty() {

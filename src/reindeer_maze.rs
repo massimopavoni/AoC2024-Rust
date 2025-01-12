@@ -1,3 +1,5 @@
+use std::rc::Rc;
+
 use itertools::Itertools;
 use pathfinding::directed::astar::{astar, astar_bag};
 
@@ -32,12 +34,12 @@ fn maze_astar<Astar, Solution>(input: &str, astar_function: Astar) -> Option<Sol
 where
     Astar: Fn(
         &(Pos, Dir),
-        Box<dyn FnMut(&(Pos, Dir)) -> Vec<((Pos, Dir), usize)>>,
+        Box<dyn FnMut(&(Pos, Dir)) -> Box<dyn Iterator<Item = ((Pos, Dir), usize)>>>,
         Box<dyn FnMut(&(Pos, Dir)) -> usize>,
         Box<dyn FnMut(&(Pos, Dir)) -> bool>,
     ) -> Option<Solution>,
 {
-    let maze = bytes_grid(input);
+    let maze = Rc::new(bytes_grid(input));
 
     // Get start (position, direction) and end position
     let start_direction = Dir::E;
@@ -62,27 +64,26 @@ where
         &(start_position, start_direction),
         // Successors function
         Box::new(move |&(position, direction)| {
-            let (left, forward, right) = (
-                position.move_dir(direction.rotate_ccw()),
-                position.move_dir(direction),
-                position.move_dir(direction.rotate_cw()),
-            );
+            let maze = Rc::clone(&maze);
 
-            let mut successors = vec![];
-
-            if maze.pos_get(left).is_some_and(|&c| c != b'#') {
-                successors.push(((left, direction.rotate_ccw()), 1001));
-            }
-
-            if maze.pos_get(forward).is_some_and(|&c| c != b'#') {
-                successors.push(((forward, direction), 1));
-            }
-
-            if maze.pos_get(right).is_some_and(|&c| c != b'#') {
-                successors.push(((right, direction.rotate_cw()), 1001));
-            }
-
-            successors
+            Box::new(
+                [
+                    (direction.rotate_ccw(), 1001),
+                    (direction, 1),
+                    (direction.rotate_cw(), 1001),
+                ]
+                .map(|(dir, cost)| (position.move_dir(dir), dir, cost))
+                .into_iter()
+                .filter_map(move |(next_pos, next_dir, cost)| {
+                    maze.pos_get(next_pos).and_then(|&c| {
+                        if c == b'#' {
+                            None
+                        } else {
+                            Some(((next_pos, next_dir), cost))
+                        }
+                    })
+                }),
+            )
         }),
         // Heuristic function uses Manhattan distance to end position
         Box::new(move |&(position, _)| position.manhattan_distance(end_position)),

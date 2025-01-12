@@ -53,12 +53,12 @@ where
     designs_str
         .par_lines()
         .map(|design| {
-            let patterns = patterns.clone();
+            let patterns = Arc::clone(&patterns);
 
             solution_transform(count_paths(
                 0,
                 move |&index| {
-                    let mut successors = vec![];
+                    let mut successors = Vec::with_capacity(4);
                     let first_color = byte_to_color(design.as_bytes()[index]);
 
                     for pattern_size in 1..=longest_patterns[first_color] {

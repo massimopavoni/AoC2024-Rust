@@ -24,11 +24,10 @@ pub fn best_20_picos_cheat_paths_count(input: &str) -> usize {
 // Functions
 
 fn best_cheated_paths<const CHEAT_RADIUS: isize>(input: &str) -> usize {
-    let time = std::time::Instant::now();
     // Get racetrack grid and find single path
     let mut racetrack = bytes_grid(input);
 
-    let (start, end) = (
+    let (position, end) = (
         racetrack
             .indexed_iter()
             .find(|(_, &b)| b == b'S')
@@ -41,21 +40,22 @@ fn best_cheated_paths<const CHEAT_RADIUS: isize>(input: &str) -> usize {
             .0,
     );
 
-    racetrack[start] = b'.';
+    racetrack[position] = b'.';
     racetrack[end] = b'.';
 
-    let (mut start, end) = (Pos::from(start), Pos::from(end));
-    let mut single_path = vec![start];
+    let (mut position, end) = (Pos::from(position), Pos::from(end));
+    let mut single_path = Vec::with_capacity(position.manhattan_distance(end));
+    single_path.push(position);
 
-    while start != end {
-        *racetrack.pos_get_mut_expect(start) = b'#';
+    while position != end {
+        *racetrack.pos_get_mut_expect(position) = b'#';
 
-        start = start
+        position = position
             .neighbors()
-            .find(|&position| racetrack.pos_get_expect(position) == &b'.')
+            .find(|&pos| racetrack.pos_get_expect(pos) == &b'.')
             .expect("Expected path");
 
-        single_path.push(start);
+        single_path.push(position);
     }
 
     // Create second grid of path costs for fast lookup
@@ -77,7 +77,6 @@ fn best_cheated_paths<const CHEAT_RADIUS: isize>(input: &str) -> usize {
             .map(Pos::from)
             .collect_vec();
     let minimum_time_save = 100;
-    println!("Setup time: {}micros", time.elapsed().as_micros());
 
     // Count cheated paths with minimum time save
     single_path

@@ -23,7 +23,7 @@ pub fn program_quine_register_value(input: &str) -> usize {
     dfs(
         (0, program.len() - 1),
         |&(a, program_skip)| {
-            let mut successors = vec![];
+            let mut successors = Vec::with_capacity(4);
             let mut registers = registers.clone();
             registers[0] = a;
 
@@ -50,7 +50,7 @@ pub fn program_quine_register_value(input: &str) -> usize {
 
 fn interpret_program(registers: &mut [usize], program: &[usize]) -> Vec<usize> {
     // Initialize program counter and output vector
-    let (mut program_counter, mut output) = (0, vec![]);
+    let (mut program_counter, mut output) = (0, Vec::with_capacity(program.len()));
 
     // Interpret instructions
     while let Some(&instruction) = program.get(program_counter) {
