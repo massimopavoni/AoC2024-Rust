@@ -39,7 +39,8 @@ pub fn final_wide_boxes_coordinates_sum(input: &str) -> usize {
         match direction {
             Dir::S | Dir::N => {
                 // Keep moving boxes HashSet Vec
-                let mut box_positions = vec![FxHashSet::default()];
+                let mut box_positions = Vec::with_capacity(16);
+                box_positions.push(FxHashSet::default());
                 box_positions[0].insert(next);
 
                 let next_side = next.move_dir(if warehouse.pos_get_expect(next) == &b'[' {
@@ -90,7 +91,8 @@ pub fn final_wide_boxes_coordinates_sum(input: &str) -> usize {
             }
             Dir::E | Dir::W => {
                 // East or West is similar to thin boxes, just keep moving boxes Vec
-                let mut box_positions = vec![next];
+                let mut box_positions = Vec::with_capacity(16);
+                box_positions.push(next);
                 let mut next_next = next.move_dir(direction);
                 let mut next_next_tile = warehouse.pos_get_expect(next_next);
 
