@@ -3,6 +3,8 @@ use rayon::{iter::ParallelIterator, str::ParallelString};
 use rustc_hash::FxHashSet;
 use std::{array::from_fn, convert::identity, sync::Arc};
 
+use crate::random_utils::FxHashWithCapacity;
+
 // ------------------------------------------------------------------------------------------------
 // Exports
 
@@ -33,7 +35,7 @@ where
 
     let (patterns_str, designs_str) = input.split_once("\n\n").expect("Expected two sections");
 
-    let mut patterns: [FxHashSet<&str>; 5] = from_fn(|_| FxHashSet::default());
+    let mut patterns: [FxHashSet<&str>; 5] = from_fn(|_| FxHashSet::with_capacity(128));
     let mut longest_patterns: [usize; 5] = [0; 5];
 
     // Store patterns by first color in hash sets

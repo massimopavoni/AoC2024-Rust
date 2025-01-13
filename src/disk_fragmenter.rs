@@ -41,7 +41,7 @@ pub fn compact_disk_checksum(input: &str) -> usize {
 }
 
 pub fn whole_files_compact_disk_checksum(input: &str) -> usize {
-    let mut free_space = vec![BinaryHeap::new(); 10];
+    let mut free_space = vec![BinaryHeap::with_capacity(input.len() / 16); 10];
     let mut block = 0;
 
     // Fill free space min-heaps while converting bytes to file block sizes

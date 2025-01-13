@@ -1,7 +1,7 @@
 use itertools::Itertools;
 use rustc_hash::FxHashMap;
 
-use crate::random_utils::parse_expect;
+use crate::random_utils::{parse_expect, FxHashWithCapacity};
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -24,7 +24,7 @@ fn stones_expansion<const BLINKS: u8>(input: &str) -> usize {
         *map.entry(stone).or_default() += count;
     }
 
-    let mut stones = FxHashMap::default();
+    let mut stones = FxHashMap::with_capacity(BLINKS as usize * BLINKS as usize);
     input
         .split_ascii_whitespace()
         .map(parse_expect::<u64>)

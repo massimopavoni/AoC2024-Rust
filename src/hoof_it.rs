@@ -1,7 +1,7 @@
 use itertools::Itertools;
 use rustc_hash::FxHashSet;
 
-use crate::random_utils::{bytes_grid, pos::Pos};
+use crate::random_utils::{bytes_grid, pos::Pos, FxHashWithCapacity};
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -10,7 +10,7 @@ pub fn trailheads_total_score(input: &str) -> usize {
     // Find trailheads total score based on unique peaks reachable
     trailheads_total(
         input,
-        FxHashSet::default,
+        || FxHashSet::with_capacity(8),
         |visited_peaks, position| {
             visited_peaks.insert(position);
         },

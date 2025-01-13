@@ -5,6 +5,7 @@ use rustc_hash::FxHashSet;
 use crate::random_utils::{
     bytes_grid,
     pos::{Dir, GridPosGet, Pos},
+    FxHashWithCapacity,
 };
 
 // ------------------------------------------------------------------------------------------------
@@ -40,7 +41,7 @@ pub fn final_wide_boxes_coordinates_sum(input: &str) -> usize {
             Dir::S | Dir::N => {
                 // Keep moving boxes HashSet Vec
                 let mut box_positions = Vec::with_capacity(16);
-                box_positions.push(FxHashSet::default());
+                box_positions.push(FxHashSet::with_capacity(4));
                 box_positions[0].insert(next);
 
                 let next_side = next.move_dir(if warehouse.pos_get_expect(next) == &b'[' {
@@ -53,7 +54,7 @@ pub fn final_wide_boxes_coordinates_sum(input: &str) -> usize {
 
                 // Gather moving boxes
                 loop {
-                    let mut more_boxes = FxHashSet::default();
+                    let mut more_boxes = FxHashSet::with_capacity(4);
 
                     for &box_position in box_positions.last().expect("Expected warehouse tiles") {
                         let another_box_position = box_position.move_dir(direction);

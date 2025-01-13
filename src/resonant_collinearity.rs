@@ -1,7 +1,7 @@
 use itertools::Itertools;
 use rustc_hash::FxHashMap;
 
-use crate::random_utils::{bytes_grid, pos::Pos};
+use crate::random_utils::{bytes_grid, pos::Pos, FxHashWithCapacity};
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -49,7 +49,7 @@ fn find_antinodes<Antenna>(input: &str, antenna_pair_function: Antenna) -> usize
 where
     Antenna: Fn(Pos, Pos, Pos, (Pos, Pos)) -> Vec<Pos>,
 {
-    let mut antennas = FxHashMap::default();
+    let mut antennas = FxHashMap::with_capacity(48);
     let map_bounds;
 
     {
