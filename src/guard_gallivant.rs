@@ -30,12 +30,15 @@ pub fn unique_guard_positions_count(input: &str) -> u64 {
 }
 
 pub fn possible_obstruction_loops_count(input: &str) -> u64 {
-    let binary_insert = |vec: &mut Vec<usize>, item| match vec.binary_search(&item) {
-        Ok(index) | Err(index) => {
-            vec.insert(index, item);
-            index
+    #[inline]
+    fn binary_insert(vec: &mut Vec<usize>, item: usize) -> usize {
+        match vec.binary_search(&item) {
+            Ok(index) | Err(index) => {
+                vec.insert(index, item);
+                index
+            }
         }
-    };
+    }
 
     // Count possible obstruction loops
     guard_lab_pos_dirs(

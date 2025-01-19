@@ -44,7 +44,6 @@ pub fn unique_resonant_harmonics_antinode_count(input: &str) -> usize {
 // ------------------------------------------------------------------------------------------------
 // Functions
 
-#[allow(clippy::cast_possible_wrap)]
 fn find_antinodes<Antenna>(input: &str, antenna_pair_function: Antenna) -> usize
 where
     Antenna: Fn(Pos, Pos, Pos, (Pos, Pos)) -> Vec<Pos>,
@@ -64,6 +63,7 @@ where
             .indexed_iter()
             .filter(|(_, &c)| c != b'.')
             .for_each(|((x, y), &c)| {
+                #[allow(clippy::cast_possible_wrap)]
                 antennas
                     .entry(c)
                     .or_insert(vec![])

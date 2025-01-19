@@ -35,7 +35,6 @@ pub fn robots_safety_factor(input: &str) -> usize {
     qc1 * qc2 * qc3 * qc4
 }
 
-#[allow(clippy::cast_precision_loss)]
 pub fn robots_christmas_tree(input: &str) -> usize {
     let mut robots_info = input
         .lines()
@@ -53,6 +52,7 @@ pub fn robots_christmas_tree(input: &str) -> usize {
     let (mut min_variance_x, mut min_variance_y) = (f64::MAX, f64::MAX);
     let (mut min_second_x, mut min_second_y) = (0, 0);
 
+    #[allow(clippy::cast_precision_loss)]
     for second in 1..104 {
         let mut average = (0.0, 0.0);
 

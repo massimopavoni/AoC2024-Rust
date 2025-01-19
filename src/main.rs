@@ -14,6 +14,7 @@ mod garden_groups;
 mod guard_gallivant;
 mod historian_hysteria;
 mod hoof_it;
+mod keypad_conundrum;
 mod linen_layout;
 mod mull_it_over;
 mod plutonian_pebbles;
@@ -35,6 +36,7 @@ use garden_groups::{fences_total_cost_perimeter, fences_total_cost_sides};
 use guard_gallivant::{possible_obstruction_loops_count, unique_guard_positions_count};
 use historian_hysteria::{lists_similarity_score, lists_total_distance};
 use hoof_it::{trailheads_total_rating, trailheads_total_score};
+use keypad_conundrum::{codes_complexity_26_robots, codes_complexity_3_robots};
 use linen_layout::{possible_designs_count, possible_designs_possible_ways_count};
 use mull_it_over::{do_dont_multiplications_sum, multiplications_sum};
 use plutonian_pebbles::{stones_expansion_25_blinks, stones_expansion_75_blinks};
@@ -254,5 +256,12 @@ pub fn main() {
         "RaceCondition",
         best_2_picos_cheat_paths_count,
         best_20_picos_cheat_paths_count
+    );
+
+    pretty_solution_2!(
+        21,
+        "KeypadConundrum",
+        codes_complexity_3_robots,
+        codes_complexity_26_robots
     );
 }

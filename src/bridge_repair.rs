@@ -20,7 +20,6 @@ const SUBTRACT: fn(u64, u64) -> Option<u64> = |a, b| if a > b { Some(a - b) } el
 
 const DIVIDE: fn(u64, u64) -> Option<u64> = |a, b| if a % b == 0 { Some(a / b) } else { None };
 
-#[allow(clippy::cast_possible_truncation)]
 const UNJOIN: fn(u64, u64) -> Option<u64> = |a, b| {
     let pow_10 = 10_u64.pow(b.ilog10() + 1);
 

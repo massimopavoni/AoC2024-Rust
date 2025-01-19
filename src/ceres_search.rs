@@ -33,7 +33,6 @@ pub fn x_mas_occurrences_count(input: &str) -> usize {
 // ------------------------------------------------------------------------------------------------
 // Functions
 
-#[allow(clippy::cast_possible_wrap)]
 fn pattern_occurrences<const M: usize, const N: usize, const ORIGIN: u8>(
     input: &str,
     slices: [[(isize, isize); M]; N],
@@ -47,6 +46,7 @@ fn pattern_occurrences<const M: usize, const N: usize, const ORIGIN: u8>(
             xmas + slices
                 .into_iter()
                 .map(|slice| {
+                    #[allow(clippy::cast_possible_wrap)]
                     slice.map(|(x_, y_)| {
                         *letters.get(x as isize + x_, y as isize + y_).unwrap_or(&0)
                     })

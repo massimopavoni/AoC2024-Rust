@@ -1,7 +1,5 @@
-use atoi::{atoi, FromRadix10SignedChecked};
 use grid::Grid;
 use itertools::Itertools;
-use regex::bytes::Match;
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use std::{
     any::type_name,
@@ -44,14 +42,6 @@ where
 
 // ------------------------------------------------------------------------------------------------
 // Parsers
-
-#[inline]
-pub fn re_match_atoi<N>(match_: Option<Match<'_>>) -> N
-where
-    N: FromRadix10SignedChecked,
-{
-    atoi::<N>(match_.expect("Expected capture").as_bytes()).expect("Expected valid integer")
-}
 
 pub fn bytes_grid(input: &str) -> Grid<u8> {
     Grid::from(

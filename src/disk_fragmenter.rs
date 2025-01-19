@@ -41,6 +41,9 @@ pub fn compact_disk_checksum(input: &str) -> usize {
 }
 
 pub fn whole_files_compact_disk_checksum(input: &str) -> usize {
+    // Offset precomputed triangle numbers for checksum calculation
+    const TRIANGLE: [usize; 10] = [0, 0, 1, 3, 6, 10, 15, 21, 28, 36];
+
     let mut free_space = vec![BinaryHeap::with_capacity(input.len() / 16); 10];
     let mut block = 0;
 
@@ -112,9 +115,3 @@ pub fn whole_files_compact_disk_checksum(input: &str) -> usize {
 
     checksum
 }
-
-// ------------------------------------------------------------------------------------------------
-// Functions
-
-// Offset precomputed triangle numbers for checksum calculation
-const TRIANGLE: [usize; 10] = [0, 0, 1, 3, 6, 10, 15, 21, 28, 36];

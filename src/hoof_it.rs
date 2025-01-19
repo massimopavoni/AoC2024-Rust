@@ -1,5 +1,6 @@
 use itertools::Itertools;
 use rustc_hash::FxHashSet;
+use std::convert::identity;
 
 use crate::random_utils::{bytes_grid, pos::Pos, FxHashWithCapacity};
 
@@ -24,7 +25,7 @@ pub fn trailheads_total_rating(input: &str) -> usize {
         input,
         || 0,
         |visited_peaks, _| *visited_peaks += 1,
-        |visited_peaks| visited_peaks,
+        identity,
     )
 }
 
@@ -48,9 +49,9 @@ where
     topographic_map
         .indexed_iter()
         .filter(|(_, &v)| v == b'0')
-        .map(|(p, _)| {
+        .map(|(position, _)| {
             let mut positions: Vec<Pos> = Vec::with_capacity(24);
-            positions.push(p.into());
+            positions.push(position.into());
             let mut visited_peaks = init();
 
             while !positions.is_empty() {
@@ -58,20 +59,20 @@ where
 
                 positions = positions
                     .into_iter()
-                    .flat_map(|position| {
-                        position.neighbors().filter(move |&next| {
+                    .flat_map(|pos| {
+                        pos.neighbors().filter(move |&next| {
                             map_ref.get(next.x, next.y)
                                 == Some(
                                     &(map_ref
-                                        .get(position.x, position.y)
+                                        .get(pos.x, pos.y)
                                         .expect("Expected position inside map")
                                         + 1),
                                 )
                         })
                     })
-                    .filter(|&position| {
-                        if topographic_map.get(position.x, position.y) == Some(&b'9') {
-                            peaks_function(&mut visited_peaks, position);
+                    .filter(|&pos| {
+                        if topographic_map.get(pos.x, pos.y) == Some(&b'9') {
+                            peaks_function(&mut visited_peaks, pos);
                             false
                         } else {
                             true

@@ -16,7 +16,6 @@ impl GridMask {
         }
     }
 
-    #[allow(clippy::cast_sign_loss)]
     pub fn set_true(&mut self, pos: Pos) -> bool {
         if self[pos] {
             false
@@ -27,18 +26,18 @@ impl GridMask {
     }
 }
 
-#[allow(clippy::cast_sign_loss)]
 impl Index<Pos> for GridMask {
     type Output = bool;
 
     fn index(&self, pos: Pos) -> &Self::Output {
+        #[allow(clippy::cast_sign_loss)]
         &self.mask[pos.x as usize * self.cols + pos.y as usize]
     }
 }
 
-#[allow(clippy::cast_sign_loss)]
 impl IndexMut<Pos> for GridMask {
     fn index_mut(&mut self, pos: Pos) -> &mut Self::Output {
+        #[allow(clippy::cast_sign_loss)]
         &mut self.mask[pos.x as usize * self.cols + pos.y as usize]
     }
 }

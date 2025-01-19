@@ -12,18 +12,18 @@ use crate::random_utils::{
 
 pub fn best_2_picos_cheat_paths_count(input: &str) -> usize {
     // Find best cheated paths with cheat limit of 2 picoseconds
-    best_cheated_paths::<2>(input)
+    best_cheat_paths_count::<2>(input)
 }
 
 pub fn best_20_picos_cheat_paths_count(input: &str) -> usize {
     // Find best cheated paths with cheat limit of 20 picoseconds
-    best_cheated_paths::<20>(input)
+    best_cheat_paths_count::<20>(input)
 }
 
 // ------------------------------------------------------------------------------------------------
 // Functions
 
-fn best_cheated_paths<const CHEAT_RADIUS: isize>(input: &str) -> usize {
+fn best_cheat_paths_count<const CHEAT_RADIUS: isize>(input: &str) -> usize {
     // Get racetrack grid and find single path
     let mut racetrack = bytes_grid(input);
 

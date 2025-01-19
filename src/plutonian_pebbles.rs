@@ -17,7 +17,6 @@ pub fn stones_expansion_75_blinks(input: &str) -> usize {
 // ------------------------------------------------------------------------------------------------
 // Functions
 
-#[allow(clippy::cast_possible_truncation)]
 fn stones_expansion<const BLINKS: u8>(input: &str) -> usize {
     #[inline]
     fn add_count(map: &mut FxHashMap<u64, usize>, stone: u64, count: usize) {

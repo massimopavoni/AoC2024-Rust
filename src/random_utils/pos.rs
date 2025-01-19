@@ -1,7 +1,7 @@
 use grid::Grid;
 use std::{
     fmt::Display,
-    ops::{Add, AddAssign, Sub, SubAssign},
+    ops::{Add, AddAssign, Index, Sub, SubAssign},
 };
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
@@ -43,6 +43,33 @@ impl Dir {
 
     pub const fn rotate_cw_mut(&mut self) {
         *self = self.rotate_cw();
+    }
+}
+
+impl<T> Index<Dir> for [T] {
+    type Output = T;
+
+    fn index(&self, index: Dir) -> &Self::Output {
+        &self[index as usize]
+    }
+}
+
+#[allow(clippy::fallible_impl_from)]
+impl From<usize> for Dir {
+    fn from(value: usize) -> Self {
+        match value {
+            0 => Self::S,
+            1 => Self::E,
+            2 => Self::N,
+            3 => Self::W,
+            _ => panic!("Invalid direction value"),
+        }
+    }
+}
+
+impl From<Dir> for usize {
+    fn from(value: Dir) -> Self {
+        value as Self
     }
 }
 
@@ -130,16 +157,16 @@ impl From<(isize, isize)> for Pos {
     }
 }
 
-#[allow(clippy::cast_possible_wrap)]
 impl From<(usize, usize)> for Pos {
     fn from(value: (usize, usize)) -> Self {
+        #[allow(clippy::cast_possible_wrap)]
         Self::new(value.0 as isize, value.1 as isize)
     }
 }
 
-#[allow(clippy::cast_sign_loss)]
 impl From<Pos> for (usize, usize) {
     fn from(val: Pos) -> Self {
+        #[allow(clippy::cast_sign_loss)]
         (val.x as usize, val.y as usize)
     }
 }

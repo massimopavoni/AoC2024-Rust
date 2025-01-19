@@ -1,6 +1,6 @@
+use atoi::{atoi, FromRadix10SignedChecked};
+use regex::bytes::Match;
 use regex::bytes::{Captures, Regex};
-
-use crate::random_utils::re_match_atoi;
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -48,4 +48,15 @@ where
         .expect("Invalid regex")
         .captures_iter(input.as_bytes())
         .fold(init, fold)
+}
+
+// ------------------------------------------------------------------------------------------------
+// Parsers
+
+#[inline]
+pub fn re_match_atoi<N>(match_: Option<Match<'_>>) -> N
+where
+    N: FromRadix10SignedChecked,
+{
+    atoi::<N>(match_.expect("Expected capture").as_bytes()).expect("Expected valid integer")
 }
