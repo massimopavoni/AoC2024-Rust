@@ -118,9 +118,7 @@ fn codes_complexity<const ROBOTS_COUNT: usize>(input: &str) -> usize {
                             } else {
                                 DIR_PRIORITIES
                             };
-
-                            let (start, end) = (key_position(start), key_position(end));
-                            let dpos = end - start;
+                            let dpos = key_position(end) - key_position(start);
                             let mut movement = String::new();
 
                             for key in priorities.chars() {
