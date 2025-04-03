@@ -1,6 +1,7 @@
+use std::string::ToString;
+
 use itertools::Itertools;
 use pathfinding::directed::dfs::dfs;
-use std::string::ToString;
 
 // ------------------------------------------------------------------------------------------------
 // Exports

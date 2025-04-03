@@ -1,6 +1,7 @@
+use std::collections::VecDeque;
+
 use grid::Grid;
 use itertools::Itertools;
-use std::collections::VecDeque;
 
 use crate::random_utils::{
     bytes_grid,

@@ -4,13 +4,14 @@ version = "1.0.0"
 authors = ["Massimo Pavoni"]
 repository = "https://github.com/massimopavoni/AoC2024-Rust"
 license-file = "LICENSE"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
 atoi = "2.*"
-grid = "0.15.*"
+grid = "0.16.*"
 include_dir = "0.7.*"
 itertools = "0.14.*"
+nalgebra = "0.33.*"
 num-modular = "0.6.*"
 pathfinding = "4.*"
 rayon = "1.10.*"

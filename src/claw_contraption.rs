@@ -1,7 +1,7 @@
+use crate::random_utils::parse_numbers;
+
 // ------------------------------------------------------------------------------------------------
 // Exports
-
-use crate::random_utils::parse_numbers;
 
 pub fn fewest_tokens_all_prizes_small(input: &str) -> i64 {
     // Solve claw machines equations with no offset

@@ -1,8 +1,9 @@
-use grid::Grid;
 use std::{
     fmt::Display,
     ops::{Add, AddAssign, Index, Sub, SubAssign},
 };
+
+use grid::Grid;
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum Dir {

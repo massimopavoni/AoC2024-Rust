@@ -1,6 +1,7 @@
+use std::convert::identity;
+
 use itertools::Itertools;
 use rustc_hash::FxHashSet;
-use std::convert::identity;
 
 use crate::random_utils::{bytes_grid, pos::Pos, FxHashWithCapacity};
 

@@ -1,7 +1,8 @@
+use std::{array::from_fn, convert::identity, sync::Arc};
+
 use pathfinding::directed::count_paths::count_paths;
 use rayon::{iter::ParallelIterator, str::ParallelString};
 use rustc_hash::FxHashSet;
-use std::{array::from_fn, convert::identity, sync::Arc};
 
 use crate::random_utils::FxHashWithCapacity;
 

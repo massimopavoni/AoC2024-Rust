@@ -1,5 +1,6 @@
-use itertools::Itertools;
 use std::{convert::identity, vec::IntoIter};
+
+use itertools::Itertools;
 
 use crate::random_utils::parse_expect;
 

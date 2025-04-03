@@ -1,7 +1,8 @@
+use std::{fmt::Display, sync::LazyLock};
+
 use include_dir::{include_dir, Dir};
 use itertools::Itertools;
 use rustc_hash::FxHashMap;
-use std::{fmt::Display, sync::LazyLock};
 
 mod random_utils;
 
@@ -16,6 +17,7 @@ mod historian_hysteria;
 mod hoof_it;
 mod keypad_conundrum;
 mod linen_layout;
+mod monkey_market;
 mod mull_it_over;
 mod plutonian_pebbles;
 mod print_queue;
@@ -38,6 +40,7 @@ use historian_hysteria::{lists_similarity_score, lists_total_distance};
 use hoof_it::{trailheads_total_rating, trailheads_total_score};
 use keypad_conundrum::{codes_complexity_26_robots, codes_complexity_3_robots};
 use linen_layout::{possible_designs_count, possible_designs_possible_ways_count};
+use monkey_market::{best_selling_sequence_bananas_count, buyers_2000th_secret_numbers_sum};
 use mull_it_over::{do_dont_multiplications_sum, multiplications_sum};
 use plutonian_pebbles::{stones_expansion_25_blinks, stones_expansion_75_blinks};
 use print_queue::{fixed_invalid_updates_middle_sum, valid_updates_middle_sum};
@@ -263,5 +266,12 @@ pub fn main() {
         "KeypadConundrum",
         codes_complexity_3_robots,
         codes_complexity_26_robots
+    );
+
+    pretty_solution_2!(
+        22,
+        "MonkeyMarket",
+        buyers_2000th_secret_numbers_sum,
+        best_selling_sequence_bananas_count
     );
 }

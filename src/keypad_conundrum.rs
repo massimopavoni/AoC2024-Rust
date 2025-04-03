@@ -1,6 +1,7 @@
+use std::iter::once;
+
 use itertools::Itertools;
 use rustc_hash::FxHashMap;
-use std::iter::once;
 
 use crate::random_utils::{parse_expect, pos::Pos, FxHashWithCapacity};
 

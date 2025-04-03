@@ -1,6 +1,7 @@
+use std::cmp::Ordering;
+
 use itertools::Itertools;
 use rustc_hash::FxHashSet;
-use std::cmp::Ordering;
 
 use crate::random_utils::parse_expect;
 

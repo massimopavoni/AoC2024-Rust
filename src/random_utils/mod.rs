@@ -1,12 +1,13 @@
-use grid::Grid;
-use itertools::Itertools;
-use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use std::{
     any::type_name,
     fmt::Debug,
     ops::{Add, Mul, Neg},
     str::FromStr,
 };
+
+use grid::Grid;
+use itertools::Itertools;
+use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 
 pub mod grid_mask;
 pub mod pos;
@@ -69,7 +70,7 @@ where
 
         if input[byte].is_ascii_digit() {
             while byte < input.len() && input[byte].is_ascii_digit() {
-                numbers[i] = numbers[i] * ten + N::from(input[byte] - 48);
+                numbers[i] = numbers[i] * ten + N::from(input[byte] & 0xf);
                 byte += 1;
             }
 

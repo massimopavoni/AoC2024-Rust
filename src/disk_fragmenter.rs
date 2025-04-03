@@ -1,5 +1,6 @@
-use itertools::Itertools;
 use std::{cmp::Reverse, collections::BinaryHeap};
+
+use itertools::Itertools;
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -11,7 +12,7 @@ pub fn compact_disk_checksum(input: &str) -> usize {
         .bytes()
         .enumerate()
         .filter(|&(_, c)| c != b'0')
-        .flat_map(|(i, c)| vec![if i % 2 == 0 { Some(i / 2) } else { None }; (c - 48) as usize])
+        .flat_map(|(i, c)| vec![if i % 2 == 0 { Some(i / 2) } else { None }; (c & 0xf) as usize])
         .collect_vec();
 
     let (mut start, mut end) = (0, disk.len() - 1);
@@ -53,7 +54,7 @@ pub fn whole_files_compact_disk_checksum(input: &str) -> usize {
         .bytes()
         .enumerate()
         .map(|(i, c)| {
-            let size = (c - 48) as usize;
+            let size = (c & 0xf) as usize;
 
             if i % 2 == 1 && size > 0 {
                 free_space[size].push(Reverse(block));
