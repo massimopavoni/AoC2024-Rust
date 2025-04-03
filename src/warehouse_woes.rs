@@ -172,7 +172,7 @@ where
     let mut position = Pos::from(
         warehouse
             .indexed_iter()
-            .find(|(_, &c)| c == b'@')
+            .find(|&(_, &c)| c == b'@')
             .expect("Expected starting tile")
             .0,
     );
@@ -193,6 +193,6 @@ where
     // Calculate GPS coordinates sum
     warehouse
         .indexed_iter()
-        .filter(|(_, &c)| c == BOX_EDGE)
+        .filter(|&(_, &c)| c == BOX_EDGE)
         .fold(0, |acc, ((x, y), _)| acc + 100 * x + y)
 }

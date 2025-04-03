@@ -61,7 +61,7 @@ where
 
         antennas_grid
             .indexed_iter()
-            .filter(|(_, &c)| c != b'.')
+            .filter(|&(_, &c)| c != b'.')
             .for_each(|((x, y), &c)| {
                 #[allow(clippy::cast_possible_wrap)]
                 antennas

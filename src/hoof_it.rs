@@ -49,7 +49,7 @@ where
     // Start from level 0 and BFS keeping track of peaks reached
     topographic_map
         .indexed_iter()
-        .filter(|(_, &v)| v == b'0')
+        .filter(|&(_, &v)| v == b'0')
         .map(|(position, _)| {
             let mut positions: Vec<Pos> = Vec::with_capacity(24);
             positions.push(position.into());

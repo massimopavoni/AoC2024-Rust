@@ -46,13 +46,13 @@ where
     let (start_position, end_position) = (
         Pos::from(
             maze.indexed_iter()
-                .find(|(_, &c)| c == b'S')
+                .find(|&(_, &c)| c == b'S')
                 .expect("Expected starting position")
                 .0,
         ),
         Pos::from(
             maze.indexed_iter()
-                .find(|(_, &c)| c == b'E')
+                .find(|&(_, &c)| c == b'E')
                 .expect("Expected ending position")
                 .0,
         ),

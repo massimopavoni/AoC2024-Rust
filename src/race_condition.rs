@@ -30,12 +30,12 @@ fn best_cheat_paths_count<const CHEAT_RADIUS: isize>(input: &str) -> usize {
     let (position, end) = (
         racetrack
             .indexed_iter()
-            .find(|(_, &b)| b == b'S')
+            .find(|&(_, &b)| b == b'S')
             .expect("Expected start position")
             .0,
         racetrack
             .indexed_iter()
-            .find(|(_, &b)| b == b'E')
+            .find(|&(_, &b)| b == b'E')
             .expect("Expected end position")
             .0,
     );

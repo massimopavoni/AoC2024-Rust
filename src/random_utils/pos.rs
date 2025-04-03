@@ -111,7 +111,7 @@ impl Pos {
         self.x.abs_diff(other.x) + self.y.abs_diff(other.y)
     }
 
-    pub fn neighbors(&self) -> impl Iterator<Item = Self> {
+    pub fn neighbors(&self) -> impl Iterator<Item = Self> + use<> {
         [
             Self::new(self.x + 1, self.y),
             Self::new(self.x, self.y + 1),
