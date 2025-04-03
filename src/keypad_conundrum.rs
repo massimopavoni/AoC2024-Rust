@@ -109,8 +109,8 @@ fn codes_complexity<const ROBOTS_COUNT: usize>(input: &str) -> usize {
                         .tuple_windows()
                         .map(|(start, end)| {
                             if start == end {
-                                return "A".to_string();
-                            };
+                                return "A".to_string()
+                            }
 
                             let priorities = if "0A".contains(start) && "147".contains(end)
                                 || "147".contains(start) && "0A".contains(end)
