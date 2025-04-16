@@ -1,6 +1,6 @@
 use std::{fmt::Display, sync::LazyLock};
 
-use include_dir::{include_dir, Dir};
+use include_dir::{Dir, include_dir};
 use itertools::Itertools;
 use rustc_hash::FxHashMap;
 
@@ -16,6 +16,7 @@ mod guard_gallivant;
 mod historian_hysteria;
 mod hoof_it;
 mod keypad_conundrum;
+mod lan_party;
 mod linen_layout;
 mod monkey_market;
 mod mull_it_over;
@@ -38,13 +39,14 @@ use garden_groups::{fences_total_cost_perimeter, fences_total_cost_sides};
 use guard_gallivant::{possible_obstruction_loops_count, unique_guard_positions_count};
 use historian_hysteria::{lists_similarity_score, lists_total_distance};
 use hoof_it::{trailheads_total_rating, trailheads_total_score};
-use keypad_conundrum::{codes_complexity_26_robots, codes_complexity_3_robots};
+use keypad_conundrum::{codes_complexity_3_robots, codes_complexity_26_robots};
+use lan_party::{graph_triangles_count, maximum_clique_password};
 use linen_layout::{possible_designs_count, possible_designs_possible_ways_count};
 use monkey_market::{best_selling_sequence_bananas_count, buyers_2000th_secret_numbers_sum};
 use mull_it_over::{do_dont_multiplications_sum, multiplications_sum};
 use plutonian_pebbles::{stones_expansion_25_blinks, stones_expansion_75_blinks};
 use print_queue::{fixed_invalid_updates_middle_sum, valid_updates_middle_sum};
-use race_condition::{best_20_picos_cheat_paths_count, best_2_picos_cheat_paths_count};
+use race_condition::{best_2_picos_cheat_paths_count, best_20_picos_cheat_paths_count};
 use ram_run::{first_path_cutoff_byte, minimum_steps_exit_kilobyte};
 use red_nosed_reports::{problem_dampener_safe_reports_count, safe_reports_count};
 use reindeer_maze::{maze_best_path_score, maze_best_seats_count};
@@ -273,5 +275,12 @@ pub fn main() {
         "MonkeyMarket",
         buyers_2000th_secret_numbers_sum,
         best_selling_sequence_bananas_count
+    );
+
+    pretty_solution_2!(
+        23,
+        "LANParty",
+        graph_triangles_count,
+        maximum_clique_password
     );
 }

@@ -8,7 +8,12 @@ use crate::random_utils::parse_expect;
 // Exports
 
 pub fn buyers_2000th_secret_numbers_sum(input: &str) -> u64 {
-    // Apply matrix transform to a number
+    fn bits_to_number(bits: impl IntoIterator<Item = u8>) -> u32 {
+        bits.into_iter()
+            .enumerate()
+            .fold(0, |number, (b, bit)| number | (u32::from(bit & 1) << b))
+    }
+
     #[allow(clippy::cast_possible_truncation)]
     fn apply_transformation(transform_rows: &[u32], number: u32) -> u32 {
         bits_to_number(
@@ -16,13 +21,6 @@ pub fn buyers_2000th_secret_numbers_sum(input: &str) -> u64 {
                 .iter()
                 .map(|row| (row & number).count_ones() as u8 & 1),
         )
-    }
-
-    // Convert bits to number
-    fn bits_to_number(bits: impl IntoIterator<Item = u8>) -> u32 {
-        bits.into_iter()
-            .enumerate()
-            .fold(0, |number, (b, bit)| number | (u32::from(bit & 1) << b))
     }
 
     let secret_number_transform_2000 = {
@@ -58,7 +56,6 @@ pub fn buyers_2000th_secret_numbers_sum(input: &str) -> u64 {
 }
 
 pub fn best_selling_sequence_bananas_count(input: &str) -> u16 {
-    // Bitwise next number function
     #[inline]
     const fn next_secret_number(mut secret_number: i32) -> i32 {
         secret_number ^= secret_number << 6;

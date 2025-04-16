@@ -31,14 +31,14 @@ impl<V> FxHashWithCapacity for FxHashSet<V> {
 // ------------------------------------------------------------------------------------------------
 // Functions
 
-pub fn parse_expect<F>(string: &str) -> F
+pub fn parse_expect<T>(string: &str) -> T
 where
-    F: FromStr,
-    <F as FromStr>::Err: Debug,
+    T: FromStr,
+    <T as FromStr>::Err: Debug,
 {
     string
-        .parse::<F>()
-        .unwrap_or_else(|_| panic!("Expected {}, got {string}", type_name::<F>()))
+        .parse::<T>()
+        .unwrap_or_else(|_| panic!("Expected {}, got {string}", type_name::<T>()))
 }
 
 // ------------------------------------------------------------------------------------------------
