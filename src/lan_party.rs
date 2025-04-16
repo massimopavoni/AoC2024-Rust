@@ -1,5 +1,5 @@
 use itertools::Itertools;
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::FxHashMap;
 
 use crate::random_utils::FxHashWithCapacity;
 
@@ -30,77 +30,34 @@ pub fn graph_triangles_count(input: &str) -> usize {
 }
 
 pub fn maximum_clique_password(input: &str) -> String {
-    // Bron-Kerbosch algorithm with pivoting to find only maximum clique
-    fn bron_kerbosch_pivot(
-        clique: &FxHashSet<usize>,
-        candidates: &mut FxHashSet<usize>,
-        processed: &mut FxHashSet<usize>,
-        adjacency_list: &FxHashMap<usize, FxHashSet<usize>>,
-        maximum_clique: &mut Vec<usize>,
-    ) {
-        // Candidates and processed empty means no more nodes
-        if candidates.is_empty() && processed.is_empty() {
-            if clique.len() > maximum_clique.len() {
-                // But clique size record means new maximum
-                *maximum_clique = clique.iter().copied().collect();
+    let (adjacency_list, adjacency_matrix) = lan_party_graph(input);
+
+    let mut seen_nodes = [false; 676];
+    let mut clique = Vec::new();
+    let mut maximum_clique = Vec::new();
+
+    // Simple but fast greedy approach to finding maximal cliques
+    for (start_node, neighbours) in adjacency_list {
+        if !seen_nodes[start_node] {
+            clique.clear();
+            clique.push(start_node);
+
+            // Add neighbors that are connected to every clique node
+            for neighbor in neighbours {
+                if clique.iter().all(|&node| adjacency_matrix[neighbor][node]) {
+                    seen_nodes[neighbor] = true;
+                    clique.push(neighbor);
+                }
             }
 
-            return;
-        }
-
-        // Choose pivot node
-        let pivot = candidates
-            .union(processed)
-            .max_by_key(|&node| adjacency_list.get(node).map_or(0, FxHashSet::len))
-            .copied();
-
-        if let Some(pivot) = pivot {
-            let candidates_without_pivot_neighbors = candidates
-                .difference(&adjacency_list.get(&pivot).cloned().unwrap_or_default())
-                .copied()
-                .collect_vec();
-
-            for node in candidates_without_pivot_neighbors {
-                // New clique includes node from candidate
-                let mut new_clique = clique.clone();
-                new_clique.insert(node);
-
-                // New candidates is the intersection of candidates and neighbors
-                let node_neighbors = &adjacency_list.get(&node).cloned().unwrap_or_default();
-                let mut new_candidates = candidates.intersection(node_neighbors).copied().collect();
-
-                // New processed is the intersection of processed and neighbors
-                let mut new_processed = processed.intersection(node_neighbors).copied().collect();
-
-                // Recursive call
-                bron_kerbosch_pivot(
-                    &new_clique,
-                    &mut new_candidates,
-                    &mut new_processed,
-                    adjacency_list,
-                    maximum_clique,
-                );
-
-                // Node got processed
-                candidates.remove(&node);
-                processed.insert(node);
+            // LAN party contains a single maximum clique, the biggest of the maximal cliques
+            if clique.len() > maximum_clique.len() {
+                maximum_clique.clone_from(&clique);
             }
         }
     }
 
-    let (adjacency_list, _) = lan_party_graph(input);
-
-    let mut maximum_clique = Vec::with_capacity(10);
-
-    bron_kerbosch_pivot(
-        &FxHashSet::default(),
-        &mut adjacency_list.keys().copied().collect(),
-        &mut FxHashSet::default(),
-        &adjacency_list,
-        &mut maximum_clique,
-    );
-
-    // Retrieve password from maximum clique
+    // Retrieve password from encoded node indices
     maximum_clique.sort_unstable();
     #[allow(clippy::cast_possible_truncation)]
     Itertools::intersperse(
@@ -119,7 +76,7 @@ pub fn maximum_clique_password(input: &str) -> String {
 // ------------------------------------------------------------------------------------------------
 // Parsers
 
-fn lan_party_graph(input: &str) -> (FxHashMap<usize, FxHashSet<usize>>, Vec<[bool; 676]>) {
+fn lan_party_graph(input: &str) -> (FxHashMap<usize, Vec<usize>>, Vec<[bool; 676]>) {
     // Arithmetic 2 letter node index encoding
     fn node_to_index(node: &[u8]) -> usize {
         26 * (node[0] - b'a') as usize + (node[1] - b'a') as usize
@@ -133,12 +90,12 @@ fn lan_party_graph(input: &str) -> (FxHashMap<usize, FxHashSet<usize>>, Vec<[boo
 
         adjacency_list
             .entry(from)
-            .or_insert_with(|| FxHashSet::with_capacity(16))
-            .insert(to);
+            .or_insert_with(|| Vec::with_capacity(16))
+            .push(to);
         adjacency_list
             .entry(to)
-            .or_insert_with(|| FxHashSet::with_capacity(16))
-            .insert(from);
+            .or_insert_with(|| Vec::with_capacity(16))
+            .push(from);
 
         adjacency_matrix[from][to] = true;
         adjacency_matrix[to][from] = true;
