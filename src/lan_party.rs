@@ -33,8 +33,7 @@ pub fn maximum_clique_password(input: &str) -> String {
     let (adjacency_list, adjacency_matrix) = lan_party_graph(input);
 
     let mut seen_nodes = [false; 676];
-    let mut clique = Vec::new();
-    let mut maximum_clique = Vec::new();
+    let (mut clique, mut maximum_clique) = (Vec::new(), Vec::new());
 
     // Simple but fast greedy approach to finding maximal cliques
     for (start_node, neighbours) in adjacency_list {
