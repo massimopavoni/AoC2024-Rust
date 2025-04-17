@@ -22,7 +22,7 @@ pub fn xmas_occurrences_count(input: &str) -> usize {
 }
 
 pub fn x_mas_occurrences_count(input: &str) -> usize {
-    // Find As and look for the X-MAS pattern
+    // Find As and look for X-MAS patterns
     pattern_occurrences::<4, 1, b'A'>(
         input,
         [[(-1, -1), (1, 1), (1, -1), (-1, 1)]],

@@ -49,7 +49,7 @@ pub fn maximum_clique_password(input: &str) -> String {
                 }
             }
 
-            // LAN party contains a single maximum clique, the biggest of the maximal cliques
+            // LAN party contains a single maximum clique, biggest of the maximal cliques
             if clique.len() > maximum_clique.len() {
                 maximum_clique.clone_from(&clique);
             }
@@ -77,7 +77,7 @@ pub fn maximum_clique_password(input: &str) -> String {
 
 fn lan_party_graph(input: &str) -> (FxHashMap<usize, Vec<usize>>, Vec<[bool; 676]>) {
     // Arithmetic 2 letter node index encoding
-    fn node_to_index(node: &[u8]) -> usize {
+    const fn node_to_index(node: &[u8]) -> usize {
         26 * (node[0] - b'a') as usize + (node[1] - b'a') as usize
     }
 

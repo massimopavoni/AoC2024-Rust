@@ -55,7 +55,6 @@ impl<T> Index<Dir> for [T] {
     }
 }
 
-#[allow(clippy::fallible_impl_from)]
 impl From<usize> for Dir {
     fn from(value: usize) -> Self {
         match value {
@@ -63,7 +62,7 @@ impl From<usize> for Dir {
             1 => Self::E,
             2 => Self::N,
             3 => Self::W,
-            _ => panic!("Invalid direction value"),
+            _ => unreachable!("Invalid direction value"),
         }
     }
 }

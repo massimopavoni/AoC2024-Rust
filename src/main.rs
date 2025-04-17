@@ -10,6 +10,7 @@ mod bridge_repair;
 mod ceres_search;
 mod chronospatial_computer;
 mod claw_contraption;
+mod crossed_wires;
 mod disk_fragmenter;
 mod garden_groups;
 mod guard_gallivant;
@@ -34,6 +35,7 @@ use bridge_repair::{total_calibration_plus_times, total_calibration_plus_times_c
 use ceres_search::{x_mas_occurrences_count, xmas_occurrences_count};
 use chronospatial_computer::{program_output, program_quine_register_value};
 use claw_contraption::{fewest_tokens_all_prizes_huge, fewest_tokens_all_prizes_small};
+use crossed_wires::{final_z_wires_value, ripple_carry_adder_swapped_wires};
 use disk_fragmenter::{compact_disk_checksum, whole_files_compact_disk_checksum};
 use garden_groups::{fences_total_cost_perimeter, fences_total_cost_sides};
 use guard_gallivant::{possible_obstruction_loops_count, unique_guard_positions_count};
@@ -282,5 +284,12 @@ pub fn main() {
         "LANParty",
         graph_triangles_count,
         maximum_clique_password
+    );
+
+    pretty_solution_2!(
+        24,
+        "CrossedWires",
+        final_z_wires_value,
+        ripple_carry_adder_swapped_wires
     );
 }
