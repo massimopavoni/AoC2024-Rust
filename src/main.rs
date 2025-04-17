@@ -10,6 +10,7 @@ mod bridge_repair;
 mod ceres_search;
 mod chronospatial_computer;
 mod claw_contraption;
+mod code_chronicle;
 mod crossed_wires;
 mod disk_fragmenter;
 mod garden_groups;
@@ -35,6 +36,7 @@ use bridge_repair::{total_calibration_plus_times, total_calibration_plus_times_c
 use ceres_search::{x_mas_occurrences_count, xmas_occurrences_count};
 use chronospatial_computer::{program_output, program_quine_register_value};
 use claw_contraption::{fewest_tokens_all_prizes_huge, fewest_tokens_all_prizes_small};
+use code_chronicle::unique_key_lock_pairs_count;
 use crossed_wires::{final_z_wires_value, ripple_carry_adder_swapped_wires};
 use disk_fragmenter::{compact_disk_checksum, whole_files_compact_disk_checksum};
 use garden_groups::{fences_total_cost_perimeter, fences_total_cost_sides};
@@ -90,10 +92,7 @@ fn pretty_solution<R>(puzzle: &str, part: usize, solution: fn(&str) -> R, input:
 where
     R: Display + PartialEq,
 {
-    let time = std::time::Instant::now();
     let solution = solution(input);
-    println!("Time: {}micros", time.elapsed().as_micros());
-
     let answer = PUZZLE_ANSWERS.get(puzzle).expect("Puzzle answer not found")[part - 1];
 
     assert!(
@@ -292,4 +291,6 @@ pub fn main() {
         final_z_wires_value,
         ripple_carry_adder_swapped_wires
     );
+
+    pretty_solution_2!(25, "CodeChronicle", unique_key_lock_pairs_count);
 }
