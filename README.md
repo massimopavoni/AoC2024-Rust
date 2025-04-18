@@ -133,4 +133,4 @@ Same as [2023](https://github.com/massimopavoni/AoC2023-Haskell), no write-ups, 
 25. [Code Chronicle](src/code_chronicle.rs) ->
     simple exhaustive enumeration of lock-key pairs
 
-Some additional things I learned during **AoC2024** are: [Cargo](https://doc.rust-lang.org/cargo/) project management, Rust program profiling with [flamegraph](https://github.com/flamegraph-rs/flamegraph), [clippy](https://doc.rust-lang.org/clippy/) linting and allow attributes, Rust syntax in general (common structs/enums, iterators, traits, macros, lifetimes), better understanding of ownership and the borrow checker, file handling and resources embedding.
+Some additional things I learned during **AoC2024** are: [Cargo](https://doc.rust-lang.org/cargo/) project management, [The Performance Book](https://nnethercote.github.io/perf-book/), Rust program profiling with [flamegraph](https://github.com/flamegraph-rs/flamegraph), [clippy](https://doc.rust-lang.org/clippy/) linting and allow attributes, Rust syntax in general (common structs/enums, iterators, traits, macros, lifetimes), better understanding of ownership and the borrow checker, file handling and resources embedding.
