@@ -1,7 +1,7 @@
 use itertools::Itertools;
 use rustc_hash::FxHashMap;
 
-use crate::random_utils::{parse_expect, FxHashWithCapacity};
+use crate::random_utils::{FxHashWithCapacity, parse_expect};
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -30,7 +30,7 @@ fn stones_expansion<const BLINKS: u8>(input: &str) -> usize {
         .for_each(|stone| *stones.entry(stone).or_default() += 1);
 
     // Map stones to counts and blink many times
-    (0..BLINKS).for_each(|_| {
+    for _ in 0..BLINKS {
         let previous_blink = stones.drain().collect_vec();
 
         for (stone, count) in previous_blink {
@@ -49,7 +49,7 @@ fn stones_expansion<const BLINKS: u8>(input: &str) -> usize {
                 }
             }
         }
-    });
+    }
 
     stones.values().sum()
 }
