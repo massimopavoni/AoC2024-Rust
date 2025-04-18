@@ -28,10 +28,14 @@ where
 {
     // Convert color byte to color
     fn byte_to_color(b: u8) -> usize {
-        b"wbgru"
-            .iter()
-            .position(|&c| c == b)
-            .expect("Expected valid color")
+        match b {
+            b'w' => 0,
+            b'b' => 1,
+            b'g' => 2,
+            b'r' => 3,
+            b'u' => 4,
+            _ => unreachable!("Invalid color byte"),
+        }
     }
 
     let (patterns_str, designs_str) = input.split_once("\n\n").expect("Expected two sections");
