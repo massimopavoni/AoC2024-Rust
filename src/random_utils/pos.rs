@@ -1,8 +1,6 @@
-use std::{
-    fmt::Display,
-    ops::{Add, AddAssign, Index, Sub, SubAssign},
-};
+use std::ops::Index;
 
+use derive_more::{Add, AddAssign, Display, Sub, SubAssign};
 use grid::Grid;
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
@@ -73,7 +71,8 @@ impl From<Dir> for usize {
     }
 }
 
-#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Add, AddAssign, Sub, SubAssign, Display)]
+#[display("{x},{y}")]
 pub struct Pos {
     pub x: isize,
     pub y: isize,
@@ -121,36 +120,6 @@ impl Pos {
     }
 }
 
-impl Add for Pos {
-    type Output = Self;
-
-    fn add(self, rhs: Self) -> Self {
-        Self::new(self.x + rhs.x, self.y + rhs.y)
-    }
-}
-
-impl AddAssign for Pos {
-    fn add_assign(&mut self, rhs: Self) {
-        self.x += rhs.x;
-        self.y += rhs.y;
-    }
-}
-
-impl Sub for Pos {
-    type Output = Self;
-
-    fn sub(self, rhs: Self) -> Self {
-        Self::new(self.x - rhs.x, self.y - rhs.y)
-    }
-}
-
-impl SubAssign for Pos {
-    fn sub_assign(&mut self, rhs: Self) {
-        self.x -= rhs.x;
-        self.y -= rhs.y;
-    }
-}
-
 impl From<(isize, isize)> for Pos {
     fn from(value: (isize, isize)) -> Self {
         Self::new(value.0, value.1)
@@ -168,12 +137,6 @@ impl From<Pos> for (usize, usize) {
     fn from(val: Pos) -> Self {
         #[allow(clippy::cast_sign_loss)]
         (val.x as usize, val.y as usize)
-    }
-}
-
-impl Display for Pos {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{},{}", self.x, self.y)
     }
 }
 
