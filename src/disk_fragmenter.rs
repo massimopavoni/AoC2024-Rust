@@ -80,11 +80,11 @@ pub fn whole_files_compact_disk_checksum(input: &str) -> usize {
 
         // Find leftmost free space where block fits
         for (size, indices) in free_space.iter_mut().enumerate().skip(block_size) {
-            if let Some(&Reverse(best)) = indices.peek() {
-                if best < best_index {
-                    best_index = best;
-                    best_size = size;
-                }
+            if let Some(&Reverse(best)) = indices.peek()
+                && best < best_index
+            {
+                best_index = best;
+                best_size = size;
             }
         }
 
