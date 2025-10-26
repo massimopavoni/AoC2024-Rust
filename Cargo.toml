@@ -8,16 +8,24 @@ edition = "2024"
 rust-version = "1.90"
 
 [dependencies]
-atoi = "2.*"
-derive_more = { version = "2.*", features = ["add", "add_assign", "display"] }
-grid = "0.18.*"
+atoi = "2.0.*"
+derive_more = { version = "2.0.*", default-features = false, features = [
+    "add",
+    "add_assign",
+    "display",
+] }
+grid = "1.0.*"
 include_dir = "0.7.*"
 itertools = "0.14.*"
-nalgebra = "0.33.*"
-num-modular = "0.6.*"
-pathfinding = "4.*"
-rayon = "1.10.*"
-regex = "1.11.*"
+nalgebra = { version = "0.34.*", default-features = false, features = [
+    "matrixmultiply",
+] }
+num-modular = { version = "0.6.*", default-features = false, features = [
+    "num-traits",
+] }
+pathfinding = "4.14.*"
+rayon = "1.11.*"
+regex = "1.12.*"
 rustc-hash = "2.1.*"
 
 [lints.clippy]
