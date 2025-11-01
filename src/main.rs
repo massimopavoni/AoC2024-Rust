@@ -88,12 +88,11 @@ static PUZZLE_ANSWERS: LazyLock<FxHashMap<&str, [&str; 2]>> = LazyLock::new(|| {
 // Functions
 
 #[inline]
-fn pretty_solution<R>(puzzle: &str, part: usize, solution: fn(&str) -> R, input: &str)
+fn pretty_solution<R>(puzzle: &str, part: usize, solution: fn(&str) -> R, input: &str, answer: &str)
 where
     R: Display + PartialEq,
 {
     let solution = solution(input);
-    let answer = PUZZLE_ANSWERS.get(puzzle).expect("Puzzle answer not found")[part - 1];
 
     assert!(
         solution.to_string() == answer,
@@ -108,10 +107,11 @@ macro_rules! pretty_solution_2 {
         println!("Day {}: {}", $day, $puzzle);
 
         let input = get_resource!($puzzle.to_string() + ".in");
+        let answers = PUZZLE_ANSWERS.get($puzzle).expect("Puzzle answer not found");
 
-        pretty_solution($puzzle, 1, $solution1, input);
+        pretty_solution($puzzle, 1, $solution1, input, answers[0]);
 
-        $(pretty_solution($puzzle, 2, $solution2, input);)?
+        $(pretty_solution($puzzle, 2, $solution2, input, answers[1]);)?
 
         println!();
     };
