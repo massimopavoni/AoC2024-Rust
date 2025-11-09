@@ -1,4 +1,4 @@
-use std::{fmt::Display, sync::LazyLock};
+use std::{array::from_fn, env::args, fmt::Display, sync::LazyLock, time::Instant};
 
 use include_dir::{Dir, include_dir};
 use itertools::Itertools;
@@ -59,6 +59,19 @@ use restroom_redoubt::{robots_christmas_tree, robots_safety_factor};
 use warehouse_woes::{final_thin_boxes_coordinates_sum, final_wide_boxes_coordinates_sum};
 
 // ------------------------------------------------------------------------------------------------
+// Globals
+
+static SELECTED_PUZZLES: LazyLock<[bool; 25]> = LazyLock::new(|| {
+    let args = args().collect_vec();
+
+    if args.len() == 1 {
+        [true; 25]
+    } else {
+        from_fn(|day| args.contains(&(day + 1).to_string()))
+    }
+});
+
+// ------------------------------------------------------------------------------------------------
 // Resources
 
 static RESOURCES_DIR: Dir = include_dir!("src/resources");
@@ -92,28 +105,32 @@ fn pretty_solution<R>(puzzle: &str, part: usize, solution: fn(&str) -> R, input:
 where
     R: Display + PartialEq,
 {
+    let now = Instant::now();
     let solution = solution(input);
+    let microseconds = now.elapsed().as_micros();
 
     assert!(
         solution.to_string() == answer,
         "Wrong solution for {puzzle} part {part}: expected {answer}, but got {solution}"
     );
 
-    println!("{part} -> {answer}");
+    println!("{part} -> {answer} ({microseconds}μs)");
 }
 
 macro_rules! pretty_solution_2 {
     ($day:literal, $puzzle: literal, $solution1:ident $(,$solution2:ident)?) => {
-        println!("Day {}: {}", $day, $puzzle);
+        if SELECTED_PUZZLES[$day - 1] {
+            println!("Day {}: {}", $day, $puzzle);
 
-        let input = get_resource!($puzzle.to_string() + ".in");
-        let answers = PUZZLE_ANSWERS.get($puzzle).expect("Puzzle answer not found");
+            let input = get_resource!($puzzle.to_string() + ".in");
+            let answers = PUZZLE_ANSWERS.get($puzzle).expect("Puzzle answer not found");
 
-        pretty_solution($puzzle, 1, $solution1, input, answers[0]);
+            pretty_solution($puzzle, 1, $solution1, input, answers[0]);
 
-        $(pretty_solution($puzzle, 2, $solution2, input, answers[1]);)?
+            $(pretty_solution($puzzle, 2, $solution2, input, answers[1]);)?
 
-        println!();
+            println!();
+        }
     };
 }
 
