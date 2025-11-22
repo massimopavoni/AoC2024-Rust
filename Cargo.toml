@@ -31,6 +31,7 @@ rustc-hash = "2.1.*"
 [lints.clippy]
 nursery = "warn"
 pedantic = "warn"
+unwrap_used = "warn"
 
 [profile.dev]
 overflow-checks = false
