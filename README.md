@@ -13,7 +13,7 @@ event, and I loved every moment of it.
 <br>
 Despite not finishing before Christmas again, I was able to solve most of the puzzles completely on my own and within just a couple days. Thanks to some help from **Reddit** [here](https://www.reddit.com/r/adventofcode/), I was even able to keep the cumulative execution time under 40-50ms, which is truly insane to me (Rust is a great language).
 
-The best part was again learning a lot of new things about Rust and the topics [Eric](https://github.com/topaz) hides in his wonderful puzzles; focusing on optimized parsing and fast solutions was interesting and a lot of fun.
+The best part was learning a lot of new things about Rust and the topics [Eric](https://github.com/topaz) hides in his wonderful puzzles; focusing on optimized parsing and fast solutions was interesting and a lot of fun.
 
 ### Days
 Same as [2023](https://github.com/massimopavoni/AoC2023-Haskell), no write-ups, just listing days with concepts reviewed, studied and learned.
