@@ -11,7 +11,7 @@ can build and run the project with their own inputs (although I tested the progr
 This was my second time participating in the [**Advent of Code**](https://adventofcode.com/2024)
 event, and I loved every moment of it.
 <br>
-Despite not finishing before Christmas again, I was able to solve most of the puzzles completely on my own and within just a couple days. Thanks to some help from **Reddit** [here](https://www.reddit.com/r/adventofcode/), I was even able to keep the cumulative execution time under at 40-50ms, which is truly insane to me (Rust is a great language).
+Despite not finishing before Christmas again, I was able to solve most of the puzzles completely on my own and within just a couple days. Thanks to some help from **Reddit** [here](https://www.reddit.com/r/adventofcode/), I was even able to keep the cumulative execution time under 40-50ms, which is truly insane to me (Rust is a great language).
 
 The best part was again learning a lot of new things about Rust and the topics [Eric](https://github.com/topaz) hides in his wonderful puzzles; focusing on optimized parsing and fast solutions was interesting and a lot of fun.
 
