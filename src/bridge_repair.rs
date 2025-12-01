@@ -1,6 +1,6 @@
 use itertools::Itertools;
 
-use crate::random_utils::parse_expect;
+use crate::random_utils::parse_number;
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -63,10 +63,10 @@ where
                 line.split_once(':').expect("Expected calibration equation");
 
             (
-                parse_expect(test_value),
+                parse_number(test_value),
                 numbers
                     .split_ascii_whitespace()
-                    .map(parse_expect)
+                    .map(parse_number)
                     .collect_vec(),
             )
         })

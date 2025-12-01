@@ -1,16 +1,12 @@
-use std::{
-    any::type_name,
-    fmt::Debug,
-    ops::{Add, Mul, Neg},
-    str::FromStr,
-};
-
 use grid::Grid;
 use itertools::Itertools;
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 
 pub mod grid_mask;
 pub mod pos;
+
+// ------------------------------------------------------------------------------------------------
+// FxHash
 
 pub trait FxHashWithCapacity {
     fn with_capacity(capacity: usize) -> Self;
@@ -29,19 +25,6 @@ impl<V> FxHashWithCapacity for FxHashSet<V> {
 }
 
 // ------------------------------------------------------------------------------------------------
-// Functions
-
-pub fn parse_expect<T>(string: &str) -> T
-where
-    T: FromStr,
-    <T as FromStr>::Err: Debug,
-{
-    string
-        .parse::<T>()
-        .unwrap_or_else(|_| panic!("Expected {}, got {string}", type_name::<T>()))
-}
-
-// ------------------------------------------------------------------------------------------------
 // Parsers
 
 pub fn bytes_grid(input: &str) -> Grid<u8> {
@@ -53,11 +36,72 @@ pub fn bytes_grid(input: &str) -> Grid<u8> {
     )
 }
 
+pub trait ParseNum: Copy + Default {
+    fn add_digit(self, digit: u8) -> Self;
+
+    fn negate(self) -> Self;
+}
+
+macro_rules! parse_num_impl {
+    ($type:ty, signed) => {
+        impl ParseNum for $type {
+            fn add_digit(self, digit: u8) -> Self {
+                self * 10 + digit as $type
+            }
+
+            fn negate(self) -> Self {
+                -self
+            }
+        }
+    };
+
+    ($type:ty, unsigned) => {
+        impl ParseNum for $type {
+            fn add_digit(self, digit: u8) -> Self {
+                self * 10 + digit as $type
+            }
+
+            fn negate(self) -> Self {
+                self
+            }
+        }
+    };
+}
+
+parse_num_impl!(i16, signed);
+parse_num_impl!(i32, signed);
+parse_num_impl!(i64, signed);
+parse_num_impl!(isize, signed);
+
+parse_num_impl!(u16, unsigned);
+parse_num_impl!(u32, unsigned);
+parse_num_impl!(u64, unsigned);
+parse_num_impl!(usize, unsigned);
+
+pub fn parse_number<N>(input: &str) -> N
+where
+    N: ParseNum,
+{
+    let input = input.as_bytes();
+    let (mut number, mut byte, mut negative) = (N::default(), 0, false);
+
+    if input[byte] == b'-' {
+        negative = true;
+        byte += 1;
+    }
+
+    while byte < input.len() && input[byte].is_ascii_digit() {
+        number = number.add_digit(input[byte] & 0xf);
+        byte += 1;
+    }
+
+    if negative { number.negate() } else { number }
+}
+
 pub fn parse_numbers<const COUNT: usize, N>(input: &str) -> [N; COUNT]
 where
-    N: From<u8> + Add<Output = N> + Mul<Output = N> + Neg<Output = N> + Default + Copy,
+    N: ParseNum,
 {
-    let ten = N::from(10);
     let input = input.as_bytes();
 
     let (mut numbers, mut i, mut byte, mut negative) = ([N::default(); COUNT], 0, 0, false);
@@ -70,12 +114,12 @@ where
 
         if input[byte].is_ascii_digit() {
             while byte < input.len() && input[byte].is_ascii_digit() {
-                numbers[i] = numbers[i] * ten + N::from(input[byte] & 0xf);
+                numbers[i] = numbers[i].add_digit(input[byte] & 0xf);
                 byte += 1;
             }
 
             if negative {
-                numbers[i] = -numbers[i];
+                numbers[i] = numbers[i].negate();
             }
 
             i += 1;

@@ -3,7 +3,7 @@ use std::cmp::Ordering;
 use itertools::Itertools;
 use rustc_hash::FxHashSet;
 
-use crate::random_utils::parse_expect;
+use crate::random_utils::parse_number;
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -65,11 +65,11 @@ fn page_rules_and_updates(
             .map(|line| {
                 let line = line.split_once('|').expect("Expected two numbers");
 
-                (parse_expect(line.0), parse_expect(line.1))
+                (parse_number(line.0), parse_number(line.1))
             })
             .collect(),
         updates
             .lines()
-            .map(|line| line.split(',').map(parse_expect).collect_vec()),
+            .map(|line| line.split(',').map(parse_number).collect_vec()),
     )
 }

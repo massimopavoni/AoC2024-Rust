@@ -3,7 +3,7 @@ use std::iter::once;
 use itertools::Itertools;
 use rustc_hash::FxHashMap;
 
-use crate::random_utils::{parse_expect, pos::Pos, FxHashWithCapacity};
+use crate::random_utils::{parse_number, pos::Pos, FxHashWithCapacity};
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -101,7 +101,7 @@ fn codes_complexity<const ROBOTS_COUNT: usize>(input: &str) -> usize {
     input
         .lines()
         .map(|code| {
-            parse_expect::<usize>(&code[0..3])
+            parse_number::<usize>(&code[0..3])
                 * path_cost(
                     // Initial door code best path search
                     &once('A')

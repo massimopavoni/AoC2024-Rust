@@ -2,7 +2,7 @@ use itertools::Itertools;
 use pathfinding::directed::astar::astar;
 use rustc_hash::FxHashSet;
 
-use crate::random_utils::{parse_expect, pos::Pos};
+use crate::random_utils::{parse_number, pos::Pos};
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -82,8 +82,8 @@ fn corrupted_memory_bytes(input: &str) -> impl Iterator<Item = Pos> + '_ {
         let byte_coordinates = line.split_once(',').expect("Expected byte coordinates");
 
         Pos::new(
-            parse_expect(byte_coordinates.0),
-            parse_expect(byte_coordinates.1),
+            parse_number(byte_coordinates.0),
+            parse_number(byte_coordinates.1),
         )
     })
 }

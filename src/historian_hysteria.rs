@@ -2,7 +2,7 @@ use std::{convert::identity, vec::IntoIter};
 
 use itertools::Itertools;
 
-use crate::random_utils::parse_expect;
+use crate::random_utils::parse_number;
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -55,7 +55,7 @@ fn location_lists(input: &str) -> (Vec<u64>, Vec<u64>) {
                 .split_once("   ")
                 .expect("Expected 2 numbers separated by 3 spaces");
 
-            (parse_expect::<u64>(line.0), parse_expect::<u64>(line.1))
+            (parse_number::<u64>(line.0), parse_number::<u64>(line.1))
         })
         .unzip()
 }
