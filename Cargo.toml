@@ -9,19 +9,22 @@ rust-version = "1.91"
 
 [dependencies]
 atoi = "2.0.*"
-derive_more = { version = "2.0.*", default-features = false, features = [
-    "add",
-    "add_assign",
-    "display",
+derive_more = { version = "2.1.*", default-features = false, features = [
+  "add",
+  "add_assign",
+  "display",
 ] }
 grid = "1.0.*"
 include_dir = "0.7.*"
 itertools = "0.14.*"
+lexical-core = { version = "1.0.*", default-features = false, features = [
+  "parse-integers",
+] }
 nalgebra = { version = "0.34.*", default-features = false, features = [
-    "matrixmultiply",
+  "matrixmultiply",
 ] }
 num-modular = { version = "0.6.*", default-features = false, features = [
-    "num-traits",
+  "num-traits",
 ] }
 pathfinding = "4.14.*"
 rayon = "1.11.*"
