@@ -1,7 +1,7 @@
 use itertools::Itertools;
 use rustc_hash::FxHashMap;
 
-use crate::random_utils::{bytes_grid, pos::Pos, FxHashWithCapacity};
+use crate::random_utils::{FxHashWithCapacity, bytes_grid, pos::Pos};
 
 // ------------------------------------------------------------------------------------------------
 // Exports

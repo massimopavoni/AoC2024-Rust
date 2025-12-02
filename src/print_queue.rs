@@ -3,7 +3,7 @@ use std::cmp::Ordering;
 use itertools::Itertools;
 use rustc_hash::FxHashSet;
 
-use crate::random_utils::parse_number;
+use crate::random_utils::{parse_number, parse_numbers};
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -62,11 +62,7 @@ fn page_rules_and_updates(
     (
         rules
             .lines()
-            .map(|line| {
-                let line = line.split_once('|').expect("Expected two numbers");
-
-                (parse_number(line.0), parse_number(line.1))
-            })
+            .map(|line| parse_numbers::<2, u64>(line).into())
             .collect(),
         updates
             .lines()

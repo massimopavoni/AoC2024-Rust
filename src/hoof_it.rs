@@ -3,7 +3,7 @@ use std::convert::identity;
 use itertools::Itertools;
 use rustc_hash::FxHashSet;
 
-use crate::random_utils::{bytes_grid, pos::Pos, FxHashWithCapacity};
+use crate::random_utils::{FxHashWithCapacity, bytes_grid, pos::Pos};
 
 // ------------------------------------------------------------------------------------------------
 // Exports

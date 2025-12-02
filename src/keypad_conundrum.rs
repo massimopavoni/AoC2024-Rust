@@ -3,7 +3,7 @@ use std::iter::once;
 use itertools::Itertools;
 use rustc_hash::FxHashMap;
 
-use crate::random_utils::{parse_number, pos::Pos, FxHashWithCapacity};
+use crate::random_utils::{FxHashWithCapacity, parse_number, pos::Pos};
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -109,7 +109,7 @@ fn codes_complexity<const ROBOTS_COUNT: usize>(input: &str) -> usize {
                         .tuple_windows()
                         .map(|(start, end)| {
                             if start == end {
-                                return "A".to_string()
+                                return "A".to_string();
                             }
 
                             let priorities = if "0A".contains(start) && "147".contains(end)

@@ -3,6 +3,8 @@ use std::string::ToString;
 use itertools::Itertools;
 use pathfinding::directed::dfs::dfs;
 
+use crate::random_utils::parse_numbers;
+
 // ------------------------------------------------------------------------------------------------
 // Exports
 
@@ -25,7 +27,7 @@ pub fn program_quine_register_value(input: &str) -> usize {
         (0, program.len() - 1),
         |&(a, program_skip)| {
             let mut successors = Vec::with_capacity(4);
-            let mut registers = registers.clone();
+            let mut registers = registers;
             registers[0] = a;
 
             if interpret_program(&mut registers, &program)[0] == program[program_skip] {
@@ -97,21 +99,12 @@ fn interpret_program(registers: &mut [usize], program: &[usize]) -> Vec<usize> {
 // ------------------------------------------------------------------------------------------------
 // Parsers
 
-fn computer_registers_and_program(input: &str) -> (Vec<usize>, Vec<usize>) {
+fn computer_registers_and_program(input: &str) -> ([usize; 3], Vec<usize>) {
     let (registers, program) = input.split_once("\n\n").expect("Expected two sections");
 
     // Parse registers and program instructions
     (
-        registers
-            .lines()
-            .map(|line| {
-                line.split_once(": ")
-                    .expect("Expected registers init")
-                    .1
-                    .parse::<usize>()
-                    .expect("Expected valid integer")
-            })
-            .collect_vec(),
+        parse_numbers::<3, usize>(registers),
         program
             .split_once(": ")
             .expect("Expected program instructions")

@@ -1,5 +1,5 @@
 use grid::Grid;
-use itertools::{iproduct, Itertools};
+use itertools::{Itertools, iproduct};
 use rayon::iter::{IndexedParallelIterator, IntoParallelRefIterator, ParallelIterator};
 
 use crate::random_utils::{

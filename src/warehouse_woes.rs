@@ -3,9 +3,8 @@ use itertools::Itertools;
 use rustc_hash::FxHashSet;
 
 use crate::random_utils::{
-    bytes_grid,
+    FxHashWithCapacity, bytes_grid,
     pos::{Dir, GridPosGet, Pos},
-    FxHashWithCapacity,
 };
 
 // ------------------------------------------------------------------------------------------------

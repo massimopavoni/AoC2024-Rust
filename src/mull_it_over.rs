@@ -1,4 +1,4 @@
-use atoi::{atoi, FromRadix10SignedChecked};
+use atoi::{FromRadix10SignedChecked, atoi};
 use regex::bytes::Match;
 use regex::bytes::{Captures, Regex};
 
