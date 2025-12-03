@@ -8,7 +8,6 @@ edition = "2024"
 rust-version = "1.91"
 
 [dependencies]
-atoi = "2.0.*"
 derive_more = { version = "2.1.*", default-features = false, features = [
   "add",
   "add_assign",

@@ -1,4 +1,4 @@
-use atoi::{FromRadix10SignedChecked, atoi};
+use lexical_core::FromLexical;
 use regex::bytes::Match;
 use regex::bytes::{Captures, Regex};
 
@@ -56,7 +56,8 @@ where
 #[inline]
 pub fn re_match_atoi<N>(match_: Option<Match<'_>>) -> N
 where
-    N: FromRadix10SignedChecked,
+    N: FromLexical,
 {
-    atoi::<N>(match_.expect("Expected capture").as_bytes()).expect("Expected valid integer")
+    lexical_core::parse::<N>(match_.expect("Expected capture").as_bytes())
+        .expect("Expected valid integer")
 }

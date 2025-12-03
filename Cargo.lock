@@ -6,7 +6,6 @@ version = 4
 name = "AoC2024-Rust"
 version = "1.0.0"
 dependencies = [
- "atoi",
  "derive_more",
  "grid",
  "include_dir",
@@ -34,15 +33,6 @@ name = "approx"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cab112f0a86d568ea0e627cc1d6be74a1e9cd55214684db5561995f6dad897c6"
-dependencies = [
- "num-traits",
-]
-
-[[package]]
-name = "atoi"
-version = "2.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f28d99ec8bfea296261ca1af174f24225171fea9664ba9003cbebee704810528"
 dependencies = [
  "num-traits",
 ]
