@@ -18,7 +18,7 @@ pub fn fences_total_cost_perimeter(input: &str) -> usize {
         input,
         |farm, (position, plot), visited_plots, plots_queue, perimeter| {
             position
-                .neighbors()
+                .adjacent()
                 .filter_map(|neighbor| match farm.pos_get(neighbor) {
                     None => {
                         *perimeter += 1;
@@ -44,7 +44,7 @@ pub fn fences_total_cost_sides(input: &str) -> usize {
         |farm, (position, plot), visited_plots, plots_queue, sides| {
             // Get all neighbors
             let neighbors = position
-                .neighbors()
+                .adjacent()
                 .filter(|&neighbor| {
                     farm.pos_get(neighbor).is_some_and(|&next| {
                         if next == plot {

@@ -51,7 +51,7 @@ fn best_cheat_paths_count<const CHEAT_RADIUS: isize>(input: &str) -> usize {
         *racetrack.pos_get_mut_expect(position) = b'#';
 
         position = position
-            .neighbors()
+            .adjacent()
             .find(|&pos| racetrack.pos_get_expect(pos) == &b'.')
             .expect("Expected path");
 

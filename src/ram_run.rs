@@ -61,7 +61,7 @@ fn memory_region_astar(corrupted_memory_bytes: &FxHashSet<Pos>) -> Option<usize>
         &start_position,
         |&position| {
             position
-                .neighbors()
+                .adjacent()
                 .filter(|neighbor| {
                     !corrupted_memory_bytes.contains(neighbor)
                         && neighbor.in_bounds((start_position, end_position))

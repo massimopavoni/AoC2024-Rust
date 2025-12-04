@@ -61,7 +61,7 @@ where
                 positions = positions
                     .into_iter()
                     .flat_map(|pos| {
-                        pos.neighbors().filter(move |&next| {
+                        pos.adjacent().filter(move |&next| {
                             map_ref.get(next.x, next.y)
                                 == Some(
                                     &(map_ref

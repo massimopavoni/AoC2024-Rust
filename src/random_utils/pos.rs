@@ -109,7 +109,7 @@ impl Pos {
         self.x.abs_diff(other.x) + self.y.abs_diff(other.y)
     }
 
-    pub fn neighbors(&self) -> impl Iterator<Item = Self> + use<> {
+    pub fn adjacent(&self) -> impl Iterator<Item = Self> + use<> {
         [
             Self::new(self.x + 1, self.y),
             Self::new(self.x, self.y + 1),
@@ -117,6 +117,20 @@ impl Pos {
             Self::new(self.x, self.y - 1),
         ]
         .into_iter()
+    }
+
+    pub fn corners(&self) -> impl Iterator<Item = Self> + use<> {
+        [
+            Self::new(self.x + 1, self.y + 1),
+            Self::new(self.x - 1, self.y + 1),
+            Self::new(self.x - 1, self.y - 1),
+            Self::new(self.x + 1, self.y - 1),
+        ]
+        .into_iter()
+    }
+
+    pub fn neighbors(&self) -> impl Iterator<Item = Self> + use<> {
+        self.adjacent().chain(self.corners())
     }
 }
 
