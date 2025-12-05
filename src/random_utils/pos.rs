@@ -102,7 +102,7 @@ impl Pos {
     }
 
     pub const fn in_bounds(&self, bounds: (Self, Self)) -> bool {
-        self.x >= bounds.0.x && self.x <= bounds.1.x && self.y >= bounds.0.y && self.y <= bounds.1.y
+        bounds.0.x <= self.x && self.x <= bounds.1.x && bounds.0.y <= self.y && self.y <= bounds.1.y
     }
 
     pub const fn manhattan_distance(&self, other: Self) -> usize {
