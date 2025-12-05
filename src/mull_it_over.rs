@@ -8,7 +8,7 @@ use regex::bytes::{Captures, Regex};
 pub fn multiplications_sum(input: &str) -> u64 {
     // Just find all mul(x,y) and sum multiplications
     regex_captures_fold(input, r"mul\((\d{1,3}),(\d{1,3})\)", 0, |sum, captures| {
-        sum + re_match_atoi::<u64>(captures.get(1)) * re_match_atoi::<u64>(captures.get(2))
+        sum + regex_match_parse::<u64>(captures.get(1)) * regex_match_parse::<u64>(captures.get(2))
     })
 }
 
@@ -21,8 +21,8 @@ pub fn do_dont_multiplications_sum(input: &str) -> u64 {
         |(sum, doing), captures| match captures.get(3).map(|m| m.as_bytes()) {
             None => (
                 if doing {
-                    sum + re_match_atoi::<u64>(captures.get(1))
-                        * re_match_atoi::<u64>(captures.get(2))
+                    sum + regex_match_parse::<u64>(captures.get(1))
+                        * regex_match_parse::<u64>(captures.get(2))
                 } else {
                     sum
                 },
@@ -54,7 +54,7 @@ where
 // Parsers
 
 #[inline]
-pub fn re_match_atoi<N>(match_: Option<Match<'_>>) -> N
+pub fn regex_match_parse<N>(match_: Option<Match<'_>>) -> N
 where
     N: FromLexical,
 {
