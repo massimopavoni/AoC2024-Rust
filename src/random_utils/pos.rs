@@ -157,9 +157,9 @@ impl From<Pos> for (usize, usize) {
 pub trait GridPosGet<V> {
     fn pos_get(&self, pos: Pos) -> Option<&V>;
 
-    fn pos_get_expect(&self, pos: Pos) -> &V;
+    fn pos_index(&self, pos: Pos) -> &V;
 
-    fn pos_get_mut_expect(&mut self, pos: Pos) -> &mut V;
+    fn pos_index_mut(&mut self, pos: Pos) -> &mut V;
 }
 
 impl<V> GridPosGet<V> for Grid<V> {
@@ -167,11 +167,13 @@ impl<V> GridPosGet<V> for Grid<V> {
         self.get(pos.x, pos.y)
     }
 
-    fn pos_get_expect(&self, pos: Pos) -> &V {
-        self.get(pos.x, pos.y).expect("Expected grid value")
+    fn pos_index(&self, pos: Pos) -> &V {
+        #[allow(clippy::cast_sign_loss)]
+        &self[(pos.x as usize, pos.y as usize)]
     }
 
-    fn pos_get_mut_expect(&mut self, pos: Pos) -> &mut V {
-        self.get_mut(pos.x, pos.y).expect("Expected grid value")
+    fn pos_index_mut(&mut self, pos: Pos) -> &mut V {
+        #[allow(clippy::cast_sign_loss)]
+        &mut self[(pos.x as usize, pos.y as usize)]
     }
 }

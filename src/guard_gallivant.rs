@@ -161,7 +161,7 @@ where
         if lab_map.pos_get(position) == Some(&b'.') {
             counting_function(&mut setup, &mut count, position, direction);
 
-            *lab_map.pos_get_mut_expect(position) = b'X';
+            *lab_map.pos_index_mut(position) = b'X';
         }
     }
 

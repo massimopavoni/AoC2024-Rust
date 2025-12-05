@@ -31,9 +31,7 @@ fn stones_expansion<const BLINKS: u8>(input: &str) -> usize {
 
     // Map stones to counts and blink many times
     for _ in 0..BLINKS {
-        let previous_blink = stones.drain().collect_vec();
-
-        for (stone, count) in previous_blink {
+        for (stone, count) in stones.drain().collect_vec() {
             if stone == 0 {
                 add_count(&mut stones, 1, count);
             } else {

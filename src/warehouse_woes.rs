@@ -16,16 +16,16 @@ pub fn final_thin_boxes_coordinates_sum(input: &str) -> usize {
         let mut next_next = next.move_dir(direction);
 
         // Group boxes
-        while warehouse.pos_get_expect(next_next) == &b'O' {
+        while warehouse.pos_index(next_next) == &b'O' {
             next_next.move_dir_mut(direction);
         }
 
         // Move if possible
-        match warehouse.pos_get_expect(next_next) {
+        match warehouse.pos_index(next_next) {
             b'#' => {}
             b'.' => {
-                *warehouse.pos_get_mut_expect(next) = b'.';
-                *warehouse.pos_get_mut_expect(next_next) = b'O';
+                *warehouse.pos_index_mut(next) = b'.';
+                *warehouse.pos_index_mut(next_next) = b'O';
                 *position = next;
             }
             _ => unreachable!("Invalid warehouse tile"),
@@ -43,7 +43,7 @@ pub fn final_wide_boxes_coordinates_sum(input: &str) -> usize {
                 box_positions.push(FxHashSet::with_capacity(4));
                 box_positions[0].insert(next);
 
-                let next_side = next.move_dir(if warehouse.pos_get_expect(next) == &b'[' {
+                let next_side = next.move_dir(if warehouse.pos_index(next) == &b'[' {
                     Dir::E
                 } else {
                     Dir::W
@@ -58,7 +58,7 @@ pub fn final_wide_boxes_coordinates_sum(input: &str) -> usize {
                     for &box_position in box_positions.last().expect("Expected warehouse tiles") {
                         let another_box_position = box_position.move_dir(direction);
 
-                        match warehouse.pos_get_expect(another_box_position) {
+                        match warehouse.pos_index(another_box_position) {
                             b'#' => return,
                             b'.' => {}
                             b'[' => {
@@ -82,9 +82,9 @@ pub fn final_wide_boxes_coordinates_sum(input: &str) -> usize {
 
                 // Move them
                 for position in box_positions.into_iter().rev().flatten() {
-                    *warehouse.pos_get_mut_expect(position.move_dir(direction)) =
-                        *warehouse.pos_get_expect(position);
-                    *warehouse.pos_get_mut_expect(position) = b'.';
+                    *warehouse.pos_index_mut(position.move_dir(direction)) =
+                        *warehouse.pos_index(position);
+                    *warehouse.pos_index_mut(position) = b'.';
                 }
 
                 *position = next;
@@ -94,12 +94,12 @@ pub fn final_wide_boxes_coordinates_sum(input: &str) -> usize {
                 let mut box_positions = Vec::with_capacity(16);
                 box_positions.push(next);
                 let mut next_next = next.move_dir(direction);
-                let mut next_next_tile = warehouse.pos_get_expect(next_next);
+                let mut next_next_tile = warehouse.pos_index(next_next);
 
                 while next_next_tile == &b'[' || next_next_tile == &b']' {
                     box_positions.push(next_next);
                     next_next.move_dir_mut(direction);
-                    next_next_tile = warehouse.pos_get_expect(next_next);
+                    next_next_tile = warehouse.pos_index(next_next);
                 }
 
                 // Move if possible, keeping brackets order
@@ -107,9 +107,9 @@ pub fn final_wide_boxes_coordinates_sum(input: &str) -> usize {
                     b'#' => {}
                     b'.' => {
                         for position in box_positions.into_iter().rev() {
-                            *warehouse.pos_get_mut_expect(position.move_dir(direction)) =
-                                *warehouse.pos_get_expect(position);
-                            *warehouse.pos_get_mut_expect(position) = b'.';
+                            *warehouse.pos_index_mut(position.move_dir(direction)) =
+                                *warehouse.pos_index(position);
+                            *warehouse.pos_index_mut(position) = b'.';
                         }
 
                         *position = next;
@@ -176,13 +176,13 @@ where
             .0,
     );
 
-    *warehouse.pos_get_mut_expect(position) = b'.';
+    *warehouse.pos_index_mut(position) = b'.';
 
     // Follow movements
     for direction in movements {
         let next = position.move_dir(direction);
 
-        match warehouse.pos_get_expect(next) {
+        match warehouse.pos_index(next) {
             b'.' => position = next,
             b'#' => {}
             _ => box_move(&mut warehouse, &mut position, next, direction),

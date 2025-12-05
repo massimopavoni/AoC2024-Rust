@@ -79,7 +79,7 @@ pub fn fences_total_cost_sides(input: &str) -> usize {
             neighbors
                 .into_iter()
                 .filter(|&neighbor| visited_plots.set_true(neighbor))
-                .map(|neighbor| (neighbor, *farm.pos_get_expect(neighbor)))
+                .map(|neighbor| (neighbor, *farm.pos_index(neighbor)))
                 .collect_vec()
         },
     )

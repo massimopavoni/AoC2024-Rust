@@ -48,11 +48,11 @@ fn best_cheat_paths_count<const CHEAT_RADIUS: isize>(input: &str) -> usize {
     single_path.push(position);
 
     while position != end {
-        *racetrack.pos_get_mut_expect(position) = b'#';
+        *racetrack.pos_index_mut(position) = b'#';
 
         position = position
             .adjacent()
-            .find(|&pos| racetrack.pos_get_expect(pos) == &b'.')
+            .find(|&pos| racetrack.pos_index(pos) == &b'.')
             .expect("Expected path");
 
         single_path.push(position);
@@ -63,7 +63,7 @@ fn best_cheat_paths_count<const CHEAT_RADIUS: isize>(input: &str) -> usize {
     path_costs.fill(usize::MAX);
 
     for (cost, &position) in single_path.iter().enumerate() {
-        *path_costs.pos_get_mut_expect(position) = cost;
+        *path_costs.pos_index_mut(position) = cost;
     }
 
     // Prepare possible cheat jumps
