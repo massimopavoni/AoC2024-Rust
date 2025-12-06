@@ -2,7 +2,7 @@ use std::{convert::identity, vec::IntoIter};
 
 use itertools::Itertools;
 
-use crate::random_utils::parse_numbers;
+use crate::random_utils::parse_numbers_whitespace;
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -47,9 +47,6 @@ where
 // Parsers
 
 fn location_lists(input: &str) -> (Vec<u64>, Vec<u64>) {
-    // Split lines and unzip into 2 vectors
-    input
-        .lines()
-        .map(|line| parse_numbers::<2, u64>(line).into())
-        .unzip()
+    // Parse numbers and unzip into 2 vectors
+    parse_numbers_whitespace::<u64>(input).tuples().unzip()
 }

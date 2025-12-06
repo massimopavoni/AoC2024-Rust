@@ -3,12 +3,12 @@ use std::cmp::Ordering;
 use itertools::Itertools;
 use rustc_hash::FxHashSet;
 
-use crate::random_utils::{parse_number, parse_numbers};
+use crate::random_utils::parse_numbers;
 
 // ------------------------------------------------------------------------------------------------
 // Exports
 
-pub fn valid_updates_middle_sum(input: &str) -> u64 {
+pub fn valid_updates_middle_sum(input: &str) -> u16 {
     let (rules, updates) = page_rules_and_updates(input);
 
     // Process n choose 2 combinations of elements to find valid updates
@@ -23,7 +23,7 @@ pub fn valid_updates_middle_sum(input: &str) -> u64 {
         .sum()
 }
 
-pub fn fixed_invalid_updates_middle_sum(input: &str) -> u64 {
+pub fn fixed_invalid_updates_middle_sum(input: &str) -> u16 {
     let (rules, updates) = page_rules_and_updates(input);
 
     // Find invalid items and sort them thanks to precedence rules
@@ -55,17 +55,14 @@ pub fn fixed_invalid_updates_middle_sum(input: &str) -> u64 {
 
 fn page_rules_and_updates(
     input: &str,
-) -> (FxHashSet<(u64, u64)>, impl Iterator<Item = Vec<u64>> + '_) {
+) -> (FxHashSet<(u16, u16)>, impl Iterator<Item = Vec<u16>> + '_) {
     // Split input into rules and updates
     let (rules, updates) = input.split_once("\n\n").expect("Expected two sections");
 
     (
-        rules
-            .lines()
-            .map(|line| parse_numbers::<2, u64>(line).into())
-            .collect(),
+        parse_numbers(rules).tuples().collect(),
         updates
             .lines()
-            .map(|line| line.split(',').map(parse_number).collect_vec()),
+            .map(|line| parse_numbers(line).collect_vec()),
     )
 }

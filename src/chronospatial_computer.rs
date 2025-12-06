@@ -3,7 +3,7 @@ use std::string::ToString;
 use itertools::Itertools;
 use pathfinding::directed::dfs::dfs;
 
-use crate::random_utils::parse_numbers;
+use crate::random_utils::{parse_number, parse_numbers_array};
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -104,14 +104,14 @@ fn computer_registers_and_program(input: &str) -> ([usize; 3], Vec<usize>) {
 
     // Parse registers and program instructions
     (
-        parse_numbers::<3, usize>(registers),
+        parse_numbers_array::<3, usize>(registers),
         program
             .split_once(": ")
             .expect("Expected program instructions")
             .1
             .replace('\n', "")
             .split(',')
-            .map(|n| n.parse::<usize>().expect("Expected valid integer"))
+            .map(parse_number)
             .collect_vec(),
     )
 }

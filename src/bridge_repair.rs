@@ -1,6 +1,6 @@
 use itertools::Itertools;
 
-use crate::random_utils::parse_number;
+use crate::random_utils::{parse_number, parse_numbers_whitespace};
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -64,10 +64,7 @@ where
 
             (
                 parse_number(test_value),
-                numbers
-                    .split_ascii_whitespace()
-                    .map(parse_number)
-                    .collect_vec(),
+                parse_numbers_whitespace(numbers).collect_vec(),
             )
         })
         // Sum test values that can be calculated with the given operators

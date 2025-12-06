@@ -1,4 +1,4 @@
-use crate::random_utils::parse_numbers;
+use crate::random_utils::parse_numbers_array;
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -21,7 +21,7 @@ fn fewest_tokens_all_prizes<const PRIZE_OFFSET: i64>(input: &str) -> i64 {
     input
         .split("\n\n")
         .filter_map(|machine| {
-            let coordinates = parse_numbers::<6, i64>(machine);
+            let coordinates = parse_numbers_array::<6, i64>(machine);
 
             let (x1, x2, y1, y2, px, py) = (
                 coordinates[3],

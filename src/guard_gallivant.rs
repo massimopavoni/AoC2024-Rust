@@ -9,7 +9,7 @@ use crate::random_utils::{
 // ------------------------------------------------------------------------------------------------
 // Exports
 
-pub fn unique_guard_positions_count(input: &str) -> u64 {
+pub fn unique_guard_positions_count(input: &str) -> u16 {
     // Count unique guard positions
     guard_lab_pos_dirs(
         input,
@@ -28,7 +28,7 @@ pub fn unique_guard_positions_count(input: &str) -> u64 {
     ) + 1
 }
 
-pub fn possible_obstruction_loops_count(input: &str) -> u64 {
+pub fn possible_obstruction_loops_count(input: &str) -> u16 {
     #[inline]
     fn binary_insert(vec: &mut Vec<usize>, item: usize) -> usize {
         match vec.binary_search(&item) {
@@ -137,10 +137,10 @@ fn guard_lab_pos_dirs<Setup, S, Count>(
     input: &str,
     setup_function: Setup,
     counting_function: Count,
-) -> u64
+) -> u16
 where
     Setup: Fn(&mut Grid<u8>, &mut Pos) -> S,
-    Count: Fn(&mut S, &mut u64, Pos, Dir),
+    Count: Fn(&mut S, &mut u16, Pos, Dir),
 {
     // Parse lab map
     let mut lab_map = bytes_grid(input);

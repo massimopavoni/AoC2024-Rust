@@ -30,6 +30,7 @@ impl<V> FxHashWithCapacity for FxHashSet<V> {
 // ------------------------------------------------------------------------------------------------
 // Parsers
 
+#[inline]
 pub fn bytes_grid(input: &str) -> Grid<u8> {
     Grid::from(
         input
@@ -39,29 +40,55 @@ pub fn bytes_grid(input: &str) -> Grid<u8> {
     )
 }
 
+#[inline]
+pub fn parse_number_bytes<N>(input: &[u8]) -> N
+where
+    N: FromLexical,
+{
+    lexical_core::parse(input)
+        .unwrap_or_else(|_| panic!("Expected {}, got {input:?}", type_name::<N>()))
+}
+
+#[inline]
 pub fn parse_number<N>(input: &str) -> N
 where
     N: FromLexical,
 {
-    lexical_core::parse(input.as_bytes())
-        .unwrap_or_else(|_| panic!("Expected {}, got {input}", type_name::<N>()))
+    parse_number_bytes(input.as_bytes())
 }
 
-pub fn parse_numbers<const COUNT: usize, N>(input: &str) -> [N; COUNT]
+#[inline]
+pub fn parse_numbers_whitespace<N>(input: &str) -> impl Iterator<Item = N>
 where
     N: FromLexical,
 {
-    let mut numbers = [N::default(); COUNT];
+    input.split_ascii_whitespace().map(move |string| {
+        lexical_core::parse(string.as_bytes())
+            .unwrap_or_else(|_| panic!("Expected {}, got {input}", type_name::<N>()))
+    })
+}
 
-    for (number, string) in numbers.iter_mut().zip(
-        input
-            .as_bytes()
-            .split(|&b| !(b.is_ascii_digit() || b == b'-'))
-            .filter(|s| !s.is_empty()),
-    ) {
-        *number = lexical_core::parse(string)
-            .unwrap_or_else(|_| panic!("Expected {}, got {input}", type_name::<N>()));
-    }
+#[inline]
+pub fn parse_numbers<N>(input: &str) -> impl Iterator<Item = N>
+where
+    N: FromLexical,
+{
+    input
+        .as_bytes()
+        .split(|&b| !(b.is_ascii_digit() || b == b'-'))
+        .filter(|s| !s.is_empty())
+        .map(move |bytes| {
+            lexical_core::parse(bytes)
+                .unwrap_or_else(|_| panic!("Expected {}, got {input}", type_name::<N>()))
+        })
+}
 
-    numbers
+#[inline]
+pub fn parse_numbers_array<const COUNT: usize, N>(input: &str) -> [N; COUNT]
+where
+    N: FromLexical,
+{
+    parse_numbers(input)
+        .collect_array()
+        .unwrap_or_else(|| panic!("Expected exactly {COUNT} {}", type_name::<N>()))
 }

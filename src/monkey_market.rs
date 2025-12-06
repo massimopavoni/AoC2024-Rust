@@ -2,7 +2,7 @@ use itertools::Itertools;
 use nalgebra::SMatrix;
 use rayon::{iter::ParallelIterator, slice::ParallelSlice};
 
-use crate::random_utils::parse_number;
+use crate::random_utils::{parse_number, parse_numbers_whitespace};
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -75,7 +75,7 @@ pub fn best_selling_sequence_bananas_count(input: &str) -> u16 {
     const MAXIMUM_4_INSTRUCTIONS: usize = 0b10010_01001_01001_01001;
 
     // Parse secret numbers and calculate chunk size
-    let secret_numbers = input.lines().map(parse_number).collect_vec();
+    let secret_numbers = parse_numbers_whitespace(input).collect_vec();
     let chunk_size = secret_numbers.len().div_ceil(4);
 
     // Parallel processing of chunks of secret numbers

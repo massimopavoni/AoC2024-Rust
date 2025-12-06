@@ -193,5 +193,6 @@ where
     warehouse
         .indexed_iter()
         .filter(|&(_, &c)| c == BOX_EDGE)
-        .fold(0, |acc, ((x, y), _)| acc + 100 * x + y)
+        .map(|((x, y), _)| 100 * x + y)
+        .sum()
 }

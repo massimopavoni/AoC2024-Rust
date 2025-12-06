@@ -1,17 +1,17 @@
 use itertools::Itertools;
 use num_modular::ModularUnaryOps;
 
-use crate::random_utils::{parse_numbers, pos::Pos};
+use crate::random_utils::{parse_numbers_array, pos::Pos};
 
 // ------------------------------------------------------------------------------------------------
 // Exports
 
-pub fn robots_safety_factor(input: &str) -> usize {
+pub fn robots_safety_factor(input: &str) -> u32 {
     let (mut qc1, mut qc2, mut qc3, mut qc4) = (0, 0, 0, 0);
 
     // Find robot positions after 100 seconds and calculate safety factor
     input.lines().for_each(|robot| {
-        let robot_info = parse_numbers::<4, isize>(robot);
+        let robot_info = parse_numbers_array::<4, isize>(robot);
 
         let (position, velocity) = (
             Pos::new(robot_info[0], robot_info[1]),
@@ -35,11 +35,11 @@ pub fn robots_safety_factor(input: &str) -> usize {
     qc1 * qc2 * qc3 * qc4
 }
 
-pub fn robots_christmas_tree(input: &str) -> usize {
+pub fn robots_christmas_tree(input: &str) -> u32 {
     let mut robots_info = input
         .lines()
         .map(|robot| {
-            let robot_info = parse_numbers::<4, isize>(robot);
+            let robot_info = parse_numbers_array::<4, isize>(robot);
 
             (
                 Pos::new(robot_info[0], robot_info[1]),
@@ -53,7 +53,7 @@ pub fn robots_christmas_tree(input: &str) -> usize {
     let (mut min_second_x, mut min_second_y) = (0, 0);
 
     #[allow(clippy::cast_precision_loss)]
-    for second in 1..104 {
+    for second in 1_u32..104 {
         let mut average = (0.0, 0.0);
 
         robots_info = robots_info
@@ -94,7 +94,7 @@ pub fn robots_christmas_tree(input: &str) -> usize {
         }
     }
 
-    (min_second_x * 103 * 103.invm(&101_usize).expect("Expected modular inverse")
-        + min_second_y * 101 * 101.invm(&103_usize).expect("Expected modular inverse"))
+    (min_second_x * 103 * 103.invm(&101_u32).expect("Expected modular inverse")
+        + min_second_y * 101 * 101.invm(&103_u32).expect("Expected modular inverse"))
         % (101 * 103)
 }

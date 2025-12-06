@@ -1,6 +1,6 @@
 use itertools::Itertools;
 
-use crate::random_utils::parse_number;
+use crate::random_utils::parse_numbers_whitespace;
 
 // ------------------------------------------------------------------------------------------------
 // Exports
@@ -30,7 +30,7 @@ where
     // Split lines and get number vectors
     input
         .lines()
-        .map(|line| line.split_ascii_whitespace().map(parse_number).collect())
+        .map(|line| parse_numbers_whitespace(line).collect())
         // Filter and count
         .filter(filter)
         .count()

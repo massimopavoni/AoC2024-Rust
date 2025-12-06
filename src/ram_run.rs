@@ -78,9 +78,5 @@ fn memory_region_astar(corrupted_memory_bytes: &FxHashSet<Pos>) -> Option<usize>
 // Parsers
 
 fn corrupted_memory_bytes(input: &str) -> impl Iterator<Item = Pos> + '_ {
-    input.lines().map(|line| {
-        let coordinates: (isize, isize) = parse_numbers::<2, isize>(line).into();
-
-        coordinates.into()
-    })
+    parse_numbers(input).tuples().map(|(x, y)| Pos::new(x, y))
 }
