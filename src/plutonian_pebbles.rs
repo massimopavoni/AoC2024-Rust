@@ -6,20 +6,20 @@ use crate::random_utils::{FxHashWithCapacity, parse_numbers_whitespace};
 // ------------------------------------------------------------------------------------------------
 // Exports
 
-pub fn stones_expansion_25_blinks(input: &str) -> usize {
+pub fn stones_expansion_25_blinks(input: &str) -> u64 {
     stones_expansion::<25>(input)
 }
 
-pub fn stones_expansion_75_blinks(input: &str) -> usize {
+pub fn stones_expansion_75_blinks(input: &str) -> u64 {
     stones_expansion::<75>(input)
 }
 
 // ------------------------------------------------------------------------------------------------
 // Functions
 
-fn stones_expansion<const BLINKS: u8>(input: &str) -> usize {
+fn stones_expansion<const BLINKS: u8>(input: &str) -> u64 {
     #[inline]
-    fn add_count(map: &mut FxHashMap<u64, usize>, stone: u64, count: usize) {
+    fn add_count(map: &mut FxHashMap<u64, u64>, stone: u64, count: u64) {
         *map.entry(stone).or_default() += count;
     }
 
