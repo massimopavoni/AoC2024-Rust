@@ -47,8 +47,8 @@ fn pattern_occurrences<const M: usize, const N: usize, const ORIGIN: u8>(
                 .into_iter()
                 .map(|slice| {
                     #[allow(clippy::cast_possible_wrap)]
-                    slice.map(|(x_, y_)| {
-                        *letters.get(x as isize + x_, y as isize + y_).unwrap_or(&0)
+                    slice.map(|(dx, dy)| {
+                        *letters.get(x as isize + dx, y as isize + dy).unwrap_or(&0)
                     })
                 })
                 .filter(|slice| patterns.iter().any(|pattern| slice == pattern))

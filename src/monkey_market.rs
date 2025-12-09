@@ -114,6 +114,7 @@ pub fn best_selling_sequence_bananas_count(input: &str) -> u16 {
                     acc[i] += instructions_bananas[i];
                     maximum_bananas = maximum_bananas.max(acc[i]);
                 }
+
                 (acc, maximum_bananas)
             },
         )
