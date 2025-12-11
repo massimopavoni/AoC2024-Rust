@@ -5,7 +5,7 @@ authors = ["Massimo Pavoni"]
 repository = "https://github.com/massimopavoni/AoC2024-Rust"
 license-file = "LICENSE"
 edition = "2024"
-rust-version = "1.91"
+rust-version = "1.92"
 
 [dependencies]
 derive_more = { version = "2.1.*", default-features = false, features = [
