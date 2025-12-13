@@ -6,7 +6,7 @@ The solutions are run all together in the [main](src/main.rs) file,
 compiled down to a single optimized executable.
 <br>
 The answers are obviously specific to the inputs, which is why I made it so that anyone
-can build and run the project with their own inputs (although I tested the program only on Linux).
+can build and run the project with their own inputs (although I only tested the program on Linux).
 
 This was my second time participating in the [**Advent of Code**](https://adventofcode.com/2024)
 event, and I loved every moment of it.
