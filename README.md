@@ -20,7 +20,7 @@ Same as [2023](https://github.com/massimopavoni/AoC2023-Haskell), no write-ups, 
 
 1. [Historian Hysteria](src/historian_hysteria.rs) ->
    [*itertools*](https://crates.io/crates/itertools),
-   [Traits](https://doc.rust-lang.org/stable/reference/items/traits.html)
+   [traits](https://doc.rust-lang.org/stable/reference/items/traits.html)
 
 2. [Red-Nosed Reports](src/red_nosed_reports.rs) ->
    more *itertools*
@@ -28,11 +28,11 @@ Same as [2023](https://github.com/massimopavoni/AoC2023-Haskell), no write-ups, 
 3. [Mull It Over](src/mull_it_over.rs) ->
    [*atoi*](https://crates.io/crates/atoi),
    [*regex*](https://crates.io/crates/regex),
-   [Pattern matching](https://doc.rust-lang.org/stable/reference/patterns.html)
+   [pattern matching](https://doc.rust-lang.org/stable/reference/patterns.html)
 
 4. [Ceres Search](src/ceres_search.rs) ->
    [*grid*](https://crates.io/crates/grid),
-   [Array type](https://doc.rust-lang.org/stable/reference/types/array.html)
+   [array type](https://doc.rust-lang.org/stable/reference/types/array.html)
    const generics
 
 5. [Print Queue](src/print_queue.rs) ->
@@ -40,11 +40,11 @@ Same as [2023](https://github.com/massimopavoni/AoC2023-Haskell), no write-ups, 
    sorting rules
 
 6. [Guard Gallivant](src/guard_gallivant.rs) ->
-   [Binary search](https://en.wikipedia.org/wiki/Binary_search),
+   [binary search](https://en.wikipedia.org/wiki/Binary_search),
    binary insert,
    position and direction representation,
    custom impls and traits,
-   [Derive](https://doc.rust-lang.org/stable/reference/attributes/derive.html) macro
+   [derive](https://doc.rust-lang.org/stable/reference/attributes/derive.html) macro
 
 7. [Bridge Repair](src/bridge_repair.rs) ->
    expressions evaluation,
@@ -54,9 +54,9 @@ Same as [2023](https://github.com/massimopavoni/AoC2023-Haskell), no write-ups, 
    simple lines and segments geometry
 
 9. [Disk Fragmenter](src/disk_fragmenter.rs) ->
-   silly [Defragmentation](https://en.wikipedia.org/wiki/Defragmentation),
-   simple [Checksum](https://en.wikipedia.org/wiki/Checksum),
-   [Triangular numbers](https://en.wikipedia.org/wiki/Triangular_number),
+   silly [defragmentation](https://en.wikipedia.org/wiki/Defragmentation),
+   simple [checksum](https://en.wikipedia.org/wiki/Checksum),
+   [triangular numbers](https://en.wikipedia.org/wiki/Triangular_number),
    [BinaryHeap](https://doc.rust-lang.org/stable/std/collections/struct.BinaryHeap.html) (min-heap)
 
 10. [Hoof It](src/hoof_it.rs) ->
@@ -71,13 +71,13 @@ Same as [2023](https://github.com/massimopavoni/AoC2023-Haskell), no write-ups, 
 
 13. [Claw Contraption](src/claw_contraption.rs) ->
     fast numbers parsing,
-    [Inverse matrix solution](https://en.wikipedia.org/wiki/System_of_linear_equations#Matrix_solution) for simple systems of linear equations 
+    [inverse matrix solution](https://en.wikipedia.org/wiki/System_of_linear_equations#Matrix_solution) for simple systems of linear equations 
 
 14. [Restroom Redoubt](src/restroom_redoubt.rs) ->
     [*num_modular*](https://crates.io/crates/num-modular),
-    [Variance](https://en.wikipedia.org/wiki/Variance),
+    [variance](https://en.wikipedia.org/wiki/Variance),
     [Chinese remainder theorem](https://en.wikipedia.org/wiki/Chinese_remainder_theorem),
-    [Modular multiplicative inverse](https://en.wikipedia.org/wiki/Modular_multiplicative_inverse)
+    [modular multiplicative inverse](https://en.wikipedia.org/wiki/Modular_multiplicative_inverse)
 
 15. [Warehouse Woes](src/warehouse_woes.rs) ->
     grid movement simulation
@@ -89,10 +89,10 @@ Same as [2023](https://github.com/massimopavoni/AoC2023-Haskell), no write-ups, 
 
 17. [Chronospatial Computer](src/chronospatial_computer.rs) ->
     program simulation,
-    [Bitwise operations](https://en.wikipedia.org/wiki/Bitwise_operation),
-    [Octal](https://en.wikipedia.org/wiki/Octal),
+    [bitwise operations](https://en.wikipedia.org/wiki/Bitwise_operation),
+    [octal](https://en.wikipedia.org/wiki/Octal),
     [DFS](https://en.wikipedia.org/wiki/Depth-first_search),
-    [Quines](https://en.wikipedia.org/wiki/Quine_(computing))
+    [quines](https://en.wikipedia.org/wiki/Quine_(computing))
 
 18. [RAM Run](src/ram_run.rs) ->
     more *pathfinding*,
@@ -109,26 +109,26 @@ Same as [2023](https://github.com/massimopavoni/AoC2023-Haskell), no write-ups, 
 
 21. [Keypad Conundrum](src/keypad_conundrum.rs) ->
     problem depth path cost optimization,
-    [Memoization](https://en.wikipedia.org/wiki/Memoization)
+    [memoization](https://en.wikipedia.org/wiki/Memoization)
 
 22. [Monkey Market](src/monkey_market.rs) ->
     silly [PNRGs](https://en.wikipedia.org/wiki/Pseudorandom_number_generator),
     [SIMD](https://en.wikipedia.org/wiki/Single_instruction,_multiple_data),
-    bitwise operations as [Transformation matrices](https://en.wikipedia.org/wiki/Transformation_matrix),
+    bitwise operations as [transformation matrices](https://en.wikipedia.org/wiki/Transformation_matrix),
     [*nalgebra*](https://crates.io/crates/nalgebra),
     information compression by bit-packing
 
 23. [LAN Party](src/lan_party.rs) ->
-    [Cliques](https://en.wikipedia.org/wiki/Clique_(graph_theory)) and triangles in graphs,
+    [cliques](https://en.wikipedia.org/wiki/Clique_(graph_theory)) and triangles in graphs,
     Adjacency [list](https://en.wikipedia.org/wiki/Adjacency_list) and [matrix](https://en.wikipedia.org/wiki/Adjacency_matrix) representation,
-    [Clique problem](https://en.wikipedia.org/wiki/Clique_problem),
+    [clique problem](https://en.wikipedia.org/wiki/Clique_problem),
     maximal cliques enumeration with the [Bron–Kerbosch algorithm](https://en.wikipedia.org/wiki/Bron%E2%80%93Kerbosch_algorithm),
     greedy approach to [single maximal clique](https://en.wikipedia.org/wiki/Clique_problem#Finding_a_single_maximal_clique)
 
 24. [Crossed Wires](src/crossed_wires.rs) ->
-    [Digital electronics](https://en.wikipedia.org/wiki/Digital_electronics),
+    [digital electronics](https://en.wikipedia.org/wiki/Digital_electronics),
     combinational circuit simulation,
-    heuristic rules for [Ripple carry adder](https://en.wikipedia.org/wiki/Adder_(electronics)#Ripple-carry_adder) errors detection
+    heuristic rules for [ripple carry adder](https://en.wikipedia.org/wiki/Adder_(electronics)#Ripple-carry_adder) errors detection
 
 25. [Code Chronicle](src/code_chronicle.rs) ->
     simple exhaustive enumeration of lock-key pairs
